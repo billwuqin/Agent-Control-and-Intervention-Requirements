@@ -5,12 +5,12 @@
 Network Working Group                                              Q. Wu
 Internet-Draft                                                    Huawei
 Intended status: Informational                             D. Ceccarelli
-Expires: 22 March 2027                                             Cisco
+Expires: 5 April 2027                                              Cisco
                                                          L. M. Contreras
                                                               Telefonica
-                                                                D. Voyer
-                                                                   Cisco
-                                                       18 September 2026
+                                                                 D. King
+                                                    Lancaster University
+                                                          2 October 2026
 
 
       Architecture and Requirements for Observability, Control and
@@ -54,7 +54,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 March 2027.
+   This Internet-Draft will expire on 5 April 2027.
 
 Copyright Notice
 
@@ -712,6 +712,11 @@ Acknowledgments
 
 Contributors
 
+   Daniel Voyer
+   Cisco
+   Email: davoyer@cisco.com
+
+
    Qiufang Ma
    Huawei
    101 Software Avenue, Yuhua District
@@ -751,6 +756,6 @@ Authors' Addresses
    Email: luismiguel.contrerasmurillo@telefonica.com
 
 
-   Daniel Voyer
-   Cisco
-   Email: davoyer@cisco.com
+   Daniel King
+   Lancaster University
+   Email: d.king@lancaster.ac.uk
