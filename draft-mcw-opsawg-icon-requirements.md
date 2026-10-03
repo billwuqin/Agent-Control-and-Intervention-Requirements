@@ -217,18 +217,85 @@ The internal composition, interfaces, and orchestration are implementation speci
 
 ## Observability Requirements
 
-OBS-1: Execution Trajectory Capture
-: The framework MUST support visibility into complete agent execution trajectories, including reasoning chain/chain-of-thought, actions planning, executed steps, and network observations. In a network change scenario, e.g., it must include capturing the specific mapping from the agents' reasoning chain and action planning to the generated network configuration diffs and the subsequent network state observations.
+The observability requirements are organized into the following categories:
 
-OBS-2: Reasoning Provenance Capture
-: The framework MUST support visibility into reasoning provenance, including intent understanding, inference, confidence scores, evidence chains justifying why a specific network operation decision was made. The evidence chains MUST correlate specific network inputs such as alarms, network incidents, or telemetry streams that triggered the agent's reasoning and confidence scores.
+ * Observability Infrastructure Requirements ({{obs-infrastructure}})
+ * Data Governance, Auditability, and Accountability ({{obs-governance}})
+ * Agent Execution Trajectory and Decision Logic ({{obs-trace}})
+ * Agent Metrics Collection ({{obs-metrics}})
 
-OBS-3: Agent Metrics Collection
-: The framework MUST support collection of metrics characterizing agent operational health, including action execution latency, failed network management protocol (e.g., NETCONF or RESTCONF) operation rates, configuration rollback rates, token consumption and task completion rates.
+###  Observability Infrastructure Requirements {#obs-infrastructure}
 
+  OBS-1: Authoritative Clock & Event Ordering
+  :  The framework must provide an authoritative clock source and a
+     causal event-ordering model (Event-Ordering Model) across all
+     distributed components. This ensures that agent reasoning steps,
+     tool invocations, and network state changes are associated
+     with a globally consistent timestamp baseline across distributed environments.
 
-OBS-4: Auditability and Accountability
-: The framework MUST support immutable audit logging of agent execution, supporting attribution of network outcomes to intent interpretation, LLM inference, or tool/API invocation for post-incident audit and compliance review.
+  OBS-2: Telemetry Pipeline Resilience
+  :  The observability pipeline must support adaptive backpressure,
+     dynamic sampling, and retention policies to prevent
+     telemetry storms from overwhelming collectors caused by, e.g., intensive agent Chain-of-Thought (CoT) reasoning logs or high-frequency tool invocation traces.
+     The pipeline should additionally support self-health monitoring capabilities to detect data loss, transmission latency, or connectivity
+      disruptions at telemetry collectors in real time.
+
+###  Data Governance, Auditability, and Accountability {#obs-governance}
+
+  OBS-3: Telemetry Integrity and Completeness Protection
+  :  The framework must support tamper-evident mechanisms (e.g.,
+     cryptographic hashing) to prevent unauthorized alteration or omission
+     of execution trajectories.
+     This ensures the integrity and completeness of observability data.
+
+  OBS-4: Privacy Protection
+  :  The framework must apply dynamic redaction to sensitive data, including prompt text, network topology information, Personally Identifiable Information (PII), and credentials before telemetry data
+     is persisted or exported. The redaction process must be
+     context-aware and must not impede the diagnostic value of the
+     telemetry for authorized operators.
+
+  OBS-5: Auditability and Accountability
+  :  The framework must support immutable audit logging of agent
+     execution, enabling attribution of network outcomes (e.g., service
+     degradation, configuration drift, new alarms) to specific intent
+     interpretations, LLM inferences, tool/skill invocations, and actions for post-incident audit and compliance review. The framework
+     must support reverse tracing from network operational state or
+     newly raised alarms to the specific historical reasoning
+     or tool/API invocation action that triggered it.
+
+###  Agent Execution Trajectory and Decision Logic {#obs-trace}
+
+  OBS-6: Step-by-Step CoT and Execution Trajectory Capture
+  :  The framework must support visibility into complete agent
+     execution trajectories, including reasoning CoT, actions planning, executed steps, and network observations.  In a network change scenario, e.g., it must include
+     capturing the specific mapping from the agents' reasoning chain
+     and action planning to the generated network configuration diffs
+     (e.g., CLI changes, Yang patches) and the subsequent network state
+     observations, enabling end-to-end traceability from thinking to
+     network effect.
+
+  OBS-7: Reasoning and Knowledge Provenance
+  :  The framework must support visibility into reasoning provenance,
+     including intent understanding, inference, confidence scores, and
+     evidence chains justifying why a specific network operation
+     decision was made. It must also track external knowledge sources, version numbers, and matching weights retrieved and referenced by the agent during decision-making and enable traceability of how external
+     information influenced the agent's reasoning steps.
+
+  OBS-8: Tool Invocation Capture
+  :  The framework must capture the complete input/output of
+     all tools (Skills, APIs, CLIs, scripts) invoked by the agent, including
+     tool selection logic and parameter bindings, and execution results.
+
+  OBS-9: Multi-Agent Delegation and Human-in-the-Loop Tracing
+  :  In multi-agent collaborative scenarios, the framework must track
+     inter-agent communication messages, task delegation paths, and dynamic collaboration. It must also capture human expert interventions (e.g., kill switch, pause, rollback), escalation handling, and feedback signals on agent actions in the workflows.
+
+###  Agent Metrics Collection {#obs-metrics}
+
+  OBS-10: Operational Health, Resource, and Efficiency Metrics
+  :  The framework must support the collection of metrics characterizing
+      agent operational health, cost, and efficiency. This includes, but is
+     not limited to failed tool/API invocation rates, action execution latency, configuration rollback rates, token consumption, reasoning latency including Time to First Token (TTFT) and Time Per Output Token (TPOT), task completion rates and Mean Time To Repair (MTTR).
 
 ## Control Requirements
 
