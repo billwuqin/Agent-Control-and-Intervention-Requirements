@@ -18,7 +18,6 @@ keyword:
  - Intervention
 
 author:
-
 -
    fullname: Qin Wu
    organization: Huawei
@@ -39,6 +38,7 @@ author:
   fullname: Daniel King
   organization: Lancaster University
   email: d.king@lancaster.ac.uk
+
 contributor:
 -
   fullname: Daniel Voyer
