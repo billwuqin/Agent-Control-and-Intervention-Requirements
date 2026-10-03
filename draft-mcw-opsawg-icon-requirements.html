@@ -5,11 +5,10 @@
 <meta content="Common,Latin" name="scripts">
 <meta content="initial-scale=1.0" name="viewport">
 <title>Architecture and Requirements for Observability, Control and Intervention of Network Management Agents</title>
-<meta content="Qiufang Ma" name="author">
-<meta content="Daniele Ceccarelli" name="author">
 <meta content="Qin Wu" name="author">
+<meta content="Daniele Ceccarelli" name="author">
 <meta content="Luis. M. Contreras" name="author">
-<meta content="Daniel Voyer" name="author">
+<meta content="Daniel King" name="author">
 <meta content="
        This document defines architecture and a set of requirements for Observability, Control, and Intervention for Network Management Agents. 
        It identifies gaps in existing mechanisms and specifies required interaction capabilities between Agent supervision systems and network management agents across multi-vendor environments, specifically observability, control, and runtime intervention. The requirements aim to guarantee comprehensive, lifecycle control over AI agents and enable observation, constraint, intervention, and correction to ensure network operational resilience and continuity. 
@@ -1052,7 +1051,7 @@ svg {
 <td class="right">October 2026</td>
 </tr></thead>
 <tfoot><tr>
-<td class="left">Ma, et al.</td>
+<td class="left">Wu, et al.</td>
 <td class="center">Expires 6 April 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
@@ -1075,8 +1074,7 @@ svg {
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
-      <div class="author-name">Q. Ma, <span class="editor">Ed.</span>
-</div>
+      <div class="author-name">Q. Wu</div>
 <div class="org">Huawei</div>
 </div>
 <div class="author">
@@ -1084,16 +1082,12 @@ svg {
 <div class="org">Cisco</div>
 </div>
 <div class="author">
-      <div class="author-name">Q. Wu</div>
-<div class="org">Huawei</div>
-</div>
-<div class="author">
       <div class="author-name">L. M. Contreras</div>
 <div class="org">Telefonica</div>
 </div>
 <div class="author">
-      <div class="author-name">D. Voyer</div>
-<div class="org">Cisco</div>
+      <div class="author-name">D. King</div>
+<div class="org">Lancaster University</div>
 </div>
 </dd>
 </dl>
@@ -1210,9 +1204,37 @@ svg {
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
                 <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-control-requirements" class="internal xref">Control Requirements</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2.2.1">
+                    <p id="section-toc.1-1.5.2.2.2.1.1"><a href="#section-5.2.1" class="auto internal xref">5.2.1</a>.  <a href="#name-agent-execution-guardrails-" class="internal xref">Agent Execution Guardrails and Risk Control</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2.2.2">
+                    <p id="section-toc.1-1.5.2.2.2.2.1"><a href="#section-5.2.2" class="auto internal xref">5.2.2</a>.  <a href="#name-authorization-and-access-co" class="internal xref">Authorization and Access Control</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2.2.3">
+                    <p id="section-toc.1-1.5.2.2.2.3.1"><a href="#section-5.2.3" class="auto internal xref">5.2.3</a>.  <a href="#name-policy-precedence-and-concu" class="internal xref">Policy Precedence and Concurrency Control</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2.2.4">
+                    <p id="section-toc.1-1.5.2.2.2.4.1"><a href="#section-5.2.4" class="auto internal xref">5.2.4</a>.  <a href="#name-agent-control-resilience" class="internal xref">Agent Control Resilience</a></p>
+</li>
+                </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3">
                 <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-intervention-requirements" class="internal xref">Intervention Requirements</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3.2.1">
+                    <p id="section-toc.1-1.5.2.3.2.1.1"><a href="#section-5.3.1" class="auto internal xref">5.3.1</a>.  <a href="#name-runtime-execution-intervent" class="internal xref">Runtime Execution Intervention</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3.2.2">
+                    <p id="section-toc.1-1.5.2.3.2.2.1"><a href="#section-5.3.2" class="auto internal xref">5.3.2</a>.  <a href="#name-post-execution-rollback" class="internal xref">Post-execution Rollback</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3.2.3">
+                    <p id="section-toc.1-1.5.2.3.2.3.1"><a href="#section-5.3.3" class="auto internal xref">5.3.3</a>.  <a href="#name-escalation" class="internal xref">Escalation</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3.2.4">
+                    <p id="section-toc.1-1.5.2.3.2.4.1"><a href="#section-5.3.4" class="auto internal xref">5.3.4</a>.  <a href="#name-correction" class="internal xref">Correction</a></p>
+</li>
+                </ul>
 </li>
             </ul>
 </li>
@@ -1618,43 +1640,136 @@ not limited to failed tool/API invocation rates, action execution latency, confi
         <h3 id="name-control-requirements">
 <a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-control-requirements" class="section-name selfRef">Control Requirements</a>
         </h3>
-<span class="break"></span><dl class="dlParallel" id="section-5.2-1">
-          <dt id="section-5.2-1.1">CTL-1: Intent Validation and Alignment</dt>
-          <dd style="margin-left: 1.5em" id="section-5.2-1.2">
-            <p id="section-5.2-1.2.1">The framework <span class="bcp14">MUST</span> ensure the agent validates high-level network intents
- received from network operators or upstream agents before execution.
- The agent <span class="bcp14">MUST</span> verify that the generated network configuration syntax
- and semantic align with the network intents and constraints.<a href="#section-5.2-1.2.1" class="pilcrow">¶</a></p>
-</dd>
-          <dd class="break"></dd>
-<dt id="section-5.2-1.3">CTL-2: Temporal and Data/Context Validity</dt>
-          <dd style="margin-left: 1.5em" id="section-5.2-1.4">
-            <p id="section-5.2-1.4.1">The framework <span class="bcp14">MUST</span> ensure the agent operates within authorized network maintenance time windows. Additionally, the agent <span class="bcp14">MUST</span> validate the freshness and integrity of the context and
-network state and configuration data.<a href="#section-5.2-1.4.1" class="pilcrow">¶</a></p>
-</dd>
-          <dd class="break"></dd>
-<dt id="section-5.2-1.5">CTL-3: Access and Permission</dt>
-          <dd style="margin-left: 1.5em" id="section-5.2-1.6">
-            <p id="section-5.2-1.6.1">The framework <span class="bcp14">MUST</span> provide mechanisms to define and enforce fine-grained
- operational boundaries for agents. This <span class="bcp14">MUST</span> include restricting the
- agent's operational scope to specific network domains/areas, set of devices, protocols and tools. Furthermore, it <span class="bcp14">MUST</span> support YANG node-level access control, defining which configuration datastores, YANG data nodes, and RPCs an agent is permitted to read or modify.<a href="#section-5.2-1.6.1" class="pilcrow">¶</a></p>
-</dd>
-          <dd class="break"></dd>
-<dt id="section-5.2-1.7">CTL-4: Authorization and Approval</dt>
-          <dd style="margin-left: 1.5em" id="section-5.2-1.8">
-            <p id="section-5.2-1.8.1">The framework <span class="bcp14">MUST</span> support the designation of certain network operations as requiring explicit human approval/confirmation before execution. It <span class="bcp14">SHOULD</span> also support configurable escalation chain and communication methods/channels to route escalation requests sequentially to designated personnel.<a href="#section-5.2-1.8.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-</dl>
-<span class="break"></span><dl class="dlParallel" id="section-5.2-2">
-          <dt id="section-5.2-2.1">CTL-5: Dynamic Boundary Adaptation</dt>
-          <dd style="margin-left: 1.5em" id="section-5.2-2.2">
-            <p id="section-5.2-2.2.1">The framework <span class="bcp14">MUST</span> support the injection of global coordination
- control policies across multi-agent environments, and enable dynamic
- adjustment (e.g., tighten the agent's permissible access from read-write to read-only) of operational bounds based on the network's current operational state.<a href="#section-5.2-2.2.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-</dl>
+<p id="section-5.2-1">The control requirements are organized into the following categories:<a href="#section-5.2-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.2-2.1">
+            <p id="section-5.2-2.1.1">Agent Execution Guardrails and Risk Control (<a href="#ctl-execution" class="auto internal xref">Section 5.2.1</a>)<a href="#section-5.2-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.2-2.2">
+            <p id="section-5.2-2.2.1">Authorization and Access Control (<a href="#ctl-acl" class="auto internal xref">Section 5.2.2</a>)<a href="#section-5.2-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.2-2.3">
+            <p id="section-5.2-2.3.1">Policy Precedence and Concurrency Control (<a href="#ctl-concurrency" class="auto internal xref">Section 5.2.3</a>)<a href="#section-5.2-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.2-2.4">
+            <p id="section-5.2-2.4.1">Agent Control Resilience (<a href="#ctl-resilience" class="auto internal xref">Section 5.2.4</a>)<a href="#section-5.2-2.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<div id="ctl-execution">
+<section id="section-5.2.1">
+          <h4 id="name-agent-execution-guardrails-">
+<a href="#section-5.2.1" class="section-number selfRef">5.2.1. </a><a href="#name-agent-execution-guardrails-" class="section-name selfRef">Agent Execution Guardrails and Risk Control</a>
+          </h4>
+<p id="section-5.2.1-1">CTL-1: Action Risk Classification
+    : The framework must require an agent to classify the risk level of any
+      action (e.g., Low, Medium, High, Critical) prior to execution. The
+      classification must consider the operation type, target device roles, and potential impact on network stability. Downstream policy engines must consume this risk
+      level to enforce differentiated approval workflows and constraints.<a href="#section-5.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.2.1-2">CTL-2: Maximum Blast Radius Limits
+      : The framework must enforce a configurable maximum blast radius for
+      each agent action, restricting potential impact across device counts,
+      link counts, service impact, customer scope, and traffic volume. The
+      agent must evaluate the blast radius before execution and abort any
+      action exceeding configured thresholds unless explicitly overridden by
+      a human operator.<a href="#section-5.2.1-2" class="pilcrow">¶</a></p>
+<p id="section-5.2.1-3">CTL-3: Rate Limiting and Concurrency Control
+      : The framework must enforce rate limits and concurrency controls on agent actions to prevent automation storms from overwhelming network devices or the management plane. Agents must comply with per-device, per-operator, and global rate limits, as well as maximum concurrent task thresholds. Exceeded actions must be queued or rejected with explicit feedback.<a href="#section-5.2.1-3" class="pilcrow">¶</a></p>
+<p id="section-5.2.1-4">CTL-4: Action Cancellation Semantics
+    : The framework must define and support explicit cancellation semantics
+      across three action states: Queued (remove without side effects),
+      Executing (gracefully terminate and rollback where feasible), and
+      Completed (interpret as a rollback request invoking inverse workflows).
+      All cancellation results must be logged for auditability.<a href="#section-5.2.1-4" class="pilcrow">¶</a></p>
+<p id="section-5.2.1-5">CTL-5: Temporal and Contextual Validity
+    : The framework must ensure that agents operate strictly within authorized
+      network maintenance time windows. Additionally, agents must validate
+      the freshness, integrity, and temporal validity of context, network state, and configuration data before acting upon it.<a href="#section-5.2.1-5" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="ctl-acl">
+<section id="section-5.2.2">
+          <h4 id="name-authorization-and-access-co">
+<a href="#section-5.2.2" class="section-number selfRef">5.2.2. </a><a href="#name-authorization-and-access-co" class="section-name selfRef">Authorization and Access Control</a>
+          </h4>
+<p id="section-5.2.2-1">CTL-6: Separation of Duties
+    : The framework must enforce strict separation among five operational
+      roles: Read-Only, Propose, Validate, Approve, and Execute. Each role
+      <span class="bcp14">MUST</span> be tied to distinct credentials and permissions. A single agent or
+      operator must not possess end-to-end capabilities across all roles
+      without explicit supervisory authorization. This separation must be
+      enforceable at both agent and orchestrator levels.<a href="#section-5.2.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.2.2-2">CTL-7: Fine-Grained Access and Permissions
+     : The framework must provide mechanisms to define and enforce fine-grained operational boundaries. This <span class="bcp14">MUST</span> include restricting an agent's scope to specific network domains, device sets, protocols, and tools, as
+      well as YANG node-level access control specifying permitted
+      datastores, YANG data nodes, and RPCs for read or modification.<a href="#section-5.2.2-2" class="pilcrow">¶</a></p>
+<p id="section-5.2.2-3">CTL-8: Authorization and Approval Escalation
+    : The framework must support designating specific high-risk network
+      operations as requiring explicit human approval before execution. It
+      <span class="bcp14">SHOULD</span> support configurable escalation chains and communication channels
+      to route approval requests sequentially to designated personnel.<a href="#section-5.2.2-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="ctl-concurrency">
+<section id="section-5.2.3">
+          <h4 id="name-policy-precedence-and-concu">
+<a href="#section-5.2.3" class="section-number selfRef">5.2.3. </a><a href="#name-policy-precedence-and-concu" class="section-name selfRef">Policy Precedence and Concurrency Control</a>
+          </h4>
+<p id="section-5.2.3-1">CTL-9: Change Attribution and Distributed Locking
+    : The framework must support change attribution tracking and distributed
+      locking mechanisms for concurrent multi-agent or human-agent operations.
+      An agent <span class="bcp14">MUST</span> acquire a lock (containing owner identity, target scope,
+      and expiration time) on target resources prior to initiating changes.
+      Conflicting requests <span class="bcp14">MUST</span> be queued or rejected with clear conflict
+      notifications.<a href="#section-5.2.3-1" class="pilcrow">¶</a></p>
+<p id="section-5.2.3-2">CTL-10: Cross-Domain Policy Conflict Resolution
+      : The framework must implement deterministic cross-domain policy conflict
+      resolution. When an action spans multiple policy domains (e.g., routing,
+      security, QoS, multi-vendor domains) and generates conflicts, the
+      framework <span class="bcp14">MUST</span> resolve them using configurable priority models (e.g.,
+      security policies take precedence over routing policies). Actions <span class="bcp14">MUST</span>
+      be halted until conflicts are resolved or overridden by a human supervisor.<a href="#section-5.2.3-2" class="pilcrow">¶</a></p>
+<p id="section-5.2.3-3">CTL-11: Deterministic Authority Precedence
+      : The framework must enforce a deterministic hierarchy across four control sources: Human Operators (highest precedence), Supervisor Agents,
+      Orchestrators, and Autonomous Agents. When conflicting instructions are
+      received, higher-precedence sources <span class="bcp14">MUST</span> preempt lower-precedence ones,
+      and lower-precedence sources <span class="bcp14">MUST</span> receive preemption notifications.<a href="#section-5.2.3-3" class="pilcrow">¶</a></p>
+<p id="section-5.2.3-4">CTL-12: Intent Validation and Alignment
+      : The framework must ensure agents validate high-level network intents
+      received from operators or upstream agents before execution. Agents <span class="bcp14">MUST</span>
+      verify that generated configuration syntax and semantics strictly align
+      with network intents and operational constraints.<a href="#section-5.2.3-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="ctl-resilience">
+<section id="section-5.2.4">
+          <h4 id="name-agent-control-resilience">
+<a href="#section-5.2.4" class="section-number selfRef">5.2.4. </a><a href="#name-agent-control-resilience" class="section-name selfRef">Agent Control Resilience</a>
+          </h4>
+<p id="section-5.2.4-1">CTL-13: Degraded Behavior on Control Plane Unreachability
+    : The framework must define deterministic degradation behaviors when an
+      agent loses connectivity with the ICON control/management plane. Agents
+      <span class="bcp14">MUST</span> support at least one configurable fallback mode: (a) Fail-Safe
+      (abort active/pending actions and enter read-only state), (b) Fail-Hold
+      (complete current action but reject new requests), or (c) Fail-Local
+      (continue execution using local cached authorizations).<a href="#section-5.2.4-1" class="pilcrow">¶</a></p>
+<p id="section-5.2.4-2">CTL-14: Management Plane High Availability and Geographic Isolation
+      : The framework must support high availability and geographically isolated
+      deployments for ICON management plane components across multiple availability
+      zones with automated failover. Active operations <span class="bcp14">MUST</span> be safely recovered
+      or re-evaluated by the backup primary control plane without duplicate
+      executions or data loss.<a href="#section-5.2.4-2" class="pilcrow">¶</a></p>
+<p id="section-5.2.4-3">CTL-15: Intended vs. Actual State Reconciliation
+      : The framework must support continuous reconciliation between intended
+      network state and actual state derived from telemetry. When state drift
+      is detected, agents <span class="bcp14">MUST</span> trigger idempotent automated remediation
+      workflows unless explicitly disabled by operators.<a href="#section-5.2.4-3" class="pilcrow">¶</a></p>
+<p id="section-5.2.4-4">CTL-16: Dynamic Boundary Adaptation
+      : The framework must support the injection of global coordination policies
+      across multi-agent environments and enable dynamic adjustment of
+      operational boundaries (e.g., tightening permissions from read-write to
+      read-only) based on real-time network operational health and threat levels.<a href="#section-5.2.4-4" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="intervention-requirements">
@@ -1662,105 +1777,152 @@ network state and configuration data.<a href="#section-5.2-1.4.1" class="pilcrow
         <h3 id="name-intervention-requirements">
 <a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-intervention-requirements" class="section-name selfRef">Intervention Requirements</a>
         </h3>
-<span class="break"></span><dl class="dlParallel" id="section-5.3-1">
-          <dt id="section-5.3-1.1">INT-1: Execution Interruption</dt>
-          <dd style="margin-left: 1.5em" id="section-5.3-1.2">
-            <p id="section-5.3-1.2.1">The supervisor <span class="bcp14">MUST</span> be able to immediately stop or redirect a running
- agent's runtime execution. The framework <span class="bcp14">MUST</span> support a temporary
- operational pause that preserves the execution state (e.g., giving human operators time to analyze before deciding on further action), as well as a hard stop that terminates
- execution with or without instant configuration rollback when an agent is actively causing network instability. Emergency intervention operations (e.g., pausing, terminating) <span class="bcp14">MUST</span> be executed independently of
- the agent's internal LLM reasoning state or responsiveness. I.e., the framework <span class="bcp14">MUST</span> support out-of-band emergency pause or kill-switch signals in cases where an agent encounters a major failure (e.g.,
- infinite reasoning loops, deadlocks) or becomes totally unresponsive.<a href="#section-5.3-1.2.1" class="pilcrow">¶</a></p>
-</dd>
-          <dd class="break"></dd>
-<dt id="section-5.3-1.3">INT-2: Rollback and Recovery</dt>
-          <dd style="margin-left: 1.5em" id="section-5.3-1.4">
-            <p id="section-5.3-1.4.1">The supervisor <span class="bcp14">MUST</span> be able to reverse actions already taken by an agent. The framework <span class="bcp14">MUST</span> support multiple granularities of action rollback.
-Based on the severity and impact of the failure, the rollback granularities <span class="bcp14">SHOULD</span> include:<a href="#section-5.3-1.4.1" class="pilcrow">¶</a></p>
-</dd>
-        <dd class="break"></dd>
-</dl>
+<p id="section-5.3-1">The intervention requirements are organized into the following categories:<a href="#section-5.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.3-2.1">
-            <span class="break"></span><dl class="dlParallel" id="section-5.3-2.1.1">
-              <dt id="section-5.3-2.1.1.1">Agent workflow level:</dt>
-              <dd style="margin-left: 1.5em" id="section-5.3-2.1.1.2">
-                <p id="section-5.3-2.1.1.2.1">Reverts a specific step or a subset of execution steps within the agent's execution chain, without canceling the overall task. This is applicable for localized errors. For example, When an agent is onboarding a network device, the supervisor
-  rolls back only a failed post-configuration script execution step while
-  keeping the successfully downloaded boot image.<a href="#section-5.3-2.1.1.2.1" class="pilcrow">¶</a></p>
-</dd>
-            <dd class="break"></dd>
-</dl>
+            <p id="section-5.3-2.1.1">Runtime Execution Intervention (<a href="#int-execution" class="auto internal xref">Section 5.3.1</a>)<a href="#section-5.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-2.2">
-            <span class="break"></span><dl class="dlParallel" id="section-5.3-2.2.1">
-              <dt id="section-5.3-2.2.1.1">Agent task level</dt>
-              <dd style="margin-left: 1.5em" id="section-5.3-2.2.1.2">
-                <p id="section-5.3-2.2.1.2.1">Reverts an entire task execution, performing a comprehensive rollback of all network operations introduced since the initiation of the task. This is used as an emergency mechanism for severe failures where the agent's entire execution is failed. For example, when an agent fails to provision a network service, the supervisor triggers a full task rollback to wipe out the entire provisioning attempts across all affected nodes.<a href="#section-5.3-2.2.1.2.1" class="pilcrow">¶</a></p>
-</dd>
-            <dd class="break"></dd>
-</dl>
+            <p id="section-5.3-2.2.1">Post-execution Rollback (<a href="#int-rollback" class="auto internal xref">Section 5.3.2</a>)<a href="#section-5.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-2.3">
-            <span class="break"></span><dl class="dlParallel" id="section-5.3-2.3.1">
-              <dt id="section-5.3-2.3.1.1">Agent context level</dt>
-              <dd style="margin-left: 1.5em" id="section-5.3-2.3.1.2">
-                <p id="section-5.3-2.3.1.2.1">Reverts all network operations across multiple related tasks bound by the same context. This acts as an ultimate rollback mechanism to reset the entire multi-turn interaction or back to its original historical baseline. For example, during a multi-turn network troubleshooting conversation, an agent executes three tasks under the same context to mitigate an anomaly. If supervisor realizes the entire investigation pathway was flawed, they may select context level rollback to comprehensively wipe out all configuration changes made across all three tasks in this specific context.<a href="#section-5.3-2.3.1.2.1" class="pilcrow">¶</a></p>
-</dd>
-            <dd class="break"></dd>
-</dl>
+            <p id="section-5.3-2.3.1">Escalation (<a href="#int-escalation" class="auto internal xref">Section 5.3.3</a>)<a href="#section-5.3-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.3-2.4">
+            <p id="section-5.3-2.4.1">Correction (<a href="#int-correction" class="auto internal xref">Section 5.3.4</a>)<a href="#section-5.3-2.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<span class="break"></span><dl class="dlParallel" id="section-5.3-3">
-          <dt id="section-5.3-3.1">INT-3: Escalation</dt>
-          <dd style="margin-left: 1.5em" id="section-5.3-3.2">
-            <p id="section-5.3-3.2.1">The framwork <span class="bcp14">MUST</span> support the mechanism to allow the agent to route operational decisions, anomalies, and conflicts to a higher authority. An escalation is used when the current level (operator or agent) cannot or should not resolve the situation without supervision. During an escalation event, the framework <span class="bcp14">MUST</span> preserve the agent's runtime context and its full reasoning provenance trail to enable a seamless handover.<a href="#section-5.3-3.2.1" class="pilcrow">¶</a></p>
+<div id="int-execution">
+<section id="section-5.3.1">
+          <h4 id="name-runtime-execution-intervent">
+<a href="#section-5.3.1" class="section-number selfRef">5.3.1. </a><a href="#name-runtime-execution-intervent" class="section-name selfRef">Runtime Execution Intervention</a>
+          </h4>
+<span class="break"></span><dl class="dlParallel" id="section-5.3.1-1">
+            <dt id="section-5.3.1-1.1">INT-1: Execution Interruption</dt>
+            <dd style="margin-left: 1.5em" id="section-5.3.1-1.2">
+              <p id="section-5.3.1-1.2.1">The supervisor must be able to immediately stop or redirect a running
+ agent's runtime execution. The framework must support a temporary
+ operational pause that preserves the execution state (e.g., giving human operators time to analyze before deciding on further action), as well as a hard stop that terminates
+ execution with or without instant configuration rollback when an agent is actively causing network instability. Emergency intervention operations (e.g., pausing, terminating) must be executed independently of
+ the agent's internal LLM reasoning state or responsiveness. I.e., the framework <span class="bcp14">MUST</span> support out-of-band emergency pause or kill-switch signals in cases where an agent encounters a major failure (e.g.,
+ infinite reasoning loops, deadlocks) or becomes totally unresponsive.<a href="#section-5.3.1-1.2.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
-<dt id="section-5.3-3.3">INT-4: Correction</dt>
-          <dd style="margin-left: 1.5em" id="section-5.3-3.4">
-            <p id="section-5.3-3.4.1">The supervisor <span class="bcp14">MUST</span> be able to correct an autonomous agent failure through any of the following mechanisms:<a href="#section-5.3-3.4.1" class="pilcrow">¶</a></p>
+</dl>
+</section>
+</div>
+<div id="int-rollback">
+<section id="section-5.3.2">
+          <h4 id="name-post-execution-rollback">
+<a href="#section-5.3.2" class="section-number selfRef">5.3.2. </a><a href="#name-post-execution-rollback" class="section-name selfRef">Post-execution Rollback</a>
+          </h4>
+<span class="break"></span><dl class="dlParallel" id="section-5.3.2-1">
+            <dt id="section-5.3.2-1.1">INT-2: Rollback and Recovery</dt>
+            <dd style="margin-left: 1.5em" id="section-5.3.2-1.2">
+              <p id="section-5.3.2-1.2.1">The supervisor must be able to reverse actions already taken by an agent. The framework <span class="bcp14">MUST</span> support multiple granularities of action rollback.
+Based on the severity and impact of the failure, the rollback granularities <span class="bcp14">SHOULD</span> include:<a href="#section-5.3.2-1.2.1" class="pilcrow">¶</a></p>
 </dd>
-        <dd class="break"></dd>
+          <dd class="break"></dd>
 </dl>
 <ul class="normal">
-<li class="normal" id="section-5.3-4.1">
-            <span class="break"></span><dl class="dlParallel" id="section-5.3-4.1.1">
-              <dt id="section-5.3-4.1.1.1">providing clearer intent</dt>
-              <dd style="margin-left: 1.5em" id="section-5.3-4.1.1.2">
-                <p id="section-5.3-4.1.1.2.1">Clarifying or refining the high-level intent when the agent misinterprets the operational goal.<a href="#section-5.3-4.1.1.2.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-5.3.2-2.1">
+              <span class="break"></span><dl class="dlParallel" id="section-5.3.2-2.1.1">
+                <dt id="section-5.3.2-2.1.1.1">Agent workflow level</dt>
+                <dd style="margin-left: 1.5em" id="section-5.3.2-2.1.1.2">
+                  <p id="section-5.3.2-2.1.1.2.1">Reverts a specific step or a subset of execution steps within the agent's execution chain, without canceling the overall task. This is applicable for localized errors. For example, When an agent is onboarding a network device, the supervisor
+  rolls back only a failed post-configuration script execution step while
+  keeping the successfully downloaded boot image.<a href="#section-5.3.2-2.1.1.2.1" class="pilcrow">¶</a></p>
 </dd>
-            <dd class="break"></dd>
+              <dd class="break"></dd>
 </dl>
 </li>
-          <li class="normal" id="section-5.3-4.2">
-            <span class="break"></span><dl class="dlParallel" id="section-5.3-4.2.1">
-              <dt id="section-5.3-4.2.1.1">injecting additional operational constraints</dt>
-              <dd style="margin-left: 1.5em" id="section-5.3-4.2.1.2">
-                <p id="section-5.3-4.2.1.2.1">Appending runtime network constraints or specific limits.<a href="#section-5.3-4.2.1.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-5.3.2-2.2">
+              <span class="break"></span><dl class="dlParallel" id="section-5.3.2-2.2.1">
+                <dt id="section-5.3.2-2.2.1.1">Agent task level</dt>
+                <dd style="margin-left: 1.5em" id="section-5.3.2-2.2.1.2">
+                  <p id="section-5.3.2-2.2.1.2.1">Reverts an entire task execution, performing a comprehensive rollback of all network operations introduced since the initiation of the task. This is used as an emergency mechanism for severe failures where the agent's entire execution is failed. For example, when an agent fails to provision a network service, the supervisor triggers a full task rollback to wipe out the entire provisioning attempts across all affected nodes.<a href="#section-5.3.2-2.2.1.2.1" class="pilcrow">¶</a></p>
 </dd>
-            <dd class="break"></dd>
+              <dd class="break"></dd>
 </dl>
 </li>
-          <li class="normal" id="section-5.3-4.3">
-            <span class="break"></span><dl class="dlParallel" id="section-5.3-4.3.1">
-              <dt id="section-5.3-4.3.1.1">providing missing or correcting network context</dt>
-              <dd style="margin-left: 1.5em" id="section-5.3-4.3.1.2">
-                <p id="section-5.3-4.3.1.2.1">supplying missing, updated or corrected network knowledge, telemetry data, or topological information that the agent relied on during its reasoning loop.<a href="#section-5.3-4.3.1.2.1" class="pilcrow">¶</a></p>
+            <li class="normal" id="section-5.3.2-2.3">
+              <span class="break"></span><dl class="dlParallel" id="section-5.3.2-2.3.1">
+                <dt id="section-5.3.2-2.3.1.1">Agent context level</dt>
+                <dd style="margin-left: 1.5em" id="section-5.3.2-2.3.1.2">
+                  <p id="section-5.3.2-2.3.1.2.1">Reverts all network operations across multiple related tasks bound by the same context. This acts as an ultimate rollback mechanism to reset the entire multi-turn interaction or back to its original historical baseline. For example, during a multi-turn network troubleshooting conversation, an agent executes three tasks under the same context to mitigate an anomaly. If supervisor realizes the entire investigation pathway was flawed, they may select context level rollback to comprehensively wipe out all configuration changes made across all three tasks in this specific context.<a href="#section-5.3.2-2.3.1.2.1" class="pilcrow">¶</a></p>
 </dd>
-            <dd class="break"></dd>
+              <dd class="break"></dd>
 </dl>
 </li>
-          <li class="normal" id="section-5.3-4.4">
-            <span class="break"></span><dl class="dlParallel" id="section-5.3-4.4.1">
-              <dt id="section-5.3-4.4.1.1">modifying pending actions or planned configuration changes</dt>
-              <dd style="margin-left: 1.5em" id="section-5.3-4.4.1.2">
-                <p id="section-5.3-4.4.1.2.1">Adjusting the agent's generating configuration, tool selections, parameters, or execution order before they are applied to the network.<a href="#section-5.3-4.4.1.2.1" class="pilcrow">¶</a></p>
+          </ul>
+</section>
+</div>
+<div id="int-escalation">
+<section id="section-5.3.3">
+          <h4 id="name-escalation">
+<a href="#section-5.3.3" class="section-number selfRef">5.3.3. </a><a href="#name-escalation" class="section-name selfRef">Escalation</a>
+          </h4>
+<span class="break"></span><dl class="dlParallel" id="section-5.3.3-1">
+            <dt id="section-5.3.3-1.1">INT-3: Escalation</dt>
+            <dd style="margin-left: 1.5em" id="section-5.3.3-1.2">
+              <p id="section-5.3.3-1.2.1">The framework must support the mechanism to allow the agent to route operational decisions, anomalies, and conflicts to a higher authority. An escalation is used when the current level (operator or agent) cannot or should not resolve the situation without supervision. During an escalation event, the framework must preserve the agent's runtime context and its full reasoning provenance trail to enable a seamless handover.<a href="#section-5.3.3-1.2.1" class="pilcrow">¶</a></p>
 </dd>
-            <dd class="break"></dd>
+          <dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="int-correction">
+<section id="section-5.3.4">
+          <h4 id="name-correction">
+<a href="#section-5.3.4" class="section-number selfRef">5.3.4. </a><a href="#name-correction" class="section-name selfRef">Correction</a>
+          </h4>
+<span class="break"></span><dl class="dlParallel" id="section-5.3.4-1">
+            <dt id="section-5.3.4-1.1">INT-4: Correction</dt>
+            <dd style="margin-left: 1.5em" id="section-5.3.4-1.2">
+              <p id="section-5.3.4-1.2.1">The supervisor <span class="bcp14">MUST</span> be able to correct an autonomous agent failure through any of the following mechanisms:<a href="#section-5.3.4-1.2.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+</dl>
+<ul class="normal">
+<li class="normal" id="section-5.3.4-2.1">
+              <span class="break"></span><dl class="dlParallel" id="section-5.3.4-2.1.1">
+                <dt id="section-5.3.4-2.1.1.1">providing clearer intent</dt>
+                <dd style="margin-left: 1.5em" id="section-5.3.4-2.1.1.2">
+                  <p id="section-5.3.4-2.1.1.2.1">Clarifying or refining the high-level intent when the agent misinterprets the operational goal.<a href="#section-5.3.4-2.1.1.2.1" class="pilcrow">¶</a></p>
+</dd>
+              <dd class="break"></dd>
 </dl>
 </li>
-        </ul>
+            <li class="normal" id="section-5.3.4-2.2">
+              <span class="break"></span><dl class="dlParallel" id="section-5.3.4-2.2.1">
+                <dt id="section-5.3.4-2.2.1.1">injecting additional operational constraints</dt>
+                <dd style="margin-left: 1.5em" id="section-5.3.4-2.2.1.2">
+                  <p id="section-5.3.4-2.2.1.2.1">Appending runtime network constraints or specific limits.<a href="#section-5.3.4-2.2.1.2.1" class="pilcrow">¶</a></p>
+</dd>
+              <dd class="break"></dd>
+</dl>
+</li>
+            <li class="normal" id="section-5.3.4-2.3">
+              <span class="break"></span><dl class="dlParallel" id="section-5.3.4-2.3.1">
+                <dt id="section-5.3.4-2.3.1.1">providing missing or correcting network context</dt>
+                <dd style="margin-left: 1.5em" id="section-5.3.4-2.3.1.2">
+                  <p id="section-5.3.4-2.3.1.2.1">supplying missing, updated or corrected network knowledge, telemetry data, or topological information that the agent relied on during its reasoning loop.<a href="#section-5.3.4-2.3.1.2.1" class="pilcrow">¶</a></p>
+</dd>
+              <dd class="break"></dd>
+</dl>
+</li>
+            <li class="normal" id="section-5.3.4-2.4">
+              <span class="break"></span><dl class="dlParallel" id="section-5.3.4-2.4.1">
+                <dt id="section-5.3.4-2.4.1.1">modifying pending actions or planned configuration changes</dt>
+                <dd style="margin-left: 1.5em" id="section-5.3.4-2.4.1.2">
+                  <p id="section-5.3.4-2.4.1.2.1">Adjusting the agent's generating configuration, tool selections, parameters, or execution order before they are applied to the network.<a href="#section-5.3.4-2.4.1.2.1" class="pilcrow">¶</a></p>
+</dd>
+              <dd class="break"></dd>
+</dl>
+</li>
+          </ul>
+</section>
+</div>
 </section>
 </div>
 </section>
@@ -1849,6 +2011,26 @@ Based on the severity and impact of the failure, the rollback granularities <spa
 <a href="#name-contributors" class="section-name selfRef">Contributors</a>
       </h2>
 <address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Daniel Voyer</span></div>
+<div dir="auto" class="left"><span class="org">Cisco</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:davoyer@cisco.com" class="email">davoyer@cisco.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Qiufang Ma</span></div>
+<div dir="auto" class="left"><span class="org">Huawei</span></div>
+<div dir="auto" class="left"><span class="street-address">101 Software Avenue, Yuhua District</span></div>
+<div dir="auto" class="left"><span class="locality">Nanjing, Jiangsu</span></div>
+<div dir="auto" class="left"><span class="postal-code">210012</span></div>
+<div dir="auto" class="left"><span class="country-name">China</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:maqiufang1@huawei.com" class="email">maqiufang1@huawei.com</a>
+</div>
+</address>
+<address class="vcard">
         <div dir="auto" class="left"><span class="fn nameRole">Yuanyuan Yang</span></div>
 <div dir="auto" class="left"><span class="org">Huawei</span></div>
 <div dir="auto" class="left"><span class="street-address">101 Software Avenue, Yuhua District</span></div>
@@ -1868,26 +2050,6 @@ Based on the severity and impact of the failure, the rollback granularities <spa
 <a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>
 <address class="vcard">
-        <div dir="auto" class="left"><span class="fn nameRole">Qiufang Ma (<span class="role">editor</span>)</span></div>
-<div dir="auto" class="left"><span class="org">Huawei</span></div>
-<div dir="auto" class="left"><span class="street-address">101 Software Avenue, Yuhua District</span></div>
-<div dir="auto" class="left"><span class="locality">Nanjing, Jiangsu</span></div>
-<div dir="auto" class="left"><span class="postal-code">210012</span></div>
-<div dir="auto" class="left"><span class="country-name">China</span></div>
-<div class="email">
-<span>Email:</span>
-<a href="mailto:maqiufang1@huawei.com" class="email">maqiufang1@huawei.com</a>
-</div>
-</address>
-<address class="vcard">
-        <div dir="auto" class="left"><span class="fn nameRole">Daniele Ceccarelli</span></div>
-<div dir="auto" class="left"><span class="org">Cisco</span></div>
-<div class="email">
-<span>Email:</span>
-<a href="mailto:dceccare@cisco.com" class="email">dceccare@cisco.com</a>
-</div>
-</address>
-<address class="vcard">
         <div dir="auto" class="left"><span class="fn nameRole">Qin Wu</span></div>
 <div dir="auto" class="left"><span class="org">Huawei</span></div>
 <div dir="auto" class="left"><span class="street-address">101 Software Avenue, Yuhua District</span></div>
@@ -1900,6 +2062,14 @@ Based on the severity and impact of the failure, the rollback granularities <spa
 </div>
 </address>
 <address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Daniele Ceccarelli</span></div>
+<div dir="auto" class="left"><span class="org">Cisco</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:dceccare@cisco.com" class="email">dceccare@cisco.com</a>
+</div>
+</address>
+<address class="vcard">
         <div dir="auto" class="left"><span class="fn nameRole">Luis. M. Contreras</span></div>
 <div dir="auto" class="left"><span class="org">Telefonica</span></div>
 <div class="email">
@@ -1908,11 +2078,11 @@ Based on the severity and impact of the failure, the rollback granularities <spa
 </div>
 </address>
 <address class="vcard">
-        <div dir="auto" class="left"><span class="fn nameRole">Daniel Voyer</span></div>
-<div dir="auto" class="left"><span class="org">Cisco</span></div>
+        <div dir="auto" class="left"><span class="fn nameRole">Daniel King</span></div>
+<div dir="auto" class="left"><span class="org">Lancaster University</span></div>
 <div class="email">
 <span>Email:</span>
-<a href="mailto:davoyer@cisco.com" class="email">davoyer@cisco.com</a>
+<a href="mailto:d.king@lancaster.ac.uk" class="email">d.king@lancaster.ac.uk</a>
 </div>
 </address>
 </section>
