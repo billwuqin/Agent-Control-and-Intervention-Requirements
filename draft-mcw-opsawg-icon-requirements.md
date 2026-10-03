@@ -18,19 +18,7 @@ keyword:
  - Intervention
 
 author:
--
-   fullname: Qiufang Ma
-   organization: Huawei
-   role: editor
-   street: 101 Software Avenue, Yuhua District
-   city: Nanjing, Jiangsu
-   code: 210012
-   country: China
-   email: maqiufang1@huawei.com
--
-   fullname: Daniele Ceccarelli
-   organization: Cisco
-   email: dceccare@cisco.com
+
 -
    fullname: Qin Wu
    organization: Huawei
@@ -40,15 +28,30 @@ author:
    country: China
    email: bill.wu@huawei.com
 -
+   fullname: Daniele Ceccarelli
+   organization: Cisco
+   email: dceccare@cisco.com
+-
   fullname: Luis. M. Contreras
   organization: Telefonica
   email: luismiguel.contrerasmurillo@telefonica.com
 -
+  fullname: Daniel King
+  organization: Lancaster University
+  email: d.king@lancaster.ac.uk
+contributor:
+-
   fullname: Daniel Voyer
   organization: Cisco
   email: davoyer@cisco.com
-
-contributor:
+-
+   fullname: Qiufang Ma
+   organization: Huawei
+   street: 101 Software Avenue, Yuhua District
+   city: Nanjing, Jiangsu
+   code: 210012
+   country: China
+   email: maqiufang1@huawei.com
 -
   fullname: Yuanyuan Yang
   organization: Huawei
@@ -299,49 +302,150 @@ The observability requirements are organized into the following categories:
 
 ## Control Requirements
 
-CTL-1: Intent Validation and Alignment
-: The framework MUST ensure the agent validates high-level network intents
-   received from network operators or upstream agents before execution.
-   The agent MUST verify that the generated network configuration syntax
-   and semantic align with the network intents and constraints.
+The control requirements are organized into the following categories:
 
-CTL-2: Temporal and Data/Context Validity
-: The framework MUST ensure the agent operates within authorized network maintenance time windows. Additionally, the agent MUST validate the freshness and integrity of the context and
-network state and configuration data.
+ * Agent Execution Guardrails and Risk Control ({{ctl-execution}})
+ * Authorization and Access Control ({{ctl-acl}})
+ * Policy Precedence and Concurrency Control ({{ctl-concurrency}})
+ * Agent Control Resilience ({{ctl-resilience}})
 
-CTL-3: Access and Permission
-: The framework MUST provide mechanisms to define and enforce fine-grained
-   operational boundaries for agents. This MUST include restricting the
-   agent's operational scope to specific network domains/areas, set of devices, protocols and tools. Furthermore, it MUST support YANG node-level access control, defining which configuration datastores, YANG data nodes, and RPCs an agent is permitted to read or modify.
+### Agent Execution Guardrails and Risk Control {#ctl-execution}
 
-CTL-4: Authorization and Approval
-: The framework MUST support the designation of certain network operations as requiring explicit human approval/confirmation before execution. It SHOULD also support configurable escalation chain and communication methods/channels to route escalation requests sequentially to designated personnel.
+ CTL-1: Action Risk Classification
+    : The framework must require an agent to classify the risk level of any
+      action (e.g., Low, Medium, High, Critical) prior to execution. The
+      classification must consider the operation type, target device roles, and potential impact on network stability. Downstream policy engines must consume this risk
+      level to enforce differentiated approval workflows and constraints.
 
-<!--
-CTL-5: Failure and Liveness
-: The framework MUST allow to specify fallback behaviors when an agent encounters predefined failure modes (e.g., operation timeout, operation failures). Additionally, the framework MUST enable agents to periodically report their liveness and operational status for health monitoring.
--->
+   CTL-2: Maximum Blast Radius Limits
+      : The framework must enforce a configurable maximum blast radius for
+      each agent action, restricting potential impact across device counts,
+      link counts, service impact, customer scope, and traffic volume. The
+      agent must evaluate the blast radius before execution and abort any
+      action exceeding configured thresholds unless explicitly overridden by
+      a human operator.
 
-CTL-5: Dynamic Boundary Adaptation
-: The framework MUST support the injection of global coordination
-   control policies across multi-agent environments, and enable dynamic
-   adjustment (e.g., tighten the agent's permissible access from read-write to read-only) of operational bounds based on the network's current operational state.
+   CTL-3: Rate Limiting and Concurrency Control
+      : The framework must enforce rate limits and concurrency controls on agent actions to prevent automation storms from overwhelming network devices or the management plane. Agents must comply with per-device, per-operator, and global rate limits, as well as maximum concurrent task thresholds. Exceeded actions must be queued or rejected with explicit feedback.
+
+   CTL-4: Action Cancellation Semantics
+    : The framework must define and support explicit cancellation semantics
+      across three action states: Queued (remove without side effects),
+      Executing (gracefully terminate and rollback where feasible), and
+      Completed (interpret as a rollback request invoking inverse workflows).
+      All cancellation results must be logged for auditability.
+
+   CTL-5: Temporal and Contextual Validity
+    : The framework must ensure that agents operate strictly within authorized
+      network maintenance time windows. Additionally, agents must validate
+      the freshness, integrity, and temporal validity of context, network state, and configuration data before acting upon it.
+
+### Authorization and Access Control {#ctl-acl}
+
+  CTL-6: Separation of Duties
+    : The framework must enforce strict separation among five operational
+      roles: Read-Only, Propose, Validate, Approve, and Execute. Each role
+      MUST be tied to distinct credentials and permissions. A single agent or
+      operator must not possess end-to-end capabilities across all roles
+      without explicit supervisory authorization. This separation must be
+      enforceable at both agent and orchestrator levels.
+
+   CTL-7: Fine-Grained Access and Permissions
+     : The framework must provide mechanisms to define and enforce fine-grained operational boundaries. This MUST include restricting an agent's scope to specific network domains, device sets, protocols, and tools, as
+      well as YANG node-level access control specifying permitted
+      datastores, YANG data nodes, and RPCs for read or modification.
+
+   CTL-8: Authorization and Approval Escalation
+    : The framework must support designating specific high-risk network
+      operations as requiring explicit human approval before execution. It
+      SHOULD support configurable escalation chains and communication channels
+      to route approval requests sequentially to designated personnel.
+
+### Policy Precedence and Concurrency Control {#ctl-concurrency}
+
+   CTL-9: Change Attribution and Distributed Locking
+    : The framework must support change attribution tracking and distributed
+      locking mechanisms for concurrent multi-agent or human-agent operations.
+      An agent MUST acquire a lock (containing owner identity, target scope,
+      and expiration time) on target resources prior to initiating changes.
+      Conflicting requests MUST be queued or rejected with clear conflict
+      notifications.
+
+   CTL-10: Cross-Domain Policy Conflict Resolution
+      : The framework must implement deterministic cross-domain policy conflict
+      resolution. When an action spans multiple policy domains (e.g., routing,
+      security, QoS, multi-vendor domains) and generates conflicts, the
+      framework MUST resolve them using configurable priority models (e.g.,
+      security policies take precedence over routing policies). Actions MUST
+      be halted until conflicts are resolved or overridden by a human supervisor.
+
+   CTL-11: Deterministic Authority Precedence
+      : The framework must enforce a deterministic hierarchy across four control sources: Human Operators (highest precedence), Supervisor Agents,
+      Orchestrators, and Autonomous Agents. When conflicting instructions are
+      received, higher-precedence sources MUST preempt lower-precedence ones,
+      and lower-precedence sources MUST receive preemption notifications.
+
+   CTL-12: Intent Validation and Alignment
+      : The framework must ensure agents validate high-level network intents
+      received from operators or upstream agents before execution. Agents MUST
+      verify that generated configuration syntax and semantics strictly align
+      with network intents and operational constraints.
+
+### Agent Control Resilience {#ctl-resilience}
+
+ CTL-13: Degraded Behavior on Control Plane Unreachability
+    : The framework must define deterministic degradation behaviors when an
+      agent loses connectivity with the ICON control/management plane. Agents
+      MUST support at least one configurable fallback mode: (a) Fail-Safe
+      (abort active/pending actions and enter read-only state), (b) Fail-Hold
+      (complete current action but reject new requests), or (c) Fail-Local
+      (continue execution using local cached authorizations).
+
+   CTL-14: Management Plane High Availability and Geographic Isolation
+      : The framework must support high availability and geographically isolated
+      deployments for ICON management plane components across multiple availability
+      zones with automated failover. Active operations MUST be safely recovered
+      or re-evaluated by the backup primary control plane without duplicate
+      executions or data loss.
+
+   CTL-15: Intended vs. Actual State Reconciliation
+      : The framework must support continuous reconciliation between intended
+      network state and actual state derived from telemetry. When state drift
+      is detected, agents MUST trigger idempotent automated remediation
+      workflows unless explicitly disabled by operators.
+
+   CTL-16: Dynamic Boundary Adaptation
+      : The framework must support the injection of global coordination policies
+      across multi-agent environments and enable dynamic adjustment of
+      operational boundaries (e.g., tightening permissions from read-write to
+      read-only) based on real-time network operational health and threat levels.
 
 ## Intervention Requirements
 
+The intervention requirements are organized into the following categories:
+
+ * Runtime Execution Intervention ({{int-execution}})
+ * Post-execution Rollback ({{int-rollback}})
+ * Escalation ({{int-escalation}})
+ * Correction ({{int-correction}})
+
+### Runtime Execution Intervention {#int-execution}
+
 INT-1: Execution Interruption
-: The supervisor MUST be able to immediately stop or redirect a running
-   agent's runtime execution. The framework MUST support a temporary
+: The supervisor must be able to immediately stop or redirect a running
+   agent's runtime execution. The framework must support a temporary
    operational pause that preserves the execution state (e.g., giving human operators time to analyze before deciding on further action), as well as a hard stop that terminates
-   execution with or without instant configuration rollback when an agent is actively causing network instability. Emergency intervention operations (e.g., pausing, terminating) MUST be executed independently of
+   execution with or without instant configuration rollback when an agent is actively causing network instability. Emergency intervention operations (e.g., pausing, terminating) must be executed independently of
    the agent's internal LLM reasoning state or responsiveness. I.e., the framework MUST support out-of-band emergency pause or kill-switch signals in cases where an agent encounters a major failure (e.g.,
    infinite reasoning loops, deadlocks) or becomes totally unresponsive.
 
+### Post-execution Rollback {#int-rollback}
+
 INT-2: Rollback and Recovery
-: The supervisor MUST be able to reverse actions already taken by an agent. The framework MUST support multiple granularities of action rollback.
+: The supervisor must be able to reverse actions already taken by an agent. The framework MUST support multiple granularities of action rollback.
 Based on the severity and impact of the failure, the rollback granularities SHOULD include:
 
- * Agent workflow level:
+ * Agent workflow level
  : Reverts a specific step or a subset of execution steps within the agent's execution chain, without canceling the overall task. This is applicable for localized errors. For example, When an agent is onboarding a network device, the supervisor
      rolls back only a failed post-configuration script execution step while
      keeping the successfully downloaded boot image.
@@ -352,8 +456,12 @@ Based on the severity and impact of the failure, the rollback granularities SHOU
  * Agent context level
  : Reverts all network operations across multiple related tasks bound by the same context. This acts as an ultimate rollback mechanism to reset the entire multi-turn interaction or back to its original historical baseline. For example, during a multi-turn network troubleshooting conversation, an agent executes three tasks under the same context to mitigate an anomaly. If supervisor realizes the entire investigation pathway was flawed, they may select context level rollback to comprehensively wipe out all configuration changes made across all three tasks in this specific context.
 
+### Escalation {#int-escalation}
+
 INT-3: Escalation
-: The framwork MUST support the mechanism to allow the agent to route operational decisions, anomalies, and conflicts to a higher authority. An escalation is used when the current level (operator or agent) cannot or should not resolve the situation without supervision. During an escalation event, the framework MUST preserve the agent's runtime context and its full reasoning provenance trail to enable a seamless handover.
+: The framework must support the mechanism to allow the agent to route operational decisions, anomalies, and conflicts to a higher authority. An escalation is used when the current level (operator or agent) cannot or should not resolve the situation without supervision. During an escalation event, the framework must preserve the agent's runtime context and its full reasoning provenance trail to enable a seamless handover.
+
+### Correction {#int-correction}
 
 INT-4: Correction
 : The supervisor MUST be able to correct an autonomous agent failure through any of the following mechanisms:
