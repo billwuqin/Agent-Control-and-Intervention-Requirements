@@ -223,8 +223,11 @@ The internal composition, interfaces, and orchestration are implementation speci
 The observability requirements are organized into the following categories:
 
  * Observability Infrastructure Requirements ({{obs-infrastructure}})
+
  * Data Governance, Auditability, and Accountability ({{obs-governance}})
+
  * Agent Execution Trajectory and Decision Logic ({{obs-trace}})
+
  * Agent Metrics Collection ({{obs-metrics}})
 
 ###  Observability Infrastructure Requirements {#obs-infrastructure}
@@ -281,8 +284,10 @@ The observability requirements are organized into the following categories:
   :  The framework must support visibility into reasoning provenance,
      including intent understanding, inference, confidence scores, and
      evidence chains justifying why a specific network operation
-     decision was made. It must also track external knowledge sources, version numbers, and matching weights retrieved and referenced by the agent during decision-making and enable traceability of how external
-     information influenced the agent's reasoning steps.
+     decision was made. It must also track external knowledge sources,
+     version numbers, and matching weights retrieved and referenced by
+     the agent during decision-making and enable traceability of how
+     external information influenced the agent's reasoning steps.
 
   OBS-8: Tool Invocation Capture
   :  The framework must capture the complete input/output of
@@ -291,14 +296,20 @@ The observability requirements are organized into the following categories:
 
   OBS-9: Multi-Agent Delegation and Human-in-the-Loop Tracing
   :  In multi-agent collaborative scenarios, the framework must track
-     inter-agent communication messages, task delegation paths, and dynamic collaboration. It must also capture human expert interventions (e.g., kill switch, pause, rollback), escalation handling, and feedback signals on agent actions in the workflows.
+     inter-agent communication messages, task delegation paths, and
+     dynamic collaboration. It must also capture human expert
+     interventions (e.g., kill switch, pause, rollback), escalation
+     handling, and feedback signals on agent actions in the workflows.
 
 ###  Agent Metrics Collection {#obs-metrics}
 
   OBS-10: Operational Health, Resource, and Efficiency Metrics
   :  The framework must support the collection of metrics characterizing
       agent operational health, cost, and efficiency. This includes, but is
-     not limited to failed tool/API invocation rates, action execution latency, configuration rollback rates, token consumption, reasoning latency including Time to First Token (TTFT) and Time Per Output Token (TPOT), task completion rates and Mean Time To Repair (MTTR).
+     not limited to failed tool/API invocation rates, action execution
+     latency, configuration rollback rates, token consumption, reasoning
+     latency including Time to First Token (TTFT) and Time Per Output
+     Token (TPOT), task completion rates and Mean Time To Repair (MTTR).
 
 ## Control Requirements
 
@@ -314,8 +325,10 @@ The control requirements are organized into the following categories:
  CTL-1: Action Risk Classification
     : The framework must require an agent to classify the risk level of any
       action (e.g., Low, Medium, High, Critical) prior to execution. The
-      classification must consider the operation type, target device roles, and potential impact on network stability. Downstream policy engines must consume this risk
-      level to enforce differentiated approval workflows and constraints.
+      classification must consider the operation type, target device roles,
+      and potential impact on network stability. Downstream policy engines
+      must consume this risk level to enforce differentiated approval
+      workflows and constraints.
 
    CTL-2: Maximum Blast Radius Limits
       : The framework must enforce a configurable maximum blast radius for
@@ -326,7 +339,12 @@ The control requirements are organized into the following categories:
       a human operator.
 
    CTL-3: Rate Limiting and Concurrency Control
-      : The framework must enforce rate limits and concurrency controls on agent actions to prevent automation storms from overwhelming network devices or the management plane. Agents must comply with per-device, per-operator, and global rate limits, as well as maximum concurrent task thresholds. Exceeded actions must be queued or rejected with explicit feedback.
+      : The framework must enforce rate limits and concurrency controls on
+      agent actions to prevent automation storms from overwhelming network
+      devices or the management plane. Agents must comply with per-device,
+      per-operator, and global rate limits, as well as maximum concurrent
+      task thresholds. Exceeded actions must be queued or rejected with
+      explicit feedback.
 
    CTL-4: Action Cancellation Semantics
     : The framework must define and support explicit cancellation semantics
@@ -336,9 +354,10 @@ The control requirements are organized into the following categories:
       All cancellation results must be logged for auditability.
 
    CTL-5: Temporal and Contextual Validity
-    : The framework must ensure that agents operate strictly within authorized
-      network maintenance time windows. Additionally, agents must validate
-      the freshness, integrity, and temporal validity of context, network state, and configuration data before acting upon it.
+    : The framework must ensure that agents operate strictly within
+      authorized network maintenance time windows. Additionally, agents
+      must validate the freshness, integrity, and temporal validity of
+      context, network state, and configuration data before acting upon it.
 
 ### Authorization and Access Control {#ctl-acl}
 
@@ -351,8 +370,10 @@ The control requirements are organized into the following categories:
       enforceable at both agent and orchestrator levels.
 
    CTL-7: Fine-Grained Access and Permissions
-     : The framework must provide mechanisms to define and enforce fine-grained operational boundaries. This MUST include restricting an agent's scope to specific network domains, device sets, protocols, and tools, as
-      well as YANG node-level access control specifying permitted
+     : The framework must provide mechanisms to define and enforce
+       fine-grained operational boundaries. This MUST include restricting
+       an agent's scope to specific network domains, device sets, protocols,
+       and tools, as well as YANG node-level access control specifying permitted
       datastores, YANG data nodes, and RPCs for read or modification.
 
    CTL-8: Authorization and Approval Escalation
@@ -380,7 +401,8 @@ The control requirements are organized into the following categories:
       be halted until conflicts are resolved or overridden by a human supervisor.
 
    CTL-11: Deterministic Authority Precedence
-      : The framework must enforce a deterministic hierarchy across four control sources: Human Operators (highest precedence), Supervisor Agents,
+      : The framework must enforce a deterministic hierarchy across four control
+      sources: Human Operators (highest precedence), Supervisor Agents,
       Orchestrators, and Autonomous Agents. When conflicting instructions are
       received, higher-precedence sources MUST preempt lower-precedence ones,
       and lower-precedence sources MUST receive preemption notifications.
@@ -425,8 +447,11 @@ The control requirements are organized into the following categories:
 The intervention requirements are organized into the following categories:
 
  * Runtime Execution Intervention ({{int-execution}})
+
  * Post-execution Rollback ({{int-rollback}})
+
  * Escalation ({{int-escalation}})
+
  * Correction ({{int-correction}})
 
 ### Runtime Execution Intervention {#int-execution}
@@ -434,57 +459,92 @@ The intervention requirements are organized into the following categories:
 INT-1: Execution Interruption
 : The supervisor must be able to immediately stop or redirect a running
    agent's runtime execution. The framework must support a temporary
-   operational pause that preserves the execution state (e.g., giving human operators time to analyze before deciding on further action), as well as a hard stop that terminates
-   execution with or without instant configuration rollback when an agent is actively causing network instability. Emergency intervention operations (e.g., pausing, terminating) must be executed independently of
-   the agent's internal LLM reasoning state or responsiveness. I.e., the framework MUST support out-of-band emergency pause or kill-switch signals in cases where an agent encounters a major failure (e.g.,
-   infinite reasoning loops, deadlocks) or becomes totally unresponsive.
+   operational pause that preserves the execution state (e.g., giving
+   human operators time to analyze before deciding on further action),
+   as well as a hard stop that terminates execution with or without
+   instant configuration rollback when an agent is actively causing
+   network instability. Emergency intervention operations (e.g.,
+   pausing, terminating) must be executed independently of the agent's
+   internal LLM reasoning state or responsiveness. I.e., the framework
+   MUST support out-of-band emergency pause or kill-switch signals in
+   cases where an agent encounters a major failure (e.g., infinite
+   reasoning loops, deadlocks) or becomes totally unresponsive.
 
 ### Post-execution Rollback {#int-rollback}
 
 INT-2: Rollback and Recovery
-: The supervisor must be able to reverse actions already taken by an agent. The framework MUST support multiple granularities of action rollback.
-Based on the severity and impact of the failure, the rollback granularities SHOULD include:
+: The supervisor must be able to reverse actions already taken by an
+  agent. The framework MUST support multiple granularities of action rollback.
+  Based on the severity and impact of the failure, the rollback granularities
+  SHOULD include:
 
  * Agent workflow level
- : Reverts a specific step or a subset of execution steps within the agent's execution chain, without canceling the overall task. This is applicable for localized errors. For example, When an agent is onboarding a network device, the supervisor
-     rolls back only a failed post-configuration script execution step while
-     keeping the successfully downloaded boot image.
+ : Reverts a specific step or a subset of execution steps within the agent's
+    execution chain, without canceling the overall task. This is applicable
+    for localized errors. For example, When an agent is onboarding a network
+    device, the supervisor rolls back only a failed post-configuration script
+    execution step while keeping the successfully downloaded boot image.
 
  * Agent task level
- : Reverts an entire task execution, performing a comprehensive rollback of all network operations introduced since the initiation of the task. This is used as an emergency mechanism for severe failures where the agent's entire execution is failed. For example, when an agent fails to provision a network service, the supervisor triggers a full task rollback to wipe out the entire provisioning attempts across all affected nodes.
+ : Reverts an entire task execution, performing a comprehensive rollback of all
+ network operations introduced since the initiation of the task. This is used as
+ an emergency mechanism for severe failures where the agent's entire execution is
+ failed. For example, when an agent fails to provision a network service, the
+ supervisor triggers a full task rollback to wipe out the entire provisioning
+ attempts across all affected nodes.
 
  * Agent context level
- : Reverts all network operations across multiple related tasks bound by the same context. This acts as an ultimate rollback mechanism to reset the entire multi-turn interaction or back to its original historical baseline. For example, during a multi-turn network troubleshooting conversation, an agent executes three tasks under the same context to mitigate an anomaly. If supervisor realizes the entire investigation pathway was flawed, they may select context level rollback to comprehensively wipe out all configuration changes made across all three tasks in this specific context.
+ : Reverts all network operations across multiple related tasks bound by the
+ same context. This acts as an ultimate rollback mechanism to reset the entire
+ multi-turn interaction or back to its original historical baseline. For example,
+ during a multi-turn network troubleshooting conversation, an agent executes three
+ tasks under the same context to mitigate an anomaly. If supervisor realizes the
+ entire investigation pathway was flawed, they may select context level rollback
+ to comprehensively wipe out all configuration changes made across all three tasks
+ in this specific context.
 
 ### Escalation {#int-escalation}
 
 INT-3: Escalation
-: The framework must support the mechanism to allow the agent to route operational decisions, anomalies, and conflicts to a higher authority. An escalation is used when the current level (operator or agent) cannot or should not resolve the situation without supervision. During an escalation event, the framework must preserve the agent's runtime context and its full reasoning provenance trail to enable a seamless handover.
+: The framework must support the mechanism to allow the agent to route operational
+decisions, anomalies, and conflicts to a higher authority. An escalation is used
+when the current level (operator or agent) cannot or should not resolve the
+situation without supervision. During an escalation event, the framework must
+preserve the agent's runtime context and its full reasoning provenance trail
+to enable a seamless handover.
 
 ### Correction {#int-correction}
 
 INT-4: Correction
-: The supervisor MUST be able to correct an autonomous agent failure through any of the following mechanisms:
+: The supervisor MUST be able to correct an autonomous agent failure through
+any of the following mechanisms:
 
- * providing clearer intent
- : Clarifying or refining the high-level intent when the agent misinterprets the operational goal.
+ * Providing clearer intent
+ : Clarifying or refining the high-level intent when the agent misinterprets
+ the operational goal.
 
- * injecting additional operational constraints
+ * Injecting additional operational constraints
  : Appending runtime network constraints or specific limits.
 
- * providing missing or correcting network context
- : supplying missing, updated or corrected network knowledge, telemetry data, or topological information that the agent relied on during its reasoning loop.
+ * Providing missing or correcting network context
+ : supplying missing, updated or corrected network knowledge, telemetry data,
+ or topological information that the agent relied on during its reasoning loop.
 
- * modifying pending actions or planned configuration changes
- : Adjusting the agent's generating configuration, tool selections, parameters, or execution order before they are applied to the network.
+ * Modifying pending actions or planned configuration changes
+ : Adjusting the agent's generating configuration, tool selections, parameters,
+ or execution order before they are applied to the network.
 
 
 
 # Security Considerations
 
-This document defines a set of functional requirements for observability, control, and intervention of AI agents in the context of network management.
+This document defines a set of functional requirements for observability, control,
+and intervention of AI agents in the context of network management.
 
-The requirements themselves do not introduce additional security vulnerabilities. Rather, this document requirements some security safeguards such as access control, identity authentication, and integrity guarantees that should be enforced by the implementation and deployed systems.
+The requirements themselves do not introduce additional security vulnerabilities.
+Rather, this document requirements some security safeguards such as access control,
+identity authentication, and integrity guarantees that should be enforced by the
+implementation and deployed systems.
 
 # IANA Considerations
 
