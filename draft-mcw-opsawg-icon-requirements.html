@@ -10,8 +10,14 @@
 <meta content="Luis. M. Contreras" name="author">
 <meta content="Daniel King" name="author">
 <meta content="
-       This document defines architecture and a set of requirements for Observability, Control, and Intervention for Network Management Agents. 
-       It identifies gaps in existing mechanisms and specifies required interaction capabilities between Agent supervision systems and network management agents across multi-vendor environments, specifically observability, control, and runtime intervention. The requirements aim to guarantee comprehensive, lifecycle control over AI agents and enable observation, constraint, intervention, and correction to ensure network operational resilience and continuity. 
+       This document defines architecture and a set of requirements for Observability, Control,
+and Intervention for Network Management Agents. 
+       It identifies gaps in existing mechanisms and specifies required interaction capabilities
+between Agent supervision systems and network management agents across multi-vendor
+environments, specifically observability, control, and runtime intervention. The
+requirements aim to guarantee comprehensive, lifecycle control over AI agents and enable
+observation, constraint, intervention, and correction to ensure network operational
+resilience and continuity. 
     " name="description">
 <meta content="xml2rfc 3.34.1" name="generator">
 <meta content="Network Management Agents" name="keyword">
@@ -1095,8 +1101,14 @@ svg {
 <h1 id="title">Architecture and Requirements for Observability, Control and Intervention of Network Management Agents</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">This document defines architecture and a set of requirements for Observability, Control, and Intervention for Network Management Agents.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
-<p id="section-abstract-2">It identifies gaps in existing mechanisms and specifies required interaction capabilities between Agent supervision systems and network management agents across multi-vendor environments, specifically observability, control, and runtime intervention. The requirements aim to guarantee comprehensive, lifecycle control over AI agents and enable observation, constraint, intervention, and correction to ensure network operational resilience and continuity.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">This document defines architecture and a set of requirements for Observability, Control,
+and Intervention for Network Management Agents.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-2">It identifies gaps in existing mechanisms and specifies required interaction capabilities
+between Agent supervision systems and network management agents across multi-vendor
+environments, specifically observability, control, and runtime intervention. The
+requirements aim to guarantee comprehensive, lifecycle control over AI agents and enable
+observation, constraint, intervention, and correction to ensure network operational
+resilience and continuity.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-discussion-venues">
@@ -1273,12 +1285,31 @@ svg {
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">AI agents are increasingly deployed for network management tasks <span>[<a href="#I-D.wmz-nmrg-agent-ndt-arch" class="cite xref">I-D.wmz-nmrg-agent-ndt-arch</a>]</span> — including service provisioning and network configuration change, service assurance and automated incident diagnosis and resolution. While the introduction of agents significantly improves the efficiency for network management, it also inevitably brings challenges such as hallucination and execution unreliability.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">Existing mechanisms for agent assurance typically rely on static guardrails (e.g., input/output validation, operation allowlists/blocklists, pre-action approval), while assuming that all agent failure modes can be predefined. Unlike deterministic software systems, however, LLM-based agents exhibit emergent behaviors that cannot be fully anticipated or encoded in static rules. When agentic systems produce novel actions or reasoning paths that fall outside predefined static boundaries, it might lead to risks such as unintended configuration changes, policy violations, or cascading failures in the network.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3">The operational problems, architectural challenges, and technical gaps regarding the observability, control, and intervention of autonomous network management agents are thoroughly detailed in <span>[<a href="#I-D.wnd-opsawg-icon-ps" class="cite xref">I-D.wnd-opsawg-icon-ps</a>]</span>.
-This document builds upon those identified gaps to specify a set of essential requirements that supervisors need when deploying agents in real networks for agent observability, control, and intervention. Furthermore, it also defines an architecure for ICON — Intervention, Control, and Observability for Network Management Agents.<a href="#section-1-3" class="pilcrow">¶</a></p>
-<p id="section-1-4">This document specifies the architecture and communication requirements between the agent and the supervision system. It does not standardize the internal LLM architecture, planning algorithms, or training methodologies of the network management agents themselves.<a href="#section-1-4" class="pilcrow">¶</a></p>
-<p id="section-1-5">This document does not specify a particular protocol, data model, or implementation API. Those topics are orthogonal to the operational requirements defined here, which are intended to be solution-neutral.<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-1">AI agents are increasingly deployed for network management tasks <span>[<a href="#I-D.wmz-nmrg-agent-ndt-arch" class="cite xref">I-D.wmz-nmrg-agent-ndt-arch</a>]</span>
+— including service provisioning and network configuration change, service assurance and automated
+incident diagnosis and resolution. While the introduction of agents significantly improves the
+efficiency for network management, it also inevitably brings challenges such as hallucination
+and execution unreliability.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">Existing mechanisms for agent assurance typically rely on static guardrails (e.g., input/output
+validation, operation allowlists/blocklists, pre-action approval), while assuming that all agent
+failure modes can be predefined. Unlike deterministic software systems, however, LLM-based agents
+exhibit emergent behaviors that cannot be fully anticipated or encoded in static rules. When
+agentic systems produce novel actions or reasoning paths that fall outside predefined static
+boundaries, it might lead to risks such as unintended configuration changes, policy violations,
+or cascading failures in the network.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">The operational problems, architectural challenges, and technical gaps regarding the observability,
+control, and intervention of autonomous network management agents are thoroughly detailed in
+<span>[<a href="#I-D.wnd-opsawg-icon-ps" class="cite xref">I-D.wnd-opsawg-icon-ps</a>]</span>.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">This document builds upon those identified gaps to specify a set of essential requirements that
+supervisors need when deploying agents in real networks for agent observability, control, and
+intervention. Furthermore, it also defines an architecure for ICON — Intervention, Control, and
+Observability for Network Management Agents.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-5">This document specifies the architecture and communication requirements between the agent and
+the supervision system. It does not standardize the internal LLM architecture, planning
+algorithms, or training methodologies of the network management agents themselves.<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-6">This document does not specify a particular protocol, data model, or implementation API.
+Those topics are orthogonal to the operational requirements defined here, which are
+intended to be solution-neutral.<a href="#section-1-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="conventions-and-definitions">
@@ -1309,7 +1340,9 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <span class="break"></span><dl class="dlParallel" id="section-2-5">
         <dt id="section-2-5.1">context:</dt>
         <dd style="margin-left: 1.5em" id="section-2-5.2">
-          <p id="section-2-5.2.1">The network operational data, interaction history, and situational network parameters that allow AI agents to remember the history of a specific interaction over multiple turns.<a href="#section-2-5.2.1" class="pilcrow">¶</a></p>
+          <p id="section-2-5.2.1">The network operational data, interaction history, and situational network parameters
+that allow AI agents to remember the history of a specific interaction over multiple
+turns.<a href="#section-2-5.2.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
 </dl>
@@ -1320,11 +1353,26 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
       <h2 id="name-existing-mechanisms-for-age">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-existing-mechanisms-for-age" class="section-name selfRef">Existing Mechanisms for Agent Observability, Control, and Intervention</a>
       </h2>
-<p id="section-3-1">After receiving a user request, agents will perform a chain-of-thought (CoT) reasoning process, then it will autonomously decide whether to break down the task into subtasks, or dynamically decide to invoke multiple external tools, retrieve vector databases (RAG), or request more information from the supervisor.<a href="#section-3-1" class="pilcrow">¶</a></p>
-<p id="section-3-2">Existing telemetry mechanisms are excellent for tracking traditional network infrastructure or software which are built for deterministic systems. However, as analyzed in <span>[<a href="#I-D.wnd-opsawg-icon-ps" class="cite xref">I-D.wnd-opsawg-icon-ps</a>]</span>, they are facing severe limitations when applied to AI agents. For example, existing logging practices only record what action was taken, completely missing why it was taken, including the agent's internal reasoning provenance and confidence scores. Existing tracing mechanism designed for static and linear execution path also cannot capture the complex and dynamic execution trajectories of AI agents.<a href="#section-3-2" class="pilcrow">¶</a></p>
-<p id="section-3-3">Existing AI guardrails primarily operate at static boundaries, such as input/output validation and pre-action checks. These mechanisms are designed to constrain AI agents within predefined operational and compliance boundaries, but they assume that all possible violations can be anticipated and encoded in static rules. As AI systems increasingly operate in non‑deterministic environments, these static measures are proving insufficient as they cannot detect, interrupt, and recover from unanticipated behaviors.<a href="#section-3-3" class="pilcrow">¶</a></p>
-<p id="section-3-4">Although there are some modern agent systems that provide interrupt or kill switch capabilities, they remain framework-specific, insufficient, or proprietary.<a href="#section-3-4" class="pilcrow">¶</a></p>
-<p id="section-3-5">These gaps motivate the architectural framework and requirements for agent observability, control, and intervention defined in <a href="#architecture" class="auto internal xref">Section 4</a> and <a href="#requirements" class="auto internal xref">Section 5</a>, respectively.<a href="#section-3-5" class="pilcrow">¶</a></p>
+<p id="section-3-1">After receiving a user request, agents will perform a chain-of-thought (CoT) reasoning process,
+then it will autonomously decide whether to break down the task into subtasks, or dynamically
+decide to invoke multiple external tools, retrieve vector databases (RAG), or request more
+information from the supervisor.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2">Existing telemetry mechanisms are excellent for tracking traditional network infrastructure
+or software which are built for deterministic systems. However, as analyzed in <span>[<a href="#I-D.wnd-opsawg-icon-ps" class="cite xref">I-D.wnd-opsawg-icon-ps</a>]</span>,
+they are facing severe limitations when applied to AI agents. For example, existing logging practices
+only record what action was taken, completely missing why it was taken, including the agent's internal
+reasoning provenance and confidence scores. Existing tracing mechanism designed for static and linear
+execution path also cannot capture the complex and dynamic execution trajectories of AI agents.<a href="#section-3-2" class="pilcrow">¶</a></p>
+<p id="section-3-3">Existing AI guardrails primarily operate at static boundaries, such as input/output validation and
+pre-action checks. These mechanisms are designed to constrain AI agents within predefined operational
+and compliance boundaries, but they assume that all possible violations can be anticipated and encoded
+in static rules. As AI systems increasingly operate in non‑deterministic environments, these static
+measures are proving insufficient as they cannot detect, interrupt, and recover from unanticipated
+behaviors.<a href="#section-3-3" class="pilcrow">¶</a></p>
+<p id="section-3-4">Although there are some modern agent systems that provide interrupt or kill switch capabilities, they
+remain framework-specific, insufficient, or proprietary.<a href="#section-3-4" class="pilcrow">¶</a></p>
+<p id="section-3-5">These gaps motivate the architectural framework and requirements for agent observability, control,
+and intervention defined in <a href="#architecture" class="auto internal xref">Section 4</a> and <a href="#requirements" class="auto internal xref">Section 5</a>, respectively.<a href="#section-3-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="architecture">
@@ -1332,7 +1380,8 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
       <h2 id="name-architectural-framework-for">
 <a href="#section-4" class="section-number selfRef">4. </a><a href="#name-architectural-framework-for" class="section-name selfRef">Architectural Framework for ICON</a>
       </h2>
-<p id="section-4-1">This section describes the reference architecture for ICON. The architecture defined in <a href="#arch" class="auto internal xref">Figure 1</a> serves as the structural foundation to derive the requirements specified in <a href="#requirements" class="auto internal xref">Section 5</a>.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<p id="section-4-1">This section describes the reference architecture for ICON. The architecture defined in <a href="#arch" class="auto internal xref">Figure 1</a>
+serves as the structural foundation to derive the requirements specified in <a href="#requirements" class="auto internal xref">Section 5</a>.<a href="#section-4-1" class="pilcrow">¶</a></p>
 <span id="name-icon-architecture"></span><div id="arch">
 <figure id="figure-1">
         <div class="alignCenter art-text artwork" id="section-4-2.1">
@@ -1381,13 +1430,17 @@ Agent Observability Data|  |Agent Control &amp; Intervention Signals
         <h3 id="name-human-oversight">
 <a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-human-oversight" class="section-name selfRef">Human Oversight</a>
         </h3>
-<p id="section-4.1-1">Human oversight represents the top-level authority of the agent management. It provides the post-execution feedback, injects global policies, reviews agent escalation requests, and issues high-level intervention commands during crises or anomalies.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.1-1">Human oversight represents the top-level authority of the agent management. It provides the
+post-execution feedback, injects global policies, reviews agent escalation requests, and issues
+high-level intervention commands during crises or anomalies.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.1-2.1">
             <span class="break"></span><dl class="dlParallel" id="section-4.1-2.1.1">
               <dt id="section-4.1-2.1.1.1">Policy and Constraint Injection:</dt>
               <dd style="margin-left: 1.5em" id="section-4.1-2.1.1.2">
-                <p id="section-4.1-2.1.1.2.1">Human operators could express high-level operational constraints or boundaries. These intents are translated into machine-readable policies by ICON client and sent to the policy enforcement component.<a href="#section-4.1-2.1.1.2.1" class="pilcrow">¶</a></p>
+                <p id="section-4.1-2.1.1.2.1">Human operators could express high-level operational constraints or boundaries. These intents
+ are translated into machine-readable policies by ICON client and sent to the policy enforcement
+ component.<a href="#section-4.1-2.1.1.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 </dl>
@@ -1396,7 +1449,10 @@ Agent Observability Data|  |Agent Control &amp; Intervention Signals
             <span class="break"></span><dl class="dlParallel" id="section-4.1-2.2.1">
               <dt id="section-4.1-2.2.1.1">Escalation Handling:</dt>
               <dd style="margin-left: 1.5em" id="section-4.1-2.2.1.2">
-                <p id="section-4.1-2.2.1.2.1">When an active agent encounters an ambiguous scenario, a conflict between different policies, or a decision whose confidence score falls below a predefined threshold, the execution plane suspends the task and escalates it to operators. A human operator could either approve, reject, or modify the agent's pending action sequence.<a href="#section-4.1-2.2.1.2.1" class="pilcrow">¶</a></p>
+                <p id="section-4.1-2.2.1.2.1">When an active agent encounters an ambiguous scenario, a conflict between different policies,
+ or a decision whose confidence score falls below a predefined threshold, the execution plane
+ suspends the task and escalates it to operators. A human operator could either approve, reject,
+ or modify the agent's pending action sequence.<a href="#section-4.1-2.2.1.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 </dl>
@@ -1405,7 +1461,10 @@ Agent Observability Data|  |Agent Control &amp; Intervention Signals
             <span class="break"></span><dl class="dlParallel" id="section-4.1-2.3.1">
               <dt id="section-4.1-2.3.1.1">Emergency Intervention Trigger:</dt>
               <dd style="margin-left: 1.5em" id="section-4.1-2.3.1.2">
-                <p id="section-4.1-2.3.1.2.1">In the scenario of an unforeseen and deviated agent behavior (e.g., an agent entering an infinite inference loop or executing based on outdated data or incorrect assumption), human oversight allows immediate, manual injection of high-priority override instructions (e.g., global kill switches or behavior corrections).<a href="#section-4.1-2.3.1.2.1" class="pilcrow">¶</a></p>
+                <p id="section-4.1-2.3.1.2.1">In the scenario of an unforeseen and deviated agent behavior (e.g., an agent entering an
+ infinite inference loop or executing based on outdated data or incorrect assumption), human
+ oversight allows immediate, manual injection of high-priority override instructions (e.g.,
+ global kill switches or behavior corrections).<a href="#section-4.1-2.3.1.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 </dl>
@@ -1414,13 +1473,21 @@ Agent Observability Data|  |Agent Control &amp; Intervention Signals
             <span class="break"></span><dl class="dlParallel" id="section-4.1-2.4.1">
               <dt id="section-4.1-2.4.1.1">Post-Execution Feedback:</dt>
               <dd style="margin-left: 1.5em" id="section-4.1-2.4.1.2">
-                <p id="section-4.1-2.4.1.2.1">Beyond runtime intervention, operators could also provide a critical retrospective evaluation feedback. Following an incident, anomaly, or successful resolution, human operators may inject multi-dimensional feedback (e.g., critiquing the agent’s reasoning paths, correcting intermediate planning errors, or evaluating the quality of tool selection). This retrospective feedback could be used to update the prompt templates or refine downstream guardrail policies, preventing the recurrence of similar behavioral drifts.<a href="#section-4.1-2.4.1.2.1" class="pilcrow">¶</a></p>
+                <p id="section-4.1-2.4.1.2.1">Beyond runtime intervention, operators could also provide a critical retrospective evaluation
+ feedback. Following an incident, anomaly, or successful resolution, human operators may inject
+ multi-dimensional feedback (e.g., assessing the agent’s reasoning paths, correcting intermediate
+ planning errors, or evaluating the quality of tool selection). This retrospective feedback could
+ be used to update the prompt templates or refine downstream guardrail policies, preventing the
+ recurrence of similar behavioral drifts.<a href="#section-4.1-2.4.1.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 </dl>
 </li>
         </ul>
-<p id="section-4.1-3">It is worth mentioning that human operators rarely send raw agent control or intervention protocol payloads directly. They could use more flexible and human-friendly formatting such as natural language which is relayed to the agent management plane to translate into structured control or intervention signals for normalization and distribution.<a href="#section-4.1-3" class="pilcrow">¶</a></p>
+<p id="section-4.1-3">It is worth mentioning that human operators rarely send raw agent control or intervention protocol
+payloads directly. They could use more flexible and human-friendly formatting such as natural
+language which is relayed to the agent management plane to translate into structured control or
+intervention signals for normalization and distribution.<a href="#section-4.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="agent-management-plane">
@@ -1428,13 +1495,18 @@ Agent Observability Data|  |Agent Control &amp; Intervention Signals
         <h3 id="name-agent-management-plane">
 <a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-agent-management-plane" class="section-name selfRef">Agent Management Plane</a>
         </h3>
-<p id="section-4.2-1">Agent management plane is the Agent assurance capabilities which are used to manage, monitor, and regulate autonomous AI agents on behalf of human operators. It is logically decoupled from the agent execution plane. Note that agent management plane might include other technical and operational pillars such as agent lifecycle management, which are out of the scope of this draft.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+<p id="section-4.2-1">Agent management plane is the Agent assurance capabilities which are used to manage, monitor, and
+regulate autonomous AI agents on behalf of human operators. It is logically decoupled from the
+agent execution plane. Note that agent management plane might include other technical and
+operational pillars such as agent lifecycle management, which are out of the scope of this draft.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.2-2.1">
             <span class="break"></span><dl class="dlParallel" id="section-4.2-2.1.1">
               <dt id="section-4.2-2.1.1.1">Observability:</dt>
               <dd style="margin-left: 1.5em" id="section-4.2-2.1.1.2">
-                <p id="section-4.2-2.1.1.2.1">It receives observation streams transmitted from downstream agent execution plane. It provides human operators with comprehensive agent behavioral visibility and the ability to identify operational anomalies or performance drifts.<a href="#section-4.2-2.1.1.2.1" class="pilcrow">¶</a></p>
+                <p id="section-4.2-2.1.1.2.1">It receives observation streams transmitted from downstream agent execution plane. It provides
+human operators with comprehensive agent behavioral visibility and the ability to identify
+operational anomalies or performance drifts.<a href="#section-4.2-2.1.1.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 </dl>
@@ -1443,7 +1515,10 @@ Agent Observability Data|  |Agent Control &amp; Intervention Signals
             <span class="break"></span><dl class="dlParallel" id="section-4.2-2.2.1">
               <dt id="section-4.2-2.2.1.1">Policy Control:</dt>
               <dd style="margin-left: 1.5em" id="section-4.2-2.2.1.2">
-                <p id="section-4.2-2.2.1.2.1">It acts as the centralized Policy Decision Point (PDP) <span>[<a href="#RFC3198" class="cite xref">RFC3198</a>]</span> that translates human operational guidelines into agent behavioral boundaries, guardrails, or operational constraints. It dynamically pushes a set of structured rules or policy constraints down to agent execution plane.<a href="#section-4.2-2.2.1.2.1" class="pilcrow">¶</a></p>
+                <p id="section-4.2-2.2.1.2.1">It acts as the centralized Policy Decision Point (PDP) <span>[<a href="#RFC3198" class="cite xref">RFC3198</a>]</span> that translates human
+operator intent or operational guidelines into agent behavioral boundaries, guardrails, or
+operational constraints. It  dynamically pushes a set of structured rules or policy
+constraints down to agent execution plane.<a href="#section-4.2-2.2.1.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 </dl>
@@ -1452,13 +1527,21 @@ Agent Observability Data|  |Agent Control &amp; Intervention Signals
             <span class="break"></span><dl class="dlParallel" id="section-4.2-2.3.1">
               <dt id="section-4.2-2.3.1.1">Emergency Intervention:</dt>
               <dd style="margin-left: 1.5em" id="section-4.2-2.3.1.2">
-                <p id="section-4.2-2.3.1.2.1">It hosts the emergency orchestration logic required to reactively instruct agents in response to boundary violations, anomalies, failures, or operational risks. Upon detecting critical policy violations or receiving manual override commands from human oversight, it generates specific instructions (such as pause or terminate) and pushes them down to the enforcement component. In addition, it also receives upstream messages initiated by agents, such as escalation requests that proactively require human intervention.<a href="#section-4.2-2.3.1.2.1" class="pilcrow">¶</a></p>
+                <p id="section-4.2-2.3.1.2.1">It hosts the emergency orchestration logic required to reactively instruct agents in
+response to boundary violations, anomalies, failures, or operational risks. Upon
+detecting critical policy violations or receiving manual override commands from human
+oversight, it generates specific instructions (such as pause or terminate) and pushes
+them down to the enforcement component. In addition, it also receives upstream messages
+initiated by agents, such as escalation requests that proactively require human
+intervention.<a href="#section-4.2-2.3.1.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 </dl>
 </li>
         </ul>
-<p id="section-4.2-3">In practical deployments, agent management plane could be embedded within network management systems/OSS, an external Agent supervision or management platform, or even an upper-layer supervisor Agent.<a href="#section-4.2-3" class="pilcrow">¶</a></p>
+<p id="section-4.2-3">In practical deployments, the agent management plane may be embedded within network management
+systems/OSS, an external Agent supervision or management platform, or even an upper-layer
+supervisor Agent.<a href="#section-4.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="agent-execution-plane">
@@ -1466,21 +1549,43 @@ Agent Observability Data|  |Agent Control &amp; Intervention Signals
         <h3 id="name-agent-execution-plane">
 <a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-agent-execution-plane" class="section-name selfRef">Agent Execution Plane</a>
         </h3>
-<p id="section-4.3-1">The Agent Execution Plane is the runtime environment in which AI agents operate, perform reasoning and planning, collaborate with other agents, and invoke capabilities exposed through the Function Modules &amp; Tools layer described in <a href="#functions" class="auto internal xref">Section 4.3.1</a>. Through that layer, agents obtain network information and translate their reasoning outcomes into operations on the network infrastructure.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
-<p id="section-4.3-2">The Agent Execution Plane receives high-level intents originating from network operators or upstream agents and executes the corresponding tasks step by step. An agent may delegate parts of a task to other agents. Each execution step may involve invoking tools, function calls, APIs, knowledge retrieval interfaces, or reusable agent skills exposed through the Function Modules &amp; Tools layer.<a href="#section-4.3-2" class="pilcrow">¶</a></p>
-<p id="section-4.3-3">During and after task execution, the Agent Execution Plane collects execution status, operational logs, tool invocation records, and resulting network observations. It provides the corresponding agent observability data to the Agent Management Plane for supervision.<a href="#section-4.3-3" class="pilcrow">¶</a></p>
-<p id="section-4.3-4">The Agent Execution Plane supports policy enforcement at critical points throughout task execution, including before task processing, before tool invocation or network actions, and before delivering a final response. It also accepts and applies Agent Control and Intervention Signals received from the Agent Management Plane.<a href="#section-4.3-4" class="pilcrow">¶</a></p>
+<p id="section-4.3-1">The Agent Execution Plane is the runtime environment in which AI agents operate, perform
+reasoning and planning, collaborate with other agents, and invoke capabilities exposed through
+the Function Modules &amp; Tools layer described in <a href="#functions" class="auto internal xref">Section 4.3.1</a>. Through that layer, agents
+obtain network information and translate their reasoning outcomes into operations on the
+network infrastructure.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
+<p id="section-4.3-2">The Agent Execution Plane receives high-level intents originating from network operators or
+upstream agents and executes the corresponding tasks step by step. An agent may delegate
+parts of a task to other agents. Each execution step may involve invoking tools, function
+calls, APIs, knowledge retrieval interfaces, or reusable agent skills exposed through the
+Function Modules &amp; Tools layer.<a href="#section-4.3-2" class="pilcrow">¶</a></p>
+<p id="section-4.3-3">During and after task execution, the Agent Execution Plane collects execution status,
+operational logs, tool invocation records, and resulting network observations. It provides
+the corresponding agent observability data to the Agent Management Plane for supervision.<a href="#section-4.3-3" class="pilcrow">¶</a></p>
+<p id="section-4.3-4">The Agent Execution Plane supports policy enforcement at critical points throughout task
+execution, including before task processing, before tool invocation or network actions,
+and before delivering a final response. It also accepts and applies Agent Control and
+Intervention Signals received from the Agent Management Plane.<a href="#section-4.3-4" class="pilcrow">¶</a></p>
 <div id="functions">
 <section id="section-4.3.1">
           <h4 id="name-function-modules-tools">
 <a href="#section-4.3.1" class="section-number selfRef">4.3.1. </a><a href="#name-function-modules-tools" class="section-name selfRef">Function Modules &amp; Tools</a>
           </h4>
-<p id="section-4.3.1-1">As depicted in <a href="#arch" class="auto internal xref">Figure 1</a>, agents in the Agent Execution Plane act on the network infrastructure via the Function Modules &amp; Tools layer rather than interacting with network devices directly. Agents invoke this layer to
-translate their reasoning decisions into concrete operational actions on
-the underlying network.<a href="#section-4.3.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.3.1-1">As depicted in <a href="#arch" class="auto internal xref">Figure 1</a>, agents in the Agent Execution Plane act on the network
+infrastructure via the Function Modules &amp; Tools layer rather than interacting with
+network devices directly. Agents invoke this layer to translate their reasoning
+decisions into concrete operational actions on the underlying network.<a href="#section-4.3.1-1" class="pilcrow">¶</a></p>
 <p id="section-4.3.1-2">Although represented as a single functional block in <a href="#arch" class="auto internal xref">Figure 1</a>, this layer could
-abstract a richer and heterogeneous set of functions and tools. It may encompass, for example, the tool and function-calling interfaces exposed to agents, network management protocol adapters and clients (e.g., NETCONF <span>[<a href="#RFC6241" class="cite xref">RFC6241</a>]</span>, RESTCONF <span>[<a href="#RFC8040" class="cite xref">RFC8040</a>]</span>), API gateways, retrieval and knowledge access components (e.g., RAG or vector-database lookups), reusable agent skills, and automation scripts.<a href="#section-4.3.1-2" class="pilcrow">¶</a></p>
-<p id="section-4.3.1-3">The internal composition, interfaces, and orchestration are implementation specific. A detailed decomposition of this layer is outside the scope of this document, which focuses on the requirements of observability, control, and intervention interactions between the Agent Management Plane and the Agent Execution Plane. Consequently, this layer is intentionally treated as an abstract entity in this framework.<a href="#section-4.3.1-3" class="pilcrow">¶</a></p>
+abstract a richer and heterogeneous set of functions and tools. It may encompass,
+for example, the tool and function-calling interfaces exposed to agents, network
+management protocol adapters and clients (e.g., NETCONF <span>[<a href="#RFC6241" class="cite xref">RFC6241</a>]</span>, RESTCONF
+<span>[<a href="#RFC8040" class="cite xref">RFC8040</a>]</span>), API gateways, retrieval and knowledge access components (e.g.,
+RAG or vector-database lookups), reusable agent skills, and automation scripts.<a href="#section-4.3.1-2" class="pilcrow">¶</a></p>
+<p id="section-4.3.1-3">The internal composition, interfaces, and orchestration are implementation specific.
+A detailed decomposition of this layer is outside the scope of this document, which
+focuses on the requirements of observability, control, and intervention interactions
+between the Agent Management Plane and the Agent Execution Plane. Consequently, this
+layer is intentionally treated as an abstract entity in this framework.<a href="#section-4.3.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1524,16 +1629,20 @@ abstract a richer and heterogeneous set of functions and tools. It may encompass
 causal event-ordering model (Event-Ordering Model) across all
 distributed components. This ensures that agent reasoning steps,
 tool invocations, and network state changes are associated
-with a globally consistent timestamp baseline across distributed environments.<a href="#section-5.1.1-1.2.1" class="pilcrow">¶</a></p>
+with a globally consistent timestamp baseline across distributed
+environments.<a href="#section-5.1.1-1.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-5.1.1-1.3">OBS-2: Telemetry Pipeline Resilience</dt>
             <dd style="margin-left: 1.5em" id="section-5.1.1-1.4">
               <p id="section-5.1.1-1.4.1">The observability pipeline must support adaptive backpressure,
 dynamic sampling, and retention policies to prevent
-telemetry storms from overwhelming collectors caused by, e.g., intensive agent Chain-of-Thought (CoT) reasoning logs or high-frequency tool invocation traces.
-The pipeline should additionally support self-health monitoring capabilities to detect data loss, transmission latency, or connectivity
- disruptions at telemetry collectors in real time.<a href="#section-5.1.1-1.4.1" class="pilcrow">¶</a></p>
+telemetry storms from overwhelming collectors caused by, e.g.,
+intensive agent Chain-of-Thought (CoT) reasoning logs or
+high-frequency tool invocation traces. The pipeline should
+additionally support self-health monitoring capabilities to
+detect data loss, transmission latency, or connectivity
+disruptions at telemetry collectors in real time.<a href="#section-5.1.1-1.4.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
@@ -1555,8 +1664,10 @@ This ensures the integrity and completeness of observability data.<a href="#sect
             <dd class="break"></dd>
 <dt id="section-5.1.2-1.3">OBS-4: Privacy Protection</dt>
             <dd style="margin-left: 1.5em" id="section-5.1.2-1.4">
-              <p id="section-5.1.2-1.4.1">The framework must apply dynamic redaction to sensitive data, including prompt text, network topology information, Personally Identifiable Information (PII), and credentials before telemetry data
-is persisted or exported. The redaction process must be
+              <p id="section-5.1.2-1.4.1">The framework must apply dynamic redaction to sensitive data,
+including prompt text, network topology information, Personally
+Identifiable Information (PII), and credentials before telemetry
+data is persisted or exported. The redaction process must be
 context-aware and must not impede the diagnostic value of the
 telemetry for authorized operators.<a href="#section-5.1.2-1.4.1" class="pilcrow">¶</a></p>
 </dd>
@@ -1566,9 +1677,10 @@ telemetry for authorized operators.<a href="#section-5.1.2-1.4.1" class="pilcrow
               <p id="section-5.1.2-1.6.1">The framework must support immutable audit logging of agent
 execution, enabling attribution of network outcomes (e.g., service
 degradation, configuration drift, new alarms) to specific intent
-interpretations, LLM inferences, tool/skill invocations, and actions for post-incident audit and compliance review. The framework
-must support reverse tracing from network operational state or
-newly raised alarms to the specific historical reasoning
+interpretations, LLM inferences, tool/skill invocations, and
+actions for post-incident audit and compliance review. The
+framework must support reverse tracing from network operational
+state or newly raised alarms to the specific historical reasoning
 or tool/API invocation action that triggered it.<a href="#section-5.1.2-1.6.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
@@ -1584,12 +1696,13 @@ or tool/API invocation action that triggered it.<a href="#section-5.1.2-1.6.1" c
             <dt id="section-5.1.3-1.1">OBS-6: Step-by-Step CoT and Execution Trajectory Capture</dt>
             <dd style="margin-left: 1.5em" id="section-5.1.3-1.2">
               <p id="section-5.1.3-1.2.1">The framework must support visibility into complete agent
-execution trajectories, including reasoning CoT, actions planning, executed steps, and network observations.  In a network change scenario, e.g., it must include
-capturing the specific mapping from the agents' reasoning chain
-and action planning to the generated network configuration diffs
-(e.g., CLI changes, Yang patches) and the subsequent network state
-observations, enabling end-to-end traceability from thinking to
-network effect.<a href="#section-5.1.3-1.2.1" class="pilcrow">¶</a></p>
+execution trajectories, including reasoning CoT, actions planning,
+executed steps, and network observations.  In a network change
+scenario, e.g., it must include capturing the specific mapping
+from the agents' reasoning chain and action planning to the
+generated network configuration diffs (e.g., CLI changes, Yang patches)
+and the subsequent network state observations, enabling end-to-end
+traceability from thinking to network effect.<a href="#section-5.1.3-1.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 <dt id="section-5.1.3-1.3">OBS-7: Reasoning and Knowledge Provenance</dt>

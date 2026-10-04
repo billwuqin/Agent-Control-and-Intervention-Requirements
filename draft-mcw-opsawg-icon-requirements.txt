@@ -130,12 +130,13 @@ Table of Contents
    The operational problems, architectural challenges, and technical
    gaps regarding the observability, control, and intervention of
    autonomous network management agents are thoroughly detailed in
-   [I-D.wnd-opsawg-icon-ps].  This document builds upon those identified
-   gaps to specify a set of essential requirements that supervisors need
-   when deploying agents in real networks for agent observability,
-   control, and intervention.  Furthermore, it also defines an
-   architecure for ICON — Intervention, Control, and Observability for
-   Network Management Agents.
+   [I-D.wnd-opsawg-icon-ps].
+
+   This document builds upon those identified gaps to specify a set of
+   essential requirements that supervisors need when deploying agents in
+   real networks for agent observability, control, and intervention.
+   Furthermore, it also defines an architecure for ICON — Intervention,
+   Control, and Observability for Network Management Agents.
 
    This document specifies the architecture and communication
    requirements between the agent and the supervision system.  It does
@@ -280,7 +281,7 @@ Table of Contents
          could also provide a critical retrospective evaluation
          feedback.  Following an incident, anomaly, or successful
          resolution, human operators may inject multi-dimensional
-         feedback (e.g., critiquing the agent’s reasoning paths,
+         feedback (e.g., assessing the agent’s reasoning paths,
          correcting intermediate planning errors, or evaluating the
          quality of tool selection).  This retrospective feedback could
          be used to update the prompt templates or refine downstream
@@ -309,10 +310,11 @@ Table of Contents
          to identify operational anomalies or performance drifts.
 
    *  Policy Control:  It acts as the centralized Policy Decision Point
-         (PDP) [RFC3198] that translates human operational guidelines
-         into agent behavioral boundaries, guardrails, or operational
-         constraints.  It dynamically pushes a set of structured rules
-         or policy constraints down to agent execution plane.
+         (PDP) [RFC3198] that translates human operator intent or
+         operational guidelines into agent behavioral boundaries,
+         guardrails, or operational constraints.  It dynamically pushes
+         a set of structured rules or policy constraints down to agent
+         execution plane.
 
    *  Emergency Intervention:  It hosts the emergency orchestration
          logic required to reactively instruct agents in response to
@@ -324,7 +326,7 @@ Table of Contents
          upstream messages initiated by agents, such as escalation
          requests that proactively require human intervention.
 
-   In practical deployments, agent management plane could be embedded
+   In practical deployments, the agent management plane may be embedded
    within network management systems/OSS, an external Agent supervision
    or management platform, or even an upper-layer supervisor Agent.
 
