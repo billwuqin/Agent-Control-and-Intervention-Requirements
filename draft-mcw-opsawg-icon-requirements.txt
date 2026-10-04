@@ -783,7 +783,10 @@ Table of Contents
 Acknowledgments
 
    The authors of this document would also like to thank Benoit Claise,
-   Daniele Ceccarelli for review and comments.
+   Swamynathan B, Laurent Ciavaglia, Parisa Foroughi, Reza Rokui, Luis
+   M.  Contreras, Oscar Gonzalez de Dios, ZhenQiang Li, Cheng Zhou,
+   Daniele Ceccarelli, Dan Voyer, Thomas Graf, Alex Huang Feng for
+   review and comments.
 
 Contributors
 
