@@ -400,7 +400,7 @@ Table of Contents
 
 5.1.1.  Agent Execution Trajectory and Decision Logic
 
-   OBS-6: Step-by-Step CoT and Execution Trajectory Capture  The
+   OBS-1: Step-by-Step CoT and Execution Trajectory Capture  The
       framework must support visibility into complete agent execution
       trajectories, including reasoning CoT, actions planning, executed
       steps, and network observations.  In a network change scenario,
@@ -410,7 +410,7 @@ Table of Contents
       the subsequent network state observations, enabling end-to-end
       traceability from thinking to network effect.
 
-   OBS-7: Reasoning and Knowledge Provenance  The framework must support
+   OBS-2: Reasoning and Knowledge Provenance  The framework must support
       visibility into reasoning provenance, including intent
       understanding, inference, confidence scores, and evidence chains
       justifying why a specific network operation decision was made.  It
@@ -419,12 +419,12 @@ Table of Contents
       decision-making and enable traceability of how external
       information influenced the agent's reasoning steps.
 
-   OBS-8: Tool Invocation Capture  The framework must capture the
+   OBS-3: Tool Invocation Capture  The framework must capture the
       complete input/output of all tools (Skills, APIs, CLIs, scripts)
       invoked by the agent, including tool selection logic and parameter
       bindings, and execution results.
 
-   OBS-9: Multi-Agent Delegation and Human-in-the-Loop Tracing  In
+   OBS-4: Multi-Agent Delegation and Human-in-the-Loop Tracing  In
       multi-agent collaborative scenarios, the framework must track
       inter-agent communication messages, task delegation paths, and
       dynamic collaboration.  It must also capture human expert
@@ -433,20 +433,20 @@ Table of Contents
 
 5.1.2.  Data Governance, Auditability, and Accountability
 
-   OBS-3: Telemetry Integrity and Completeness Protection  The framework
+   OBS-5: Telemetry Integrity and Completeness Protection  The framework
       must support tamper-evident mechanisms (e.g., cryptographic
       hashing) to prevent unauthorized alteration or omission of
       execution trajectories.  This ensures the integrity and
       completeness of observability data.
 
-   OBS-4: Privacy Protection  The framework must apply dynamic redaction
+   OBS-6: Privacy Protection  The framework must apply dynamic redaction
       to sensitive data, including prompt text, network topology
       information, Personally Identifiable Information (PII), and
       credentials before telemetry data is persisted or exported.  The
       redaction process must be context-aware and must not impede the
       diagnostic value of the telemetry for authorized operators.
 
-   OBS-5: Auditability and Accountability  The framework must support
+   OBS-7: Auditability and Accountability  The framework must support
       immutable audit logging of agent execution, enabling attribution
       of network outcomes (e.g., service degradation, configuration
       drift, new alarms) to specific intent interpretations, LLM
@@ -458,14 +458,14 @@ Table of Contents
 
 5.1.3.  Observability Infrastructure Requirements
 
-   OBS-1: Authoritative Clock & Event Ordering  The framework must
+   OBS-8: Authoritative Clock & Event Ordering  The framework must
       provide an authoritative clock source and a causal event-ordering
       model (Event-Ordering Model) across all distributed components.
       This ensures that agent reasoning steps, tool invocations, and
       network state changes are associated with a globally consistent
       timestamp baseline across distributed environments.
 
-   OBS-2: Telemetry Pipeline Resilience  The observability pipeline must
+   OBS-9: Telemetry Pipeline Resilience  The observability pipeline must
       support adaptive backpressure, dynamic sampling, and retention
       policies to prevent telemetry storms from overwhelming collectors
       caused by, e.g., intensive agent Chain-of-Thought (CoT) reasoning

@@ -1623,7 +1623,7 @@ layer is intentionally treated as an abstract entity in this framework.<a href="
 <a href="#section-5.1.1" class="section-number selfRef">5.1.1. </a><a href="#name-agent-execution-trajectory-" class="section-name selfRef">Agent Execution Trajectory and Decision Logic</a>
           </h4>
 <span class="break"></span><dl class="dlParallel" id="section-5.1.1-1">
-            <dt id="section-5.1.1-1.1">OBS-6: Step-by-Step CoT and Execution Trajectory Capture</dt>
+            <dt id="section-5.1.1-1.1">OBS-1: Step-by-Step CoT and Execution Trajectory Capture</dt>
             <dd style="margin-left: 1.5em" id="section-5.1.1-1.2">
               <p id="section-5.1.1-1.2.1">The framework must support visibility into complete agent
 execution trajectories, including reasoning CoT, actions planning,
@@ -1635,7 +1635,7 @@ and the subsequent network state observations, enabling end-to-end
 traceability from thinking to network effect.<a href="#section-5.1.1-1.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-5.1.1-1.3">OBS-7: Reasoning and Knowledge Provenance</dt>
+<dt id="section-5.1.1-1.3">OBS-2: Reasoning and Knowledge Provenance</dt>
             <dd style="margin-left: 1.5em" id="section-5.1.1-1.4">
               <p id="section-5.1.1-1.4.1">The framework must support visibility into reasoning provenance,
 including intent understanding, inference, confidence scores, and
@@ -1646,14 +1646,14 @@ the agent during decision-making and enable traceability of how
 external information influenced the agent's reasoning steps.<a href="#section-5.1.1-1.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-5.1.1-1.5">OBS-8: Tool Invocation Capture</dt>
+<dt id="section-5.1.1-1.5">OBS-3: Tool Invocation Capture</dt>
             <dd style="margin-left: 1.5em" id="section-5.1.1-1.6">
               <p id="section-5.1.1-1.6.1">The framework must capture the complete input/output of
 all tools (Skills, APIs, CLIs, scripts) invoked by the agent, including
 tool selection logic and parameter bindings, and execution results.<a href="#section-5.1.1-1.6.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-5.1.1-1.7">OBS-9: Multi-Agent Delegation and Human-in-the-Loop Tracing</dt>
+<dt id="section-5.1.1-1.7">OBS-4: Multi-Agent Delegation and Human-in-the-Loop Tracing</dt>
             <dd style="margin-left: 1.5em" id="section-5.1.1-1.8">
               <p id="section-5.1.1-1.8.1">In multi-agent collaborative scenarios, the framework must track
 inter-agent communication messages, task delegation paths, and
@@ -1671,7 +1671,7 @@ handling, and feedback signals on agent actions in the workflows.<a href="#secti
 <a href="#section-5.1.2" class="section-number selfRef">5.1.2. </a><a href="#name-data-governance-auditabilit" class="section-name selfRef">Data Governance, Auditability, and Accountability</a>
           </h4>
 <span class="break"></span><dl class="dlParallel" id="section-5.1.2-1">
-            <dt id="section-5.1.2-1.1">OBS-3: Telemetry Integrity and Completeness Protection</dt>
+            <dt id="section-5.1.2-1.1">OBS-5: Telemetry Integrity and Completeness Protection</dt>
             <dd style="margin-left: 1.5em" id="section-5.1.2-1.2">
               <p id="section-5.1.2-1.2.1">The framework must support tamper-evident mechanisms (e.g.,
 cryptographic hashing) to prevent unauthorized alteration or omission
@@ -1679,7 +1679,7 @@ of execution trajectories.
 This ensures the integrity and completeness of observability data.<a href="#section-5.1.2-1.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-5.1.2-1.3">OBS-4: Privacy Protection</dt>
+<dt id="section-5.1.2-1.3">OBS-6: Privacy Protection</dt>
             <dd style="margin-left: 1.5em" id="section-5.1.2-1.4">
               <p id="section-5.1.2-1.4.1">The framework must apply dynamic redaction to sensitive data,
 including prompt text, network topology information, Personally
@@ -1689,7 +1689,7 @@ context-aware and must not impede the diagnostic value of the
 telemetry for authorized operators.<a href="#section-5.1.2-1.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-5.1.2-1.5">OBS-5: Auditability and Accountability</dt>
+<dt id="section-5.1.2-1.5">OBS-7: Auditability and Accountability</dt>
             <dd style="margin-left: 1.5em" id="section-5.1.2-1.6">
               <p id="section-5.1.2-1.6.1">The framework must support immutable audit logging of agent
 execution, enabling attribution of network outcomes (e.g., service
@@ -1710,7 +1710,7 @@ or tool/API invocation action that triggered it.<a href="#section-5.1.2-1.6.1" c
 <a href="#section-5.1.3" class="section-number selfRef">5.1.3. </a><a href="#name-observability-infrastructur" class="section-name selfRef">Observability Infrastructure Requirements</a>
           </h4>
 <span class="break"></span><dl class="dlParallel" id="section-5.1.3-1">
-            <dt id="section-5.1.3-1.1">OBS-1: Authoritative Clock &amp; Event Ordering</dt>
+            <dt id="section-5.1.3-1.1">OBS-8: Authoritative Clock &amp; Event Ordering</dt>
             <dd style="margin-left: 1.5em" id="section-5.1.3-1.2">
               <p id="section-5.1.3-1.2.1">The framework must provide an authoritative clock source and a
 causal event-ordering model (Event-Ordering Model) across all
@@ -1720,7 +1720,7 @@ with a globally consistent timestamp baseline across distributed
 environments.<a href="#section-5.1.3-1.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-5.1.3-1.3">OBS-2: Telemetry Pipeline Resilience</dt>
+<dt id="section-5.1.3-1.3">OBS-9: Telemetry Pipeline Resilience</dt>
             <dd style="margin-left: 1.5em" id="section-5.1.3-1.4">
               <p id="section-5.1.3-1.4.1">The observability pipeline must support adaptive backpressure,
 dynamic sampling, and retention policies to prevent
