@@ -67,25 +67,51 @@ informative:
 
 --- abstract
 
-This document defines architecture and a set of requirements for Observability, Control, and Intervention for Network Management Agents.
+This document defines architecture and a set of requirements for Observability, Control,
+and Intervention for Network Management Agents.
 
-It identifies gaps in existing mechanisms and specifies required interaction capabilities between Agent supervision systems and network management agents across multi-vendor environments, specifically observability, control, and runtime intervention. The requirements aim to guarantee comprehensive, lifecycle control over AI agents and enable observation, constraint, intervention, and correction to ensure network operational resilience and continuity.
+It identifies gaps in existing mechanisms and specifies required interaction capabilities
+between Agent supervision systems and network management agents across multi-vendor
+environments, specifically observability, control, and runtime intervention. The
+requirements aim to guarantee comprehensive, lifecycle control over AI agents and enable
+observation, constraint, intervention, and correction to ensure network operational
+resilience and continuity.
 
 
 --- middle
 
 # Introduction
 
-AI agents are increasingly deployed for network management tasks {{?I-D.wmz-nmrg-agent-ndt-arch}} — including service provisioning and network configuration change, service assurance and automated incident diagnosis and resolution. While the introduction of agents significantly improves the efficiency for network management, it also inevitably brings challenges such as hallucination and execution unreliability.
+AI agents are increasingly deployed for network management tasks {{?I-D.wmz-nmrg-agent-ndt-arch}}
+— including service provisioning and network configuration change, service assurance and automated
+incident diagnosis and resolution. While the introduction of agents significantly improves the
+efficiency for network management, it also inevitably brings challenges such as hallucination
+and execution unreliability.
 
-Existing mechanisms for agent assurance typically rely on static guardrails (e.g., input/output validation, operation allowlists/blocklists, pre-action approval), while assuming that all agent failure modes can be predefined. Unlike deterministic software systems, however, LLM-based agents exhibit emergent behaviors that cannot be fully anticipated or encoded in static rules. When agentic systems produce novel actions or reasoning paths that fall outside predefined static boundaries, it might lead to risks such as unintended configuration changes, policy violations, or cascading failures in the network.
+Existing mechanisms for agent assurance typically rely on static guardrails (e.g., input/output
+validation, operation allowlists/blocklists, pre-action approval), while assuming that all agent
+failure modes can be predefined. Unlike deterministic software systems, however, LLM-based agents
+exhibit emergent behaviors that cannot be fully anticipated or encoded in static rules. When
+agentic systems produce novel actions or reasoning paths that fall outside predefined static
+boundaries, it might lead to risks such as unintended configuration changes, policy violations,
+or cascading failures in the network.
 
-The operational problems, architectural challenges, and technical gaps regarding the observability, control, and intervention of autonomous network management agents are thoroughly detailed in {{?I-D.wnd-opsawg-icon-ps}}.
-This document builds upon those identified gaps to specify a set of essential requirements that supervisors need when deploying agents in real networks for agent observability, control, and intervention. Furthermore, it also defines an architecure for ICON — Intervention, Control, and Observability for Network Management Agents.
+The operational problems, architectural challenges, and technical gaps regarding the observability,
+control, and intervention of autonomous network management agents are thoroughly detailed in
+{{?I-D.wnd-opsawg-icon-ps}}.
 
-This document specifies the architecture and communication requirements between the agent and the supervision system. It does not standardize the internal LLM architecture, planning algorithms, or training methodologies of the network management agents themselves.
+This document builds upon those identified gaps to specify a set of essential requirements that
+supervisors need when deploying agents in real networks for agent observability, control, and
+intervention. Furthermore, it also defines an architecure for ICON — Intervention, Control, and
+Observability for Network Management Agents.
 
-This document does not specify a particular protocol, data model, or implementation API. Those topics are orthogonal to the operational requirements defined here, which are intended to be solution-neutral.
+This document specifies the architecture and communication requirements between the agent and
+the supervision system. It does not standardize the internal LLM architecture, planning
+algorithms, or training methodologies of the network management agents themselves.
+
+This document does not specify a particular protocol, data model, or implementation API.
+Those topics are orthogonal to the operational requirements defined here, which are
+intended to be solution-neutral.
 
 # Conventions and Definitions
 
@@ -103,24 +129,42 @@ This document does not specify a particular protocol, data model, or implementat
  This document defines the following terms:
 
 context:
-: The network operational data, interaction history, and situational network parameters that allow AI agents to remember the history of a specific interaction over multiple turns.
+: The network operational data, interaction history, and situational network parameters
+  that allow AI agents to remember the history of a specific interaction over multiple
+  turns.
 
 # Existing Mechanisms for Agent Observability, Control, and Intervention
 
-After receiving a user request, agents will perform a chain-of-thought (CoT) reasoning process, then it will autonomously decide whether to break down the task into subtasks, or dynamically decide to invoke multiple external tools, retrieve vector databases (RAG), or request more information from the supervisor.
+After receiving a user request, agents will perform a chain-of-thought (CoT) reasoning process,
+then it will autonomously decide whether to break down the task into subtasks, or dynamically
+decide to invoke multiple external tools, retrieve vector databases (RAG), or request more
+information from the supervisor.
 
-Existing telemetry mechanisms are excellent for tracking traditional network infrastructure or software which are built for deterministic systems. However, as analyzed in {{?I-D.wnd-opsawg-icon-ps}}, they are facing severe limitations when applied to AI agents. For example, existing logging practices only record what action was taken, completely missing why it was taken, including the agent's internal reasoning provenance and confidence scores. Existing tracing mechanism designed for static and linear execution path also cannot capture the complex and dynamic execution trajectories of AI agents.
+Existing telemetry mechanisms are excellent for tracking traditional network infrastructure
+or software which are built for deterministic systems. However, as analyzed in {{?I-D.wnd-opsawg-icon-ps}},
+they are facing severe limitations when applied to AI agents. For example, existing logging practices
+only record what action was taken, completely missing why it was taken, including the agent's internal
+reasoning provenance and confidence scores. Existing tracing mechanism designed for static and linear
+execution path also cannot capture the complex and dynamic execution trajectories of AI agents.
 
-Existing AI guardrails primarily operate at static boundaries, such as input/output validation and pre-action checks. These mechanisms are designed to constrain AI agents within predefined operational and compliance boundaries, but they assume that all possible violations can be anticipated and encoded in static rules. As AI systems increasingly operate in non‑deterministic environments, these static measures are proving insufficient as they cannot detect, interrupt, and recover from unanticipated behaviors.
+Existing AI guardrails primarily operate at static boundaries, such as input/output validation and
+pre-action checks. These mechanisms are designed to constrain AI agents within predefined operational
+and compliance boundaries, but they assume that all possible violations can be anticipated and encoded
+in static rules. As AI systems increasingly operate in non‑deterministic environments, these static
+measures are proving insufficient as they cannot detect, interrupt, and recover from unanticipated
+behaviors.
 
-Although there are some modern agent systems that provide interrupt or kill switch capabilities, they remain framework-specific, insufficient, or proprietary.
+Although there are some modern agent systems that provide interrupt or kill switch capabilities, they
+remain framework-specific, insufficient, or proprietary.
 
-These gaps motivate the architectural framework and requirements for agent observability, control, and intervention defined in {{architecture}} and {{requirements}}, respectively.
+These gaps motivate the architectural framework and requirements for agent observability, control,
+and intervention defined in {{architecture}} and {{requirements}}, respectively.
 
 
 # Architectural Framework for ICON {#architecture}
 
-This section describes the reference architecture for ICON. The architecture defined in {{arch}} serves as the structural foundation to derive the requirements specified in {{requirements}}.
+This section describes the reference architecture for ICON. The architecture defined in {{arch}}
+serves as the structural foundation to derive the requirements specified in {{requirements}}.
 
 ~~~~
 +-----------------------------------------------------+
@@ -161,60 +205,116 @@ Agent Observability Data|  |Agent Control & Intervention Signals
 
 ## Human Oversight
 
-Human oversight represents the top-level authority of the agent management. It provides the post-execution feedback, injects global policies, reviews agent escalation requests, and issues high-level intervention commands during crises or anomalies.
+Human oversight represents the top-level authority of the agent management. It provides the
+post-execution feedback, injects global policies, reviews agent escalation requests, and issues
+high-level intervention commands during crises or anomalies.
 
  * Policy and Constraint Injection:
- : Human operators could express high-level operational constraints or boundaries. These intents are translated into machine-readable policies by ICON client and sent to the policy enforcement component.
+ : Human operators could express high-level operational constraints or boundaries. These intents
+ are translated into machine-readable policies by ICON client and sent to the policy enforcement
+ component.
 
  * Escalation Handling:
- : When an active agent encounters an ambiguous scenario, a conflict between different policies, or a decision whose confidence score falls below a predefined threshold, the execution plane suspends the task and escalates it to operators. A human operator could either approve, reject, or modify the agent's pending action sequence.
+ : When an active agent encounters an ambiguous scenario, a conflict between different policies,
+ or a decision whose confidence score falls below a predefined threshold, the execution plane
+ suspends the task and escalates it to operators. A human operator could either approve, reject,
+ or modify the agent's pending action sequence.
 
  * Emergency Intervention Trigger:
- : In the scenario of an unforeseen and deviated agent behavior (e.g., an agent entering an infinite inference loop or executing based on outdated data or incorrect assumption), human oversight allows immediate, manual injection of high-priority override instructions (e.g., global kill switches or behavior corrections).
+ : In the scenario of an unforeseen and deviated agent behavior (e.g., an agent entering an
+ infinite inference loop or executing based on outdated data or incorrect assumption), human
+ oversight allows immediate, manual injection of high-priority override instructions (e.g.,
+ global kill switches or behavior corrections).
 
  * Post-Execution Feedback:
- : Beyond runtime intervention, operators could also provide a critical retrospective evaluation feedback. Following an incident, anomaly, or successful resolution, human operators may inject multi-dimensional feedback (e.g., critiquing the agent’s reasoning paths, correcting intermediate planning errors, or evaluating the quality of tool selection). This retrospective feedback could be used to update the prompt templates or refine downstream guardrail policies, preventing the recurrence of similar behavioral drifts.
+ : Beyond runtime intervention, operators could also provide a critical retrospective evaluation
+ feedback. Following an incident, anomaly, or successful resolution, human operators may inject
+ multi-dimensional feedback (e.g., assessing the agent’s reasoning paths, correcting intermediate
+ planning errors, or evaluating the quality of tool selection). This retrospective feedback could
+ be used to update the prompt templates or refine downstream guardrail policies, preventing the
+ recurrence of similar behavioral drifts.
 
 
-It is worth mentioning that human operators rarely send raw agent control or intervention protocol payloads directly. They could use more flexible and human-friendly formatting such as natural language which is relayed to the agent management plane to translate into structured control or intervention signals for normalization and distribution.
+It is worth mentioning that human operators rarely send raw agent control or intervention protocol
+payloads directly. They could use more flexible and human-friendly formatting such as natural
+language which is relayed to the agent management plane to translate into structured control or
+intervention signals for normalization and distribution.
 
 ## Agent Management Plane
 
-Agent management plane is the Agent assurance capabilities which are used to manage, monitor, and regulate autonomous AI agents on behalf of human operators. It is logically decoupled from the agent execution plane. Note that agent management plane might include other technical and operational pillars such as agent lifecycle management, which are out of the scope of this draft.
+Agent management plane is the Agent assurance capabilities which are used to manage, monitor, and
+regulate autonomous AI agents on behalf of human operators. It is logically decoupled from the
+agent execution plane. Note that agent management plane might include other technical and
+operational pillars such as agent lifecycle management, which are out of the scope of this draft.
 
 
  * Observability:
- : It receives observation streams transmitted from downstream agent execution plane. It provides human operators with comprehensive agent behavioral visibility and the ability to identify operational anomalies or performance drifts.
+ : It receives observation streams transmitted from downstream agent execution plane. It provides
+   human operators with comprehensive agent behavioral visibility and the ability to identify
+   operational anomalies or performance drifts.
 
  * Policy Control:
- : It acts as the centralized Policy Decision Point (PDP) {{?RFC3198}} that translates human operational guidelines into agent behavioral boundaries, guardrails, or operational constraints. It dynamically pushes a set of structured rules or policy constraints down to agent execution plane.
+ : It acts as the centralized Policy Decision Point (PDP) {{?RFC3198}} that translates human
+   operator intent or operational guidelines into agent behavioral boundaries, guardrails, or
+   operational constraints. It  dynamically pushes a set of structured rules or policy
+   constraints down to agent execution plane.
 
  * Emergency Intervention:
- : It hosts the emergency orchestration logic required to reactively instruct agents in response to boundary violations, anomalies, failures, or operational risks. Upon detecting critical policy violations or receiving manual override commands from human oversight, it generates specific instructions (such as pause or terminate) and pushes them down to the enforcement component. In addition, it also receives upstream messages initiated by agents, such as escalation requests that proactively require human intervention.
+ : It hosts the emergency orchestration logic required to reactively instruct agents in
+   response to boundary violations, anomalies, failures, or operational risks. Upon
+   detecting critical policy violations or receiving manual override commands from human
+   oversight, it generates specific instructions (such as pause or terminate) and pushes
+   them down to the enforcement component. In addition, it also receives upstream messages
+   initiated by agents, such as escalation requests that proactively require human
+   intervention.
 
-In practical deployments, agent management plane could be embedded within network management systems/OSS, an external Agent supervision or management platform, or even an upper-layer supervisor Agent.
+In practical deployments, the agent management plane may be embedded within network management
+systems/OSS, an external Agent supervision or management platform, or even an upper-layer
+supervisor Agent.
 
 ## Agent Execution Plane
 
-The Agent Execution Plane is the runtime environment in which AI agents operate, perform reasoning and planning, collaborate with other agents, and invoke capabilities exposed through the Function Modules & Tools layer described in {{functions}}. Through that layer, agents obtain network information and translate their reasoning outcomes into operations on the network infrastructure.
+The Agent Execution Plane is the runtime environment in which AI agents operate, perform
+reasoning and planning, collaborate with other agents, and invoke capabilities exposed through
+the Function Modules & Tools layer described in {{functions}}. Through that layer, agents
+obtain network information and translate their reasoning outcomes into operations on the
+network infrastructure.
 
-The Agent Execution Plane receives high-level intents originating from network operators or upstream agents and executes the corresponding tasks step by step. An agent may delegate parts of a task to other agents. Each execution step may involve invoking tools, function calls, APIs, knowledge retrieval interfaces, or reusable agent skills exposed through the Function Modules & Tools layer.
+The Agent Execution Plane receives high-level intents originating from network operators or
+upstream agents and executes the corresponding tasks step by step. An agent may delegate
+parts of a task to other agents. Each execution step may involve invoking tools, function
+calls, APIs, knowledge retrieval interfaces, or reusable agent skills exposed through the
+Function Modules & Tools layer.
 
-During and after task execution, the Agent Execution Plane collects execution status, operational logs, tool invocation records, and resulting network observations. It provides the corresponding agent observability data to the Agent Management Plane for supervision.
+During and after task execution, the Agent Execution Plane collects execution status,
+operational logs, tool invocation records, and resulting network observations. It provides
+the corresponding agent observability data to the Agent Management Plane for supervision.
 
-The Agent Execution Plane supports policy enforcement at critical points throughout task execution, including before task processing, before tool invocation or network actions, and before delivering a final response. It also accepts and applies Agent Control and Intervention Signals received from the Agent Management Plane.
+The Agent Execution Plane supports policy enforcement at critical points throughout task
+execution, including before task processing, before tool invocation or network actions,
+and before delivering a final response. It also accepts and applies Agent Control and
+Intervention Signals received from the Agent Management Plane.
 
 
 ### Function Modules & Tools {#functions}
 
-As depicted in {{arch}}, agents in the Agent Execution Plane act on the network infrastructure via the Function Modules & Tools layer rather than interacting with network devices directly. Agents invoke this layer to
-translate their reasoning decisions into concrete operational actions on
-the underlying network.
+As depicted in {{arch}}, agents in the Agent Execution Plane act on the network
+infrastructure via the Function Modules & Tools layer rather than interacting with
+network devices directly. Agents invoke this layer to translate their reasoning
+decisions into concrete operational actions on the underlying network.
 
 Although represented as a single functional block in {{arch}}, this layer could
-abstract a richer and heterogeneous set of functions and tools. It may encompass, for example, the tool and function-calling interfaces exposed to agents, network management protocol adapters and clients (e.g., NETCONF {{?RFC6241}}, RESTCONF {{?RFC8040}}), API gateways, retrieval and knowledge access components (e.g., RAG or vector-database lookups), reusable agent skills, and automation scripts.
+abstract a richer and heterogeneous set of functions and tools. It may encompass,
+for example, the tool and function-calling interfaces exposed to agents, network
+management protocol adapters and clients (e.g., NETCONF {{?RFC6241}}, RESTCONF
+{{?RFC8040}}), API gateways, retrieval and knowledge access components (e.g.,
+RAG or vector-database lookups), reusable agent skills, and automation scripts.
 
-The internal composition, interfaces, and orchestration are implementation specific. A detailed decomposition of this layer is outside the scope of this document, which focuses on the requirements of observability, control, and intervention interactions between the Agent Management Plane and the Agent Execution Plane. Consequently, this layer is intentionally treated as an abstract entity in this framework.
+The internal composition, interfaces, and orchestration are implementation specific.
+A detailed decomposition of this layer is outside the scope of this document, which
+focuses on the requirements of observability, control, and intervention interactions
+between the Agent Management Plane and the Agent Execution Plane. Consequently, this
+layer is intentionally treated as an abstract entity in this framework.
 
 # Requirements {#requirements}
 
@@ -237,14 +337,18 @@ The observability requirements are organized into the following categories:
      causal event-ordering model (Event-Ordering Model) across all
      distributed components. This ensures that agent reasoning steps,
      tool invocations, and network state changes are associated
-     with a globally consistent timestamp baseline across distributed environments.
+     with a globally consistent timestamp baseline across distributed
+     environments.
 
   OBS-2: Telemetry Pipeline Resilience
   :  The observability pipeline must support adaptive backpressure,
      dynamic sampling, and retention policies to prevent
-     telemetry storms from overwhelming collectors caused by, e.g., intensive agent Chain-of-Thought (CoT) reasoning logs or high-frequency tool invocation traces.
-     The pipeline should additionally support self-health monitoring capabilities to detect data loss, transmission latency, or connectivity
-      disruptions at telemetry collectors in real time.
+     telemetry storms from overwhelming collectors caused by, e.g.,
+     intensive agent Chain-of-Thought (CoT) reasoning logs or
+     high-frequency tool invocation traces. The pipeline should
+     additionally support self-health monitoring capabilities to
+     detect data loss, transmission latency, or connectivity
+     disruptions at telemetry collectors in real time.
 
 ###  Data Governance, Auditability, and Accountability {#obs-governance}
 
@@ -255,8 +359,10 @@ The observability requirements are organized into the following categories:
      This ensures the integrity and completeness of observability data.
 
   OBS-4: Privacy Protection
-  :  The framework must apply dynamic redaction to sensitive data, including prompt text, network topology information, Personally Identifiable Information (PII), and credentials before telemetry data
-     is persisted or exported. The redaction process must be
+  :  The framework must apply dynamic redaction to sensitive data,
+     including prompt text, network topology information, Personally
+     Identifiable Information (PII), and credentials before telemetry
+     data is persisted or exported. The redaction process must be
      context-aware and must not impede the diagnostic value of the
      telemetry for authorized operators.
 
@@ -264,21 +370,23 @@ The observability requirements are organized into the following categories:
   :  The framework must support immutable audit logging of agent
      execution, enabling attribution of network outcomes (e.g., service
      degradation, configuration drift, new alarms) to specific intent
-     interpretations, LLM inferences, tool/skill invocations, and actions for post-incident audit and compliance review. The framework
-     must support reverse tracing from network operational state or
-     newly raised alarms to the specific historical reasoning
+     interpretations, LLM inferences, tool/skill invocations, and
+     actions for post-incident audit and compliance review. The
+     framework must support reverse tracing from network operational
+     state or newly raised alarms to the specific historical reasoning
      or tool/API invocation action that triggered it.
 
 ###  Agent Execution Trajectory and Decision Logic {#obs-trace}
 
   OBS-6: Step-by-Step CoT and Execution Trajectory Capture
   :  The framework must support visibility into complete agent
-     execution trajectories, including reasoning CoT, actions planning, executed steps, and network observations.  In a network change scenario, e.g., it must include
-     capturing the specific mapping from the agents' reasoning chain
-     and action planning to the generated network configuration diffs
-     (e.g., CLI changes, Yang patches) and the subsequent network state
-     observations, enabling end-to-end traceability from thinking to
-     network effect.
+     execution trajectories, including reasoning CoT, actions planning,
+     executed steps, and network observations.  In a network change
+     scenario, e.g., it must include capturing the specific mapping
+     from the agents' reasoning chain and action planning to the
+     generated network configuration diffs (e.g., CLI changes, Yang patches)
+     and the subsequent network state observations, enabling end-to-end
+     traceability from thinking to network effect.
 
   OBS-7: Reasoning and Knowledge Provenance
   :  The framework must support visibility into reasoning provenance,
