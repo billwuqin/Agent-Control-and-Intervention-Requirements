@@ -1204,7 +1204,7 @@ resilience and continuity.<a href="#section-abstract-2" class="pilcrow">¶</a></
                     <p id="section-toc.1-1.5.2.1.2.1.1"><a href="#section-5.1.1" class="auto internal xref">5.1.1</a>.  <a href="#name-agent-execution-trajectory-" class="internal xref">Agent Execution Trajectory and Decision Logic</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1.2.2">
-                    <p id="section-toc.1-1.5.2.1.2.2.1"><a href="#section-5.1.2" class="auto internal xref">5.1.2</a>.  <a href="#name-data-governance-auditabilit" class="internal xref">Data Governance, Auditability, and Accountability</a></p>
+                    <p id="section-toc.1-1.5.2.1.2.2.1"><a href="#section-5.1.2" class="auto internal xref">5.1.2</a>.  <a href="#name-data-governance-and-account" class="internal xref">Data Governance and Accountability</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1.2.3">
                     <p id="section-toc.1-1.5.2.1.2.3.1"><a href="#section-5.1.3" class="auto internal xref">5.1.3</a>.  <a href="#name-observability-infrastructur" class="internal xref">Observability Infrastructure Requirements</a></p>
@@ -1608,7 +1608,7 @@ layer is intentionally treated as an abstract entity in this framework.<a href="
             <p id="section-5.1-2.1.1">Agent Execution Trajectory and Decision Logic (<a href="#obs-trace" class="auto internal xref">Section 5.1.1</a>)<a href="#section-5.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.1-2.2">
-            <p id="section-5.1-2.2.1">Data Governance, Auditability, and Accountability (<a href="#obs-governance" class="auto internal xref">Section 5.1.2</a>)<a href="#section-5.1-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-5.1-2.2.1">Data Governance, Accountability (<a href="#obs-governance" class="auto internal xref">Section 5.1.2</a>)<a href="#section-5.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.1-2.3">
             <p id="section-5.1-2.3.1">Observability Infrastructure Requirements (<a href="#obs-infrastructure" class="auto internal xref">Section 5.1.3</a>)<a href="#section-5.1-2.3.1" class="pilcrow">¶</a></p>
@@ -1666,8 +1666,8 @@ communication messages, task delegation paths, anddynamic collaboration.<a href=
 </div>
 <div id="obs-governance">
 <section id="section-5.1.2">
-          <h4 id="name-data-governance-auditabilit">
-<a href="#section-5.1.2" class="section-number selfRef">5.1.2. </a><a href="#name-data-governance-auditabilit" class="section-name selfRef">Data Governance, Auditability, and Accountability</a>
+          <h4 id="name-data-governance-and-account">
+<a href="#section-5.1.2" class="section-number selfRef">5.1.2. </a><a href="#name-data-governance-and-account" class="section-name selfRef">Data Governance and Accountability</a>
           </h4>
 <span class="break"></span><dl class="dlParallel" id="section-5.1.2-1">
             <dt id="section-5.1.2-1.1">OBS-5: Telemetry Integrity and Completeness Protection</dt>
@@ -1688,7 +1688,7 @@ context-aware and must not impede the diagnostic value of the
 telemetry for authorized operators.<a href="#section-5.1.2-1.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-5.1.2-1.5">OBS-7: Auditability and Accountability</dt>
+<dt id="section-5.1.2-1.5">OBS-7: Accountability</dt>
             <dd style="margin-left: 1.5em" id="section-5.1.2-1.6">
               <p id="section-5.1.2-1.6.1">The framework must support immutable audit logging of agent
 execution, enabling attribution of network outcomes (e.g., service
@@ -1806,7 +1806,7 @@ Token (TPOT), task completion rates and Mean Time To Repair (MTTR).<a href="#sec
       across three action states: Queued (remove without side effects),
       Executing (gracefully terminate and rollback where feasible), and
       Completed (interpret as a rollback request invoking inverse workflows).
-      All cancellation results must be logged for auditability.<a href="#section-5.2.1-4" class="pilcrow">¶</a></p>
+      All cancellation results must be logged for accountability.<a href="#section-5.2.1-4" class="pilcrow">¶</a></p>
 <p id="section-5.2.1-5">CTL-5: Temporal and Contextual Validity
     : The framework must ensure that agents operate strictly within
       authorized network maintenance time windows. Additionally, agents
