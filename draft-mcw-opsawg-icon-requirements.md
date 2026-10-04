@@ -322,59 +322,13 @@ layer is intentionally treated as an abstract entity in this framework.
 
 The observability requirements are organized into the following categories:
 
- * Observability Infrastructure Requirements ({{obs-infrastructure}})
+ * Agent Execution Trajectory and Decision Logic ({{obs-trace}})
 
  * Data Governance, Auditability, and Accountability ({{obs-governance}})
 
- * Agent Execution Trajectory and Decision Logic ({{obs-trace}})
+ * Observability Infrastructure Requirements ({{obs-infrastructure}})
 
  * Agent Metrics Collection ({{obs-metrics}})
-
-###  Observability Infrastructure Requirements {#obs-infrastructure}
-
-  OBS-1: Authoritative Clock & Event Ordering
-  :  The framework must provide an authoritative clock source and a
-     causal event-ordering model (Event-Ordering Model) across all
-     distributed components. This ensures that agent reasoning steps,
-     tool invocations, and network state changes are associated
-     with a globally consistent timestamp baseline across distributed
-     environments.
-
-  OBS-2: Telemetry Pipeline Resilience
-  :  The observability pipeline must support adaptive backpressure,
-     dynamic sampling, and retention policies to prevent
-     telemetry storms from overwhelming collectors caused by, e.g.,
-     intensive agent Chain-of-Thought (CoT) reasoning logs or
-     high-frequency tool invocation traces. The pipeline should
-     additionally support self-health monitoring capabilities to
-     detect data loss, transmission latency, or connectivity
-     disruptions at telemetry collectors in real time.
-
-###  Data Governance, Auditability, and Accountability {#obs-governance}
-
-  OBS-3: Telemetry Integrity and Completeness Protection
-  :  The framework must support tamper-evident mechanisms (e.g.,
-     cryptographic hashing) to prevent unauthorized alteration or omission
-     of execution trajectories.
-     This ensures the integrity and completeness of observability data.
-
-  OBS-4: Privacy Protection
-  :  The framework must apply dynamic redaction to sensitive data,
-     including prompt text, network topology information, Personally
-     Identifiable Information (PII), and credentials before telemetry
-     data is persisted or exported. The redaction process must be
-     context-aware and must not impede the diagnostic value of the
-     telemetry for authorized operators.
-
-  OBS-5: Auditability and Accountability
-  :  The framework must support immutable audit logging of agent
-     execution, enabling attribution of network outcomes (e.g., service
-     degradation, configuration drift, new alarms) to specific intent
-     interpretations, LLM inferences, tool/skill invocations, and
-     actions for post-incident audit and compliance review. The
-     framework must support reverse tracing from network operational
-     state or newly raised alarms to the specific historical reasoning
-     or tool/API invocation action that triggered it.
 
 ###  Agent Execution Trajectory and Decision Logic {#obs-trace}
 
@@ -408,6 +362,52 @@ The observability requirements are organized into the following categories:
      dynamic collaboration. It must also capture human expert
      interventions (e.g., kill switch, pause, rollback), escalation
      handling, and feedback signals on agent actions in the workflows.
+
+###  Data Governance, Auditability, and Accountability {#obs-governance}
+
+  OBS-3: Telemetry Integrity and Completeness Protection
+  :  The framework must support tamper-evident mechanisms (e.g.,
+     cryptographic hashing) to prevent unauthorized alteration or omission
+     of execution trajectories.
+     This ensures the integrity and completeness of observability data.
+
+  OBS-4: Privacy Protection
+  :  The framework must apply dynamic redaction to sensitive data,
+     including prompt text, network topology information, Personally
+     Identifiable Information (PII), and credentials before telemetry
+     data is persisted or exported. The redaction process must be
+     context-aware and must not impede the diagnostic value of the
+     telemetry for authorized operators.
+
+  OBS-5: Auditability and Accountability
+  :  The framework must support immutable audit logging of agent
+     execution, enabling attribution of network outcomes (e.g., service
+     degradation, configuration drift, new alarms) to specific intent
+     interpretations, LLM inferences, tool/skill invocations, and
+     actions for post-incident audit and compliance review. The
+     framework must support reverse tracing from network operational
+     state or newly raised alarms to the specific historical reasoning
+     or tool/API invocation action that triggered it.
+
+###  Observability Infrastructure Requirements {#obs-infrastructure}
+
+  OBS-1: Authoritative Clock & Event Ordering
+  :  The framework must provide an authoritative clock source and a
+     causal event-ordering model (Event-Ordering Model) across all
+     distributed components. This ensures that agent reasoning steps,
+     tool invocations, and network state changes are associated
+     with a globally consistent timestamp baseline across distributed
+     environments.
+
+  OBS-2: Telemetry Pipeline Resilience
+  :  The observability pipeline must support adaptive backpressure,
+     dynamic sampling, and retention policies to prevent
+     telemetry storms from overwhelming collectors caused by, e.g.,
+     intensive agent Chain-of-Thought (CoT) reasoning logs or
+     high-frequency tool invocation traces. The pipeline should
+     additionally support self-health monitoring capabilities to
+     detect data loss, transmission latency, or connectivity
+     disruptions at telemetry collectors in real time.
 
 ###  Agent Metrics Collection {#obs-metrics}
 
