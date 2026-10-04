@@ -121,10 +121,12 @@ intended to be solution-neutral.
 
  * Agent Observability
 
+ * Human Oversight
+
  * Intervention
+
  * Control
 
- * Human Oversight
 
  This document defines the following terms:
 
