@@ -161,11 +161,11 @@ Table of Contents
 
    *  Agent Observability
 
+   *  Human Oversight
+
    *  Intervention
 
    *  Control
-
-   *  Human Oversight
 
    This document defines the following terms:
 
