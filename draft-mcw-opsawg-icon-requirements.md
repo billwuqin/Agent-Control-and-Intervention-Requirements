@@ -326,7 +326,7 @@ The observability requirements are organized into the following categories:
 
  * Agent Execution Trajectory and Decision Logic ({{obs-trace}})
 
- * Data Governance, Auditability, and Accountability ({{obs-governance}})
+ * Data Governance, Accountability ({{obs-governance}})
 
  * Observability Infrastructure Requirements ({{obs-infrastructure}})
 
@@ -364,7 +364,7 @@ The observability requirements are organized into the following categories:
      In case of multi-agent collaboration, the framework must track inter-agent
      communication messages, task delegation paths, anddynamic collaboration.
 
-###  Data Governance, Auditability, and Accountability {#obs-governance}
+###  Data Governance and Accountability {#obs-governance}
 
   OBS-5: Telemetry Integrity and Completeness Protection
   :  The framework must support tamper-evident mechanisms (e.g.,
@@ -380,7 +380,7 @@ The observability requirements are organized into the following categories:
      context-aware and must not impede the diagnostic value of the
      telemetry for authorized operators.
 
-  OBS-7: Auditability and Accountability
+  OBS-7: Accountability
   :  The framework must support immutable audit logging of agent
      execution, enabling attribution of network outcomes (e.g., service
      degradation, configuration drift, new alarms) to specific intent
@@ -425,8 +425,11 @@ The observability requirements are organized into the following categories:
 The control requirements are organized into the following categories:
 
  * Agent Execution Guardrails and Risk Control ({{ctl-execution}})
+
  * Authorization and Access Control ({{ctl-acl}})
+
  * Policy Precedence and Concurrency Control ({{ctl-concurrency}})
+
  * Agent Control Resilience ({{ctl-resilience}})
 
 ### Agent Execution Guardrails and Risk Control {#ctl-execution}
@@ -460,7 +463,7 @@ The control requirements are organized into the following categories:
       across three action states: Queued (remove without side effects),
       Executing (gracefully terminate and rollback where feasible), and
       Completed (interpret as a rollback request invoking inverse workflows).
-      All cancellation results must be logged for auditability.
+      All cancellation results must be logged for accountability.
 
    CTL-5: Temporal and Contextual Validity
     : The framework must ensure that agents operate strictly within
