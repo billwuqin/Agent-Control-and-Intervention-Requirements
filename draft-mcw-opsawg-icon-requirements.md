@@ -393,7 +393,7 @@ The observability requirements are organized into the following categories:
 
 ###  Observability Infrastructure Requirements {#obs-infrastructure}
 
-  OBS-8: Authoritative Clock & Event Ordering
+  OBS-8: Authoritative Clock Synchronization & Event Ordering
   :  The framework must provide an authoritative clock source and a
      causal event-ordering model (Event-Ordering Model) across all
      distributed components. This ensures that agent reasoning steps,
