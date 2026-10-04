@@ -663,4 +663,6 @@ This document has no IANA actions.
 # Acknowledgments
 {:numbered="false"}
 
-The authors of this document would also like to thank Benoit Claise, Daniele Ceccarelli for review and comments.
+The authors of this document would also like to thank Benoit Claise, Swamynathan B, Laurent Ciavaglia,
+Parisa Foroughi, Reza Rokui, Luis M. Contreras, Oscar Gonzalez de Dios, ZhenQiang Li, Cheng Zhou,
+Daniele Ceccarelli, Dan Voyer, Thomas Graf, Alex Huang Feng for review and comments.
