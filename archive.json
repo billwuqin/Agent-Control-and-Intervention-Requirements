@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-09-29T04:26:42.204162+00:00",
+  "timestamp": "2026-10-04T04:30:30.519338+00:00",
   "repo": "billwuqin/Agent-Control-and-Intervention-Requirements",
   "labels": [
     {
@@ -689,52 +689,84 @@
       "id": "PR_kwDOScGbnM8AAAABCxTs2A",
       "title": "rewrite observability requirements",
       "url": "https://github.com/billwuqin/Agent-Control-and-Intervention-Requirements/pull/23",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "QiufangMa",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-09-09T03:47:56Z",
-      "updatedAt": "2026-09-09T03:47:56Z",
+      "updatedAt": "2026-10-03T07:04:36Z",
       "baseRepository": "billwuqin/Agent-Control-and-Intervention-Requirements",
       "baseRefName": "main",
       "baseRefOid": "878f8451ec697a0aef7c343092c0056b83c17ae5",
       "headRepository": "billwuqin/Agent-Control-and-Intervention-Requirements",
       "headRefName": "Qiufang-patch-1",
       "headRefOid": "c882fdb64ed9367a9459a3d82434dcd83190979f",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-10-03T07:04:36Z",
+      "mergedAt": "2026-10-03T07:04:36Z",
+      "mergedBy": "billwuqin",
+      "mergeCommit": {
+        "oid": "25fa84c85efeb29a3d45a96db3115f0eb43e961e"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOScGbnM8AAAABQdVNYg",
+          "commit": {
+            "abbreviatedOid": "c882fdb"
+          },
+          "author": "billwuqin",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-10-03T07:03:52Z",
+          "updatedAt": "2026-10-03T07:03:52Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 24,
       "id": "PR_kwDOScGbnM8AAAABEDdjjQ",
       "title": "rewrite control and intervention requirements",
       "url": "https://github.com/billwuqin/Agent-Control-and-Intervention-Requirements/pull/24",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "QiufangMa",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-09-18T08:43:19Z",
-      "updatedAt": "2026-09-18T08:43:19Z",
+      "updatedAt": "2026-10-03T07:07:27Z",
       "baseRepository": "billwuqin/Agent-Control-and-Intervention-Requirements",
       "baseRefName": "main",
       "baseRefOid": "878f8451ec697a0aef7c343092c0056b83c17ae5",
       "headRepository": "billwuqin/Agent-Control-and-Intervention-Requirements",
       "headRefName": "Qiufang-patch-2",
-      "headRefOid": "37e6d870fc154f50f8c7ca3316ffb130f4a1362c",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "fae6aba3f238eedddb119eb2da637747b460dbc5",
+      "closedAt": "2026-10-03T07:07:27Z",
+      "mergedAt": "2026-10-03T07:07:26Z",
+      "mergedBy": "billwuqin",
+      "mergeCommit": {
+        "oid": "ac39a7c745dc2002cc9d7c252805831e97206a1a"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOScGbnM8AAAABQdV2Ew",
+          "commit": {
+            "abbreviatedOid": "fae6aba"
+          },
+          "author": "billwuqin",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-10-03T07:07:07Z",
+          "updatedAt": "2026-10-03T07:07:07Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
