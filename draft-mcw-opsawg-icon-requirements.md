@@ -358,12 +358,11 @@ The observability requirements are organized into the following categories:
      all tools (Skills, APIs, CLIs, scripts) invoked by the agent, including
      tool selection logic and parameter bindings, and execution results.
 
-  OBS-4: Multi-Agent Delegation and Human-on-the-Loop Tracing
-  :  In multi-agent collaborative scenarios, the framework must track
-     inter-agent communication messages, task delegation paths, and
-     dynamic collaboration. It must also capture human expert
-     interventions (e.g., kill switch, pause, rollback), escalation
-     handling, and feedback signals on agent actions in the workflows.
+  OBS-4: Human-on-the-Loop and Multi-Agent Delegation
+  :  It must capture human expert interventions (e.g., kill switch, pause, rollback),
+     escalation handling, and feedback signals on agent actions in the workflows.
+     In case of multi-agent collaboration, the framework must track inter-agent
+     communication messages, task delegation paths, anddynamic collaboration.
 
 ###  Data Governance, Auditability, and Accountability {#obs-governance}
 
