@@ -221,7 +221,7 @@ high-level intervention commands during crises or anomalies.
  or modify the agent's pending action sequence.
 
  * Emergency Intervention Trigger:
- : In the scenario of an unforeseen and deviated agent behavior (e.g., an agent entering an
+ : In case of an unforeseen and deviated agent behavior (e.g., an agent entering an
  infinite inference loop or executing based on outdated data or incorrect assumption), human
  oversight allows immediate, manual injection of high-priority override instructions (e.g.,
  global kill switches or behavior corrections).
