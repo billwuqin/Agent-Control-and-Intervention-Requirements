@@ -5,12 +5,12 @@
 Network Working Group                                              Q. Wu
 Internet-Draft                                                    Huawei
 Intended status: Informational                             D. Ceccarelli
-Expires: 6 April 2027                                              Cisco
+Expires: 7 April 2027                                              Cisco
                                                          L. M. Contreras
                                                               Telefonica
                                                                  D. King
                                                     Lancaster University
-                                                          3 October 2026
+                                                          4 October 2026
 
 
       Architecture and Requirements for Observability, Control and
@@ -54,7 +54,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 April 2027.
+   This Internet-Draft will expire on 7 April 2027.
 
 Copyright Notice
 
@@ -700,18 +700,18 @@ Table of Contents
    INT-4: Correction  The supervisor MUST be able to correct an
       autonomous agent failure through any of the following mechanisms:
 
-   *  providing clearer intent  Clarifying or refining the high-level
+   *  Providing clearer intent  Clarifying or refining the high-level
          intent when the agent misinterprets the operational goal.
 
-   *  injecting additional operational constraints  Appending runtime
+   *  Injecting additional operational constraints  Appending runtime
          network constraints or specific limits.
 
-   *  providing missing or correcting network context  supplying
+   *  Providing missing or correcting network context  supplying
          missing, updated or corrected network knowledge, telemetry
          data, or topological information that the agent relied on
          during its reasoning loop.
 
-   *  modifying pending actions or planned configuration changes  Adjusting
+   *  Modifying pending actions or planned configuration changes  Adjusting
          the agent's generating configuration, tool selections,
          parameters, or execution order before they are applied to the
          network.
