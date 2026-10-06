@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-10-04T04:30:30.519338+00:00",
+  "timestamp": "2026-10-06T05:04:03.420403+00:00",
   "repo": "billwuqin/Agent-Control-and-Intervention-Requirements",
   "labels": [
     {
@@ -188,6 +188,22 @@
       "body": "",
       "createdAt": "2026-08-18T11:02:09Z",
       "updatedAt": "2026-08-18T11:02:09Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 27,
+      "id": "I_kwDOScGbnM8AAAABU8agxA",
+      "title": "Relation with AUDIT",
+      "url": "https://github.com/billwuqin/Agent-Control-and-Intervention-Requirements/issues/27",
+      "state": "OPEN",
+      "author": "billwuqin",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-10-04T15:06:06Z",
+      "updatedAt": "2026-10-04T15:06:06Z",
       "closedAt": null,
       "comments": []
     }
@@ -767,6 +783,62 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 25,
+      "id": "PR_kwDOScGbnM8AAAABGjJ-Nw",
+      "title": "Some Editorial changes",
+      "url": "https://github.com/billwuqin/Agent-Control-and-Intervention-Requirements/pull/25",
+      "state": "MERGED",
+      "author": "billwuqin",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-10-04T12:49:24Z",
+      "updatedAt": "2026-10-04T12:50:09Z",
+      "baseRepository": "billwuqin/Agent-Control-and-Intervention-Requirements",
+      "baseRefName": "main",
+      "baseRefOid": "d2008d766a0f99c1ec6a63108ae2fb58252bff7a",
+      "headRepository": "billwuqin/Agent-Control-and-Intervention-Requirements",
+      "headRefName": "billwuqin-patch-1",
+      "headRefOid": "bb5e28424b86fdb4c916a3fe5be7694e997b51f9",
+      "closedAt": "2026-10-04T12:50:08Z",
+      "mergedAt": "2026-10-04T12:50:08Z",
+      "mergedBy": "billwuqin",
+      "mergeCommit": {
+        "oid": "023fefa82386e39ec363d9844efc7e401e3595d1"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 26,
+      "id": "PR_kwDOScGbnM8AAAABGjoU8A",
+      "title": "Remove auditability and keep accountability",
+      "url": "https://github.com/billwuqin/Agent-Control-and-Intervention-Requirements/pull/26",
+      "state": "MERGED",
+      "author": "billwuqin",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-10-04T14:09:45Z",
+      "updatedAt": "2026-10-04T14:10:26Z",
+      "baseRepository": "billwuqin/Agent-Control-and-Intervention-Requirements",
+      "baseRefName": "main",
+      "baseRefOid": "57b26d1f7cd6fe2144b67645bdd5681e85478825",
+      "headRepository": "billwuqin/Agent-Control-and-Intervention-Requirements",
+      "headRefName": "billwuqin-patch-2",
+      "headRefOid": "81029fa8fcca6c27c9131073cbf7aabcfb0d168b",
+      "closedAt": "2026-10-04T14:10:26Z",
+      "mergedAt": "2026-10-04T14:10:26Z",
+      "mergedBy": "billwuqin",
+      "mergeCommit": {
+        "oid": "a04ace3d4f45054b124cfed7296e60a5c5bc5089"
+      },
+      "comments": [],
+      "reviews": []
     }
   ]
 }
