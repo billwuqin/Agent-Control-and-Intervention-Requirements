@@ -124,7 +124,7 @@ intended to be solution-neutral.
  * Intervention
 
  * Control
- 
+
  * Human Oversight
 
  This document defines the following terms:
