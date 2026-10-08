@@ -1,0 +1,2267 @@
+<!DOCTYPE html>
+<html lang="en" class="Internet-Draft">
+<head>
+<meta charset="utf-8">
+<meta content="Common,Latin" name="scripts">
+<meta content="initial-scale=1.0" name="viewport">
+<title>Architecture and Requirements for Observability, Control and Intervention of Network Management Agents</title>
+<meta content="Qin Wu" name="author">
+<meta content="Daniele Ceccarelli" name="author">
+<meta content="Luis. M. Contreras" name="author">
+<meta content="Daniel King" name="author">
+<meta content="
+       This document defines architecture and a set of requirements for Observability, Control,
+and Intervention for Network Management Agents. 
+       It identifies gaps in existing mechanisms and specifies required interaction capabilities
+between Agent supervision systems and network management agents across multi-vendor
+environments, specifically observability, control, and runtime intervention. The
+requirements aim to guarantee comprehensive, lifecycle control over AI agents and enable
+observation, constraint, intervention, and correction to ensure network operational
+resilience and continuity. 
+    " name="description">
+<meta content="xml2rfc 3.34.1" name="generator">
+<meta content="Network Management Agents" name="keyword">
+<meta content="Observability" name="keyword">
+<meta content="Control" name="keyword">
+<meta content="Intervention" name="keyword">
+<meta content="draft-mcw-opsawg-icon-requirements-latest" name="ietf.draft">
+<!-- Generator version information:
+  xml2rfc 3.34.1
+    Python 3.14.8
+    ConfigArgParse 1.8.0
+    google-i18n-address 3.1.1
+    intervaltree 3.2.1
+    Jinja2 3.1.6
+    lxml 6.1.1
+    natsort 8.4.0
+    platformdirs 4.12.2
+    pycountry 24.6.1
+    PyYAML 6.0.3
+    requests 2.33.1
+    wcwidth 0.9.1
+-->
+<link href="draft-mcw-opsawg-icon-requirements.xml" rel="alternate" type="application/rfc+xml">
+<link href="#copyright" rel="license">
+<style type="text/css">@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Lora SemiBold'), local('Lora-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-semibold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  color-scheme: light dark;
+  --background-color: #fff;
+  --text-color: #222;
+  --title-color: #191919;
+  --link-color: #2a6496;
+  --highlight-color: #f9f9f9;
+  --line-color: #eee;
+  --pilcrow-weak: #ddd;
+  --pilcrow-strong: #bbb;
+  --small-font-size: 14.5px;
+  --font-mono: 'Oxygen Mono', monospace;
+  --font-title: "Sofia Sans Semi Condensed", sans-serif;
+  scrollbar-color: #bbb #eee;
+}
+body {
+  max-width: 600px;
+  margin: 75px auto;
+  padding: 0 5px;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  font: 16px/22px "Lora", serif;
+  scroll-behavior: smooth;
+}
+
+.ears {
+  display: none;
+}
+
+/* headings */
+section {
+  clear: both;
+}
+.section-number {
+  padding-right: 0.5em;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-title);
+  font-weight: 680;
+  margin: 0.8em 0 0.3em;
+  font-size-adjust: 0.5;
+  color: var(--title-color);
+}
+h1 {
+  &#title {
+    font-size: 32px;
+    line-height: 40px;
+    clear: both;
+    margin: 1.5em 0 0.2em;
+  }
+  &#rfcnum {
+    margin: 1.5em 0 0.2em;
+    & + h1#title {
+      margin: 0.2em 0;
+    }
+  }
+}
+
+h1, h2, h3 {
+  font-size: 22px;
+  line-height: 27px;
+}
+h4, h5, h6 {
+  font-size: 20px;
+  line-height: 24px;
+}
+
+/* general structure */
+.author {
+  padding-bottom: 0.3em;
+  vertical-align: top;
+}
+#abstract+p {
+  font-size: 18px;
+  line-height: 24px;
+  & code, & samp, & tt {
+    font-size: 16px;
+    line-height: 0;
+  }
+}
+
+p {
+  padding: 0;
+  margin: 0.5em 0;
+  text-align: left;
+}
+div {
+  margin: 0;
+}
+.alignRight {
+  margin: 1em 0;
+  &.art-text {
+    background-color: var(--highlight-color);
+    border: 1px solid var(--line-color);
+    border-radius: 3px;
+    padding: 0.5em 1em 0;
+    margin-bottom: 0.5em;
+    & pre {
+      padding: 0;
+      width: auto;
+    }
+  }
+  & > *:first-child {
+    border: none;
+    margin: 0;
+    float: right;
+    clear: both;
+  }
+  & > *:nth-child(2) {
+    clear: both;
+    display: block;
+    border: none;
+  }
+}
+svg {
+  display: block;
+  /* font-family isn't space-separated, but =~ will have to do */
+  &[font-family~="monospace" i], & [font-family~="monospace" i] {
+    font-family: var(--font-mono);
+  }
+}
+.alignCenter {
+  margin: 1em 0;
+  &.art-text {
+    background-color: var(--highlight-color);
+    border: 1px solid var(--line-color);
+    border-radius: 3px;
+    padding: 0.5em 1em 0;
+    margin-bottom: 0.5em;
+    & pre {
+      padding: 0;
+      width: auto;
+    }
+  }
+  & > *:first-child {
+    border: none;
+    /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
+       support flexbox yet.
+    */
+    display: table;
+    margin: 0 auto;
+  }
+}
+
+/* lists */
+ol, ul {
+  padding: 0;
+  margin: 0 0 0.5em 2em;
+  & :is(ol, ul) {
+    margin-left: 1em;
+  }
+}
+li {
+  margin: 0 0 0.25em 0;
+}
+ul.empty, .ulEmpty {
+  list-style-type: none;
+  & li {
+    margin-top: 0.5em;
+  }
+}
+:is(ul, ol).compact, .ulCompact, .olCompact {
+  margin: 0 0 0 2em;
+  & li {
+    margin: 0;
+    & :first-child { margin-top: 0; }
+    & :last-child { margin-bottom: 0; }
+  }
+}
+
+/* definition lists */
+dl {
+  clear: left;
+  --indent: 3ch;
+  /* --indent: attr(indent ch); not supported in any browser, but we can dream */
+  &.olPercent {
+    --indent: 5ch;
+    & > dt {
+      min-width: calc(var(--indent) - 2ch);
+      float: none;
+    }
+  }
+
+  dl > dd > & {
+    margin-top: 0.5em;
+    margin-bottom: 0;
+  }
+
+  &:not(.dlNewline) > dt {
+    float: left;
+    margin-right: 2ch;
+    min-width: 8ch;
+  }
+  & > dd {
+    margin-bottom: .8em;
+    margin-left: var(--indent) !important; /* stupid element overrides */
+    min-height: 2ex;
+  }
+}
+:is(dl.compact, .dlCompact) > dd {
+  margin-bottom: 0;
+  & > :is(:first-child, .break:first-child + *) {
+    margin-top: 0;
+  }
+  & > :is(:last-child) {
+    margin-bottom: 0;
+  }
+}
+:is(dd, span).break {
+  display: none;
+}
+
+/* links */
+a {
+  text-decoration: none;
+  &[href] {
+    color: var(--link-color);
+    &:hover { text-decoration: underline; }
+    &.selfRef {
+      color: var(--text-color);
+      &:hover {
+        text-decoration: none;
+        background-color: var(--highlight-color);
+      }
+    }
+  }
+}
+.iref + a[href].internal {
+  color: var(--text-color);
+}
+a.xref:is(.cite, .auto), :is(#status-of-memo, #copyright) a {
+  white-space: nowrap;
+}
+
+/* Figures */
+tt, code, pre {
+  background-color: var(--highlight-color);
+  font: 14px/22px var(--font-mono);
+}
+tt, code {
+  /* changing the font for inline elements leads to different ascender
+     and descender heights; as we want to retain baseline alignment,
+     remove leading to avoid altering the final height of lines
+     note: this fails if these blocks take an entire line,
+     a different solution would be great */
+  line-height: 0;
+}
+:is(h1, h2, h3, h4, h5, h6) :is(tt, code) {
+  font-size: 84%;
+}
+pre {
+  border: 1px solid var(--line-color);
+  font-size: 13.5px;
+  line-height: 16px;
+  letter-spacing: -0.2px;
+  margin: 5px;
+  padding: 5px;
+}
+img {
+  max-width: 100%;
+}
+figure {
+  margin: 0.5em 0;
+  padding: 0;
+  & blockquote {
+    margin: 0.8em 0.4em 0.4em;
+  }
+}
+figcaption, caption {
+  font-style: italic;
+  margin: 0.5em 1.5em;
+  text-align: left;
+  caption-side: bottom;
+}
+@media screen {
+  /* Auto-collapse boilerplate. */
+  :is(#status-of-memo, #copyright) {
+    & p {
+      margin: -2px 0;
+      max-height: 0;
+      transition: max-height 2s ease, margin 0.5s ease 0.5s;
+      overflow: hidden;
+    }
+    &:hover p,
+    & h2:target ~ p {
+      margin: 0.5em 0;
+      max-height: 500px;
+      overflow: auto;
+    }
+  }
+  pre, svg {
+    display: inline-block;
+    /* In the horizontal direction, sometimes people make over-sized figures.
+       Scrollbars for those is therefore necessary: auto adds them as necessary..
+       In the vertical direction, the line-height can combine with the font
+       asender/descender height to produce scrollbars: hidden avoids that. */
+    overflow: auto hidden;
+  }
+  pre {
+    max-width: 100%;
+    width: calc(100% - 22px - 1em);
+  }
+  svg {
+    max-width: calc(100% - 22px - 1em);
+  }
+  figure pre {
+    display: block;
+    width: calc(100% - 25px);
+  }
+  :is(pre, svg) + .pilcrow {
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding-bottom: 8px;
+  }
+}
+
+/* aside, blockquote */
+aside, blockquote {
+  margin-left: 0;
+  padding: 0 2em;
+  font-style: italic;
+}
+blockquote {
+  margin: 1em 0;
+  border-left: 2px var(--pilcrow-strong) solid;
+}
+cite {
+  display: block;
+  text-align: right;
+  font-style: italic;
+}
+
+/* tables */
+table {
+  width: auto;
+  max-width: 100%;
+  margin: 0 0 1em;
+  border-collapse: collapse;
+  &.right { margin-left: auto; }
+  &.center { margin-left: auto; margin-right: auto; }
+  &.left { margin-right: auto; }
+  & .text-left { text-align: left; }
+  & .text-center { text-align: center; }
+  & .text-right { text-align: right; }
+  & caption {
+    margin: 0;
+    padding: 3px 0 3px 1em;
+  }
+  & p { margin: 0; }
+}
+
+thead, tbody {
+  border: 1px solid var(--line-color);
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 5px 10px;
+}
+th {
+  background-color: var(--line-color);
+}
+:is(tr:nth-child(2n), thead+tbody > tr:nth-child(2n+1)) > td {
+  background-color: var(--background-color);
+}
+:is(tr:nth-child(2n+1), thead+tbody > tr:nth-child(2n)) > td {
+  background-color: var(--highlight-color);
+}
+
+/* pilcrow */
+a.pilcrow {
+  margin-left: 3px;
+  opacity: 0.2;
+  user-select: none;
+  &[href] {
+    color: var(--pilcrow-weak);
+    &:hover { text-decoration: none; }
+  }
+  @media not print {
+    :hover > &, &:focus {
+      opacity: 1;
+    }
+    &[href]:hover {
+      color: var(--pilcrow-strong);
+      background-color: transparent;
+    }
+  }
+  @media print {
+    display: none;
+  }
+}
+
+/* misc */
+hr {
+  border: 0;
+  border-top: 1px solid var(--line-color);
+}
+.bcp14 {
+  font-variant: small-caps;
+  font-weight: 600;
+  font-size: var(--small-font-size);
+}
+.role {
+  font-variant: all-small-caps;
+}
+sub, sup {
+  line-height: 1;
+  font-size: 80%;
+}
+
+/* info block */
+#identifiers {
+  margin: 0;
+  font-size: var(--small-font-size);
+  line-height: 18px;
+  --identifier-width: 15ch;
+  & dt {
+    width: var(--identifier-width);
+    min-width: var(--identifier-width);
+    clear: left;
+    float: left;
+    text-align: right;
+    margin-right: 1ch;
+  }
+  & dd {
+    margin: 0;
+    margin-left: calc(1em + var(--identifier-width)) !important;
+    min-width: 5em;
+  }
+  & .authors {
+    & .author {
+      display: inline-block;
+      margin-right: 1.5em;
+    }
+    & .org {
+      font-style: italic;
+    }
+  }
+}
+
+/* The prepared/rendered info at the very bottom of the page */
+.docInfo {
+  color: #999;
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 2em;
+  & .prepared {
+    float: right;
+  }
+}
+
+/* table of contents */
+#toc {
+  padding: 0.75em 0 2em 0;
+  margin-bottom: 1em;
+
+  & nav {
+    & ul {
+      margin: 0 0.5em 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    & li {
+      line-height: 1.3em;
+      margin: 2px 0;
+      padding-left: 1.2em;
+      text-indent: -1.2em;
+    }
+  }
+  & a.xref {
+    white-space: normal;
+  }
+}
+
+.references {
+  & > dt {
+    text-align: right;
+    font-weight: bold;
+    min-width: 10ch;
+    margin-right: 1.5ch;
+    &:target::before {
+      content: "⇒";
+      margin: 0 10px 0 -25px;
+    }
+  }
+  & > dd {
+    margin-left: 12ch !important;
+    overflow: visible;
+    & .refInstance {
+      margin-bottom: 0.8em;
+    }
+    & .ascii {
+      margin-bottom: 0.25em;
+    }
+  }
+}
+
+#rfc\.index\.index + ul {
+  margin-left: 0;
+}
+
+/* authors */
+address.vcard {
+  font-style: normal;
+  max-width: 20em;
+  margin: 1em auto 1em 0;
+
+  & .nameRole {
+    font-weight: 700;
+    margin-left: 0;
+  }
+  & .label {
+    margin: 0.5em 0;
+  }
+  & .type {
+    display: none;
+  }
+  & .alternative-contact {
+    margin: 0.5em 0 0.25em 0;
+  }
+  & .non-ascii {
+    margin: 0 0 0 2em;
+  }
+  & div.left {
+    text-align: left;
+  }
+  & div.right {
+    text-align: right;
+  }
+}
+
+hr.addr {
+  border-top: 1px dashed;
+  margin: 0;
+  color: #ddd;
+  max-width: calc(100% - 16px);
+}
+@media (min-width: 500px) {
+  #authors-addresses {
+    & > section {
+      column-count: 2;
+      column-gap: 20px;
+    }
+    & > section > h2 {
+      column-span: all;
+    }
+    /* hack for break-inside: avoid-column */
+    & address {
+      display: inline-block;
+      break-inside: avoid-column;
+    }
+  }
+}
+
+/* Comments */
+.rfcEditorRemove {
+  & p:first-of-type {
+    font-style: italic;
+  }
+}
+.cref {
+  background-color: rgba(249, 232, 105, 0.3);
+  padding: 2px 4px;
+}
+.crefSource {
+  font-style: italic;
+}
+
+@media screen {
+  #toc {
+    & nav {
+      font-family: var(--font-title);
+      font-weight: 360;
+      & > ul { margin-bottom: 2em; }
+      & ul {
+        margin: 0 0 0 4px;
+        & :is(p, li) {
+          margin: 2px 0;
+        }
+      }
+    }
+    & a.toplink {
+      float: right;
+    }
+  }
+}
+@media not screen {
+  #toc a.toplink {
+    display: none;
+  }
+}
+
+
+/* TOC layout for smaller screens */
+@media screen and (max-width: 929px) {
+  #toc {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    padding: 1px 0 0 0;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    opacity: 0.6;
+    & h2 {
+      margin: 0;
+      padding: 2px 0 2px 6px;
+      padding-right: 1em;
+      font-size: 18px;
+      line-height: 24px;
+      min-width: 190px;
+      text-align: right;
+      background-color: #444;
+      color: white;
+      cursor: pointer;
+      &::before { /* css hamburger */
+        float: right;
+        position: relative;
+        width: 1em;
+        height: 1px;
+        left: -164px;
+        margin: 8px 0 0 0;
+        background: white none repeat scroll 0 0;
+        box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+        content: "";
+      }
+    }
+    & nav {
+      display: none;
+      background-color: var(--background-color);
+      padding: 0.5em 1em 1em;
+      overflow: auto;
+      overscroll-behavior: contain;
+      height: calc(100vh - 48px);
+      border-left: 1px solid #ddd;
+    }
+    &.active {
+      opacity: 1;
+      & nav { display: block; }
+    }
+    /* Make the collapsed ToC header render white on gray also when it's a link */
+    & h2 a,
+    & h2 a:is(:link, :focus, :hover),
+    & a.toplink,
+    & a.toplink:hover {
+      color: white;
+      background-color: #444;
+      text-decoration: none;
+    }
+    & a.toplink {
+      margin: 2px 0.5em 0;
+    }
+  }
+}
+
+/* TOC layout for wide screens */
+@media screen and (min-width: 930px) {
+  body {
+    padding-right: 360px;
+    padding-right: calc(min(180px + 20%, 500px));
+  }
+  #toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 480px);
+    width: 312px;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+    & h2 {
+      margin: 0;
+      padding: 0.25em 1em 1em 0;
+    }
+    & nav {
+      display: block;
+      height: calc(90vh - 84px);
+      bottom: 0;
+      padding: 0.5em 0 2em;
+      overflow: auto;
+      overscroll-behavior: contain;
+      scrollbar-width: thin;
+    }
+    & a.toplink {
+      margin: 8px 0.5em 0;
+    }
+  }
+  img { /* future proofing */
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* pagination */
+@media print {
+  body {
+    width: 100%;
+  }
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  #n-copyright-notice {
+    border-bottom: none;
+  }
+  #toc {
+    page-break-before: always;
+    border-top: none;
+    padding-top: 0;
+  }
+  #n-introduction {
+    page-break-before: always;
+  }
+  figure, pre, .vcard {
+    page-break-inside: avoid;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  :is(h2, h3, h4, h5, h6)+*, dd {
+    page-break-before: avoid;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 10pt;
+  }
+  table {
+    border: 1px solid #ddd;
+  }
+  td {
+    border-top: 1px solid #ddd;
+  }
+}
+
+@page :first {
+  padding-top: 0;
+  @top-left {
+    content: normal;
+    border: none;
+  }
+  @top-center {
+    content: normal;
+    border: none;
+  }
+  @top-right {
+    content: normal;
+    border: none;
+  }
+}
+
+@page {
+  size: A4;
+  margin-bottom: 45mm;
+  padding-top: 20px;
+}
+
+/* Dark mode. */
+@media (prefers-color-scheme: dark) {
+:root {
+  --background-color: #121212;
+  --text-color: #f0f0f0;
+  --title-color: #fff;
+  --link-color: #4da4f0;
+  --highlight-color: #282828;
+  --line-color: #444;
+  --pilcrow-weak: #444;
+  --pilcrow-strong: #666;
+  scrollbar-color: #777 #333;
+}
+}
+
+/* SVG Trick: a prefix match works because only black and white are allowed */
+svg {
+  & :is([stroke="black"], [stroke^="#000"]) {
+    stroke: var(--text-color);
+  }
+  & :is([stroke="white"], [stroke^="#fff"]) {
+    stroke: var(--background-color);
+  }
+  & :is([fill="black"], [fill^="#000"], :not([fill])) {
+    fill: var(--text-color);
+  }
+  & :is([fill="white"], [fill^="#fff"]) {
+    fill: var(--background-color);
+  }
+}
+</style>
+
+</head>
+<body class="xml2rfc">
+<table class="ears">
+<thead><tr>
+<td class="left">Internet-Draft</td>
+<td class="center">icon requirements</td>
+<td class="right">October 2026</td>
+</tr></thead>
+<tfoot><tr>
+<td class="left">Wu, et al.</td>
+<td class="center">Expires 11 April 2027</td>
+<td class="right">[Page]</td>
+</tr></tfoot>
+</table>
+<div id="external-metadata" class="document-information"></div>
+<div id="internal-metadata" class="document-information">
+<dl id="identifiers">
+<dt class="label-workgroup">Workgroup:</dt>
+<dd class="workgroup">Network Working Group</dd>
+<dt class="label-internet-draft">Internet-Draft:</dt>
+<dd class="internet-draft">draft-mcw-opsawg-icon-requirements-latest</dd>
+<dt class="label-published">Published:</dt>
+<dd class="published">
+<time datetime="2026-10-08" class="published">8 October 2026</time>
+    </dd>
+<dt class="label-intended-status">Intended Status:</dt>
+<dd class="intended-status">Informational</dd>
+<dt class="label-expires">Expires:</dt>
+<dd class="expires"><time datetime="2027-04-11">11 April 2027</time></dd>
+<dt class="label-authors">Authors:</dt>
+<dd class="authors">
+<div class="author">
+      <div class="author-name">Q. Wu</div>
+<div class="org">Huawei</div>
+</div>
+<div class="author">
+      <div class="author-name">D. Ceccarelli</div>
+<div class="org">Cisco</div>
+</div>
+<div class="author">
+      <div class="author-name">L. M. Contreras</div>
+<div class="org">Telefonica</div>
+</div>
+<div class="author">
+      <div class="author-name">D. King</div>
+<div class="org">Lancaster University</div>
+</div>
+</dd>
+</dl>
+</div>
+<h1 id="title">Architecture and Requirements for Observability, Control and Intervention of Network Management Agents</h1>
+<section id="section-abstract">
+      <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
+<p id="section-abstract-1">This document defines architecture and a set of requirements for Observability, Control,
+and Intervention for Network Management Agents.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-2">It identifies gaps in existing mechanisms and specifies required interaction capabilities
+between Agent supervision systems and network management agents across multi-vendor
+environments, specifically observability, control, and runtime intervention. The
+requirements aim to guarantee comprehensive, lifecycle control over AI agents and enable
+observation, constraint, intervention, and correction to ensure network operational
+resilience and continuity.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
+</section>
+<section class="note rfcEditorRemove" id="section-note.1">
+      <h2 id="name-discussion-venues">
+<a href="#name-discussion-venues" class="section-name selfRef">Discussion Venues</a>
+      </h2>
+<p id="section-note.1-1">This note is to be removed before publishing as an RFC.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
+<p id="section-note.1-2">Source for this draft and an issue tracker can be found at
+    <span><a href="https://github.com/QiufangMa/Agent-Control-and-Intervention-Requirements">https://github.com/QiufangMa/Agent-Control-and-Intervention-Requirements</a></span>.<a href="#section-note.1-2" class="pilcrow">¶</a></p>
+</section>
+<div id="status-of-memo">
+<section id="section-boilerplate.1">
+        <h2 id="name-status-of-this-memo">
+<a href="#name-status-of-this-memo" class="section-name selfRef">Status of This Memo</a>
+        </h2>
+<p id="section-boilerplate.1-1">
+        This Internet-Draft is submitted in full conformance with the
+        provisions of BCP 78 and BCP 79.<a href="#section-boilerplate.1-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-2">
+        Internet-Drafts are working documents of the Internet Engineering Task
+        Force (IETF). Note that other groups may also distribute working
+        documents as Internet-Drafts. The list of current Internet-Drafts is
+        at <span><a href="https://datatracker.ietf.org/drafts/current/">https://datatracker.ietf.org/drafts/current/</a></span>.<a href="#section-boilerplate.1-2" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-3">
+        Internet-Drafts are draft documents valid for a maximum of six months
+        and may be updated, replaced, or obsoleted by other documents at any
+        time. It is inappropriate to use Internet-Drafts as reference
+        material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-4">
+        This Internet-Draft will expire on 11 April 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="copyright">
+<section id="section-boilerplate.2">
+        <h2 id="name-copyright-notice">
+<a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
+        </h2>
+<p id="section-boilerplate.2-1">
+            Copyright (c) 2026 IETF Trust and the persons identified as the
+            document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.2-2">
+            This document is subject to BCP 78 and the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (<span><a href="https://trustee.ietf.org/license-info">https://trustee.ietf.org/license-info</a></span>) in effect on the date of
+            publication of this document. Please review these documents
+            carefully, as they describe your rights and restrictions with
+            respect to this document. Code Components extracted from this
+            document must include Revised BSD License text as described in
+            Section 4.e of the Trust Legal Provisions and are provided without
+            warranty as described in the Revised BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="toc">
+<section id="section-toc.1">
+        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
+<a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
+        </h2>
+<nav class="toc"><ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-conventions-and-definitions" class="internal xref">Conventions and Definitions</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1" class="keepWithNext"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-existing-mechanisms-for-age" class="internal xref">Existing Mechanisms for Agent Observability, Control, and Intervention</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-architectural-framework-for" class="internal xref">Architectural Framework for ICON</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-human-oversight" class="internal xref">Human Oversight</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-agent-management-plane" class="internal xref">Agent Management Plane</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3">
+                <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="auto internal xref">4.3</a>.  <a href="#name-agent-execution-plane" class="internal xref">Agent Execution Plane</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3.2.1">
+                    <p id="section-toc.1-1.4.2.3.2.1.1"><a href="#section-4.3.1" class="auto internal xref">4.3.1</a>.  <a href="#name-function-modules-tools" class="internal xref">Function Modules &amp; Tools</a></p>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-requirements" class="internal xref">Requirements</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-observability-requirements" class="internal xref">Observability Requirements</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1.2.1">
+                    <p id="section-toc.1-1.5.2.1.2.1.1"><a href="#section-5.1.1" class="auto internal xref">5.1.1</a>.  <a href="#name-agent-execution-trajectory-" class="internal xref">Agent Execution Trajectory and Decision Logic</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1.2.2">
+                    <p id="section-toc.1-1.5.2.1.2.2.1"><a href="#section-5.1.2" class="auto internal xref">5.1.2</a>.  <a href="#name-data-governance-and-account" class="internal xref">Data Governance and Accountability</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1.2.3">
+                    <p id="section-toc.1-1.5.2.1.2.3.1"><a href="#section-5.1.3" class="auto internal xref">5.1.3</a>.  <a href="#name-observability-infrastructur" class="internal xref">Observability Infrastructure Requirements</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1.2.4">
+                    <p id="section-toc.1-1.5.2.1.2.4.1"><a href="#section-5.1.4" class="auto internal xref">5.1.4</a>.  <a href="#name-agent-metrics-collection" class="internal xref">Agent Metrics Collection</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-control-requirements" class="internal xref">Control Requirements</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2.2.1">
+                    <p id="section-toc.1-1.5.2.2.2.1.1"><a href="#section-5.2.1" class="auto internal xref">5.2.1</a>.  <a href="#name-agent-execution-guardrails-" class="internal xref">Agent Execution Guardrails and Risk Control</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2.2.2">
+                    <p id="section-toc.1-1.5.2.2.2.2.1"><a href="#section-5.2.2" class="auto internal xref">5.2.2</a>.  <a href="#name-authorization-and-access-co" class="internal xref">Authorization and Access Control</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2.2.3">
+                    <p id="section-toc.1-1.5.2.2.2.3.1"><a href="#section-5.2.3" class="auto internal xref">5.2.3</a>.  <a href="#name-policy-precedence-and-concu" class="internal xref">Policy Precedence and Concurrency Control</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2.2.4">
+                    <p id="section-toc.1-1.5.2.2.2.4.1"><a href="#section-5.2.4" class="auto internal xref">5.2.4</a>.  <a href="#name-agent-control-resilience" class="internal xref">Agent Control Resilience</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3">
+                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-intervention-requirements" class="internal xref">Intervention Requirements</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3.2.1">
+                    <p id="section-toc.1-1.5.2.3.2.1.1"><a href="#section-5.3.1" class="auto internal xref">5.3.1</a>.  <a href="#name-runtime-execution-intervent" class="internal xref">Runtime Execution Intervention</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3.2.2">
+                    <p id="section-toc.1-1.5.2.3.2.2.1"><a href="#section-5.3.2" class="auto internal xref">5.3.2</a>.  <a href="#name-post-execution-rollback" class="internal xref">Post-execution Rollback</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3.2.3">
+                    <p id="section-toc.1-1.5.2.3.2.3.1"><a href="#section-5.3.3" class="auto internal xref">5.3.3</a>.  <a href="#name-escalation" class="internal xref">Escalation</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3.2.4">
+                    <p id="section-toc.1-1.5.2.3.2.4.1"><a href="#section-5.3.4" class="auto internal xref">5.3.4</a>.  <a href="#name-correction" class="internal xref">Correction</a></p>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-references" class="internal xref">References</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
+                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="auto internal xref">8.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2">
+                <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="auto internal xref">8.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
+            <p id="section-toc.1-1.10.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-contributors" class="internal xref">Contributors</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
+            <p id="section-toc.1-1.11.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+</li>
+        </ul>
+</nav>
+</section>
+</div>
+<div id="introduction">
+<section id="section-1">
+      <h2 id="name-introduction">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
+      </h2>
+<p id="section-1-1">AI agents are increasingly deployed for network management tasks <span>[<a href="#I-D.wmz-nmrg-agent-ndt-arch" class="cite xref">I-D.wmz-nmrg-agent-ndt-arch</a>]</span>
+— including service provisioning and network configuration change, service assurance and automated
+incident diagnosis and resolution. While the introduction of agents significantly improves the
+efficiency for network management, it also inevitably brings challenges such as hallucination
+and execution unreliability.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">Existing mechanisms for agent assurance typically rely on static guardrails (e.g., input/output
+validation, operation allowlists/blocklists, pre-action approval), while assuming that all agent
+failure modes can be predefined. Unlike deterministic software systems, however, LLM-based agents
+exhibit emergent behaviors that cannot be fully anticipated or encoded in static rules. When
+agentic systems produce novel actions or reasoning paths that fall outside predefined static
+boundaries, it might lead to risks such as unintended configuration changes, policy violations,
+or cascading failures in the network.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">The operational problems, architectural challenges, and technical gaps regarding the observability,
+control, and intervention of autonomous network management agents are thoroughly detailed in
+<span>[<a href="#I-D.wnd-opsawg-icon-ps" class="cite xref">I-D.wnd-opsawg-icon-ps</a>]</span>.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">This document builds upon those identified gaps to specify a set of essential requirements that
+supervisors need when deploying agents in real networks for agent observability, control, and
+intervention. Furthermore, it also defines an architecure for ICON — Intervention, Control, and
+Observability for Network Management Agents.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-5">This document specifies the architecture and communication requirements between the agent and
+the supervision system. It does not standardize the internal LLM architecture, planning
+algorithms, or training methodologies of the network management agents themselves.<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-6">This document does not specify a particular protocol, data model, or implementation API.
+Those topics are orthogonal to the operational requirements defined here, which are
+intended to be solution-neutral.<a href="#section-1-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="conventions-and-definitions">
+<section id="section-2">
+      <h2 id="name-conventions-and-definitions">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-conventions-and-definitions" class="section-name selfRef">Conventions and Definitions</a>
+      </h2>
+<p id="section-2-1">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
+"<span class="bcp14">MAY</span>", and "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as
+described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
+appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<p id="section-2-2">This document uses the following terms defined in <span>[<a href="#I-D.wnd-opsawg-icon-ps" class="cite xref">I-D.wnd-opsawg-icon-ps</a>]</span>:<a href="#section-2-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-2-3.1">
+          <p id="section-2-3.1.1">Observability<a href="#section-2-3.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-2-3.2">
+          <p id="section-2-3.2.1">Intervention<a href="#section-2-3.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-2-3.3">
+          <p id="section-2-3.3.1">Control<a href="#section-2-3.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-2-3.4">
+          <p id="section-2-3.4.1">Human Oversight<a href="#section-2-3.4.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-2-4">This document defines the following terms:<a href="#section-2-4" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-2-5">
+        <dt id="section-2-5.1">context:</dt>
+        <dd style="margin-left: 1.5em" id="section-2-5.2">
+          <p id="section-2-5.2.1">The network operational data, interaction history, and situational network parameters
+that allow AI agents to remember the history of a specific interaction over multiple
+turns.<a href="#section-2-5.2.1" class="pilcrow">¶</a></p>
+</dd>
+      <dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="existing-mechanisms-for-agent-observability-control-and-intervention">
+<section id="section-3">
+      <h2 id="name-existing-mechanisms-for-age">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-existing-mechanisms-for-age" class="section-name selfRef">Existing Mechanisms for Agent Observability, Control, and Intervention</a>
+      </h2>
+<p id="section-3-1">After receiving a user request, agents will perform a chain-of-thought (CoT) reasoning process,
+then it will autonomously decide whether to break down the task into subtasks, or dynamically
+decide to invoke multiple external tools, retrieve vector databases (RAG), or request more
+information from the supervisor.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2">Existing telemetry mechanisms are excellent for tracking traditional network infrastructure
+or software which are built for deterministic systems. However, as analyzed in <span>[<a href="#I-D.wnd-opsawg-icon-ps" class="cite xref">I-D.wnd-opsawg-icon-ps</a>]</span>,
+they are facing severe limitations when applied to AI agents. For example, existing logging practices
+only record what action was taken, completely missing why it was taken, including the agent's internal
+reasoning provenance and confidence scores. Existing tracing mechanism designed for static and linear
+execution path also cannot capture the complex and dynamic execution trajectories of AI agents.<a href="#section-3-2" class="pilcrow">¶</a></p>
+<p id="section-3-3">Existing AI guardrails primarily operate at static boundaries, such as input/output validation and
+pre-action checks. These mechanisms are designed to constrain AI agents within predefined operational
+and compliance boundaries, but they assume that all possible violations can be anticipated and encoded
+in static rules. As AI systems increasingly operate in non‑deterministic environments, these static
+measures are proving insufficient as they cannot detect, interrupt, and recover from unanticipated
+behaviors.<a href="#section-3-3" class="pilcrow">¶</a></p>
+<p id="section-3-4">Although there are some modern agent systems that provide interrupt or kill switch capabilities, they
+remain framework-specific, insufficient, or proprietary.<a href="#section-3-4" class="pilcrow">¶</a></p>
+<p id="section-3-5">These gaps motivate the architectural framework and requirements for agent observability, control,
+and intervention defined in <a href="#architecture" class="auto internal xref">Section 4</a> and <a href="#requirements" class="auto internal xref">Section 5</a>, respectively.<a href="#section-3-5" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="architecture">
+<section id="section-4">
+      <h2 id="name-architectural-framework-for">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-architectural-framework-for" class="section-name selfRef">Architectural Framework for ICON</a>
+      </h2>
+<p id="section-4-1">This section describes the reference architecture for ICON. The architecture defined in <a href="#arch" class="auto internal xref">Figure 1</a>
+serves as the structural foundation to derive the requirements specified in <a href="#requirements" class="auto internal xref">Section 5</a>.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<span id="name-icon-architecture"></span><div id="arch">
+<figure id="figure-1">
+        <div class="alignCenter art-text artwork" id="section-4-2.1">
+<pre>
++-----------------------------------------------------+
+|                    Human Oversight                  |
++--------------------------^--------------------------+
+                           |
+                           |
++--------------------------v--------------------------+
+|   Agent Management Plane                            |
+|                                                     |
+|   +-------------+    +-------+    +------------+    |
+|   |Observability|    |Control|    |Intervention|    |
+|   +-------------+    +-------+    +------------+    |
++-----------------------^--+--------------------------+
+                        |  |
+Agent Observability Data|  |Agent Control &amp; Intervention Signals
+                        |  |
++-----------------------+--v--------------------------+
+|  Agent Execution Plane                              |
+|  +-----------+    +-----------+       +-----------+ |
+|  |           |    |           |       |           | |
+|  |  Agent 1  &lt;----&gt;  Agent 2  &lt;--...--&gt;  Agent n  | |
+|  |           |    |           |       |           | |
+|  +-----^-----+    +-----^-----+       +-----^-----+ |
+|        |                |                   |       |
+|  +-----v----------------v-------------------v-----+ |
+|  |              Function Modules &amp; Tools          | |
+|  +------------------------------------------------+ |
++--------------------------^--------------------------+
+                           |
+                           | Interaction
+                           |
++--------------------------v--------------------------+
+|              Network Infrastructure                 |
++-----------------------------------------------------+
+</pre>
+</div>
+<figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
+<a href="#name-icon-architecture" class="selfRef">ICON Architecture</a>
+        </figcaption></figure>
+</div>
+<div id="human-oversight">
+<section id="section-4.1">
+        <h3 id="name-human-oversight">
+<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-human-oversight" class="section-name selfRef">Human Oversight</a>
+        </h3>
+<p id="section-4.1-1">Human oversight represents the top-level authority of the agent management. It provides the
+post-execution feedback, injects global policies, reviews agent escalation requests, and issues
+high-level intervention commands during crises or anomalies.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-4.1-2.1">
+            <span class="break"></span><dl class="dlParallel" id="section-4.1-2.1.1">
+              <dt id="section-4.1-2.1.1.1">Policy and Constraint Injection:</dt>
+              <dd style="margin-left: 1.5em" id="section-4.1-2.1.1.2">
+                <p id="section-4.1-2.1.1.2.1">Human operators could express high-level operational constraints or boundaries. These intents
+ are translated into machine-readable policies by ICON client and sent to the policy enforcement
+ component.<a href="#section-4.1-2.1.1.2.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+</dl>
+</li>
+          <li class="normal" id="section-4.1-2.2">
+            <span class="break"></span><dl class="dlParallel" id="section-4.1-2.2.1">
+              <dt id="section-4.1-2.2.1.1">Escalation Handling:</dt>
+              <dd style="margin-left: 1.5em" id="section-4.1-2.2.1.2">
+                <p id="section-4.1-2.2.1.2.1">When an active agent encounters an ambiguous scenario, a conflict between different policies,
+ or a decision whose confidence score falls below a predefined threshold, the execution plane
+ suspends the task and escalates it to operators. A human operator could either approve, reject,
+ or modify the agent's pending action sequence.<a href="#section-4.1-2.2.1.2.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+</dl>
+</li>
+          <li class="normal" id="section-4.1-2.3">
+            <span class="break"></span><dl class="dlParallel" id="section-4.1-2.3.1">
+              <dt id="section-4.1-2.3.1.1">Emergency Intervention Trigger:</dt>
+              <dd style="margin-left: 1.5em" id="section-4.1-2.3.1.2">
+                <p id="section-4.1-2.3.1.2.1">In case of an unforeseen and deviated agent behavior (e.g., an agent entering an
+ infinite inference loop or executing based on outdated data or incorrect assumption), human
+ oversight allows immediate, manual injection of high-priority override instructions (e.g.,
+ global kill switches or behavior corrections).<a href="#section-4.1-2.3.1.2.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+</dl>
+</li>
+          <li class="normal" id="section-4.1-2.4">
+            <span class="break"></span><dl class="dlParallel" id="section-4.1-2.4.1">
+              <dt id="section-4.1-2.4.1.1">Post-Execution Feedback:</dt>
+              <dd style="margin-left: 1.5em" id="section-4.1-2.4.1.2">
+                <p id="section-4.1-2.4.1.2.1">Beyond runtime intervention, human operators could also provide a critical retrospective evaluation
+ feedback. Following an incident, anomaly, or successful resolution, human operators may inject
+ multi-dimensional feedback (e.g., assessing the agent’s reasoning paths, correcting intermediate
+ planning errors, or evaluating the quality of tool selection). This retrospective feedback could
+ be used to update the prompt templates or refine downstream guardrail policies, preventing the
+ recurrence of similar behavioral drifts.<a href="#section-4.1-2.4.1.2.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+</dl>
+</li>
+        </ul>
+<p id="section-4.1-3">It is worth mentioning that human operators rarely send raw agent control or intervention protocol
+payloads directly. They could use more flexible and human-friendly formatting such as natural
+language which is relayed to the agent management plane to translate into structured control or
+intervention signals for normalization and distribution.<a href="#section-4.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="agent-management-plane">
+<section id="section-4.2">
+        <h3 id="name-agent-management-plane">
+<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-agent-management-plane" class="section-name selfRef">Agent Management Plane</a>
+        </h3>
+<p id="section-4.2-1">Agent management plane is the Agent assurance capabilities which are used to manage, monitor, and
+regulate autonomous AI agents on behalf of human operators. It is logically decoupled from the
+agent execution plane. Note that agent management plane might include other technical and
+operational pillars such as agent lifecycle management, which are out of the scope of this draft.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-4.2-2.1">
+            <span class="break"></span><dl class="dlParallel" id="section-4.2-2.1.1">
+              <dt id="section-4.2-2.1.1.1">Agent Observability:</dt>
+              <dd style="margin-left: 1.5em" id="section-4.2-2.1.1.2">
+                <p id="section-4.2-2.1.1.2.1">It receives observation streams transmitted from downstream agent execution plane. It provides
+human operators with comprehensive agent behavioral visibility and the ability to identify
+operational anomalies or performance drifts.<a href="#section-4.2-2.1.1.2.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+</dl>
+</li>
+          <li class="normal" id="section-4.2-2.2">
+            <span class="break"></span><dl class="dlParallel" id="section-4.2-2.2.1">
+              <dt id="section-4.2-2.2.1.1">Policy Control:</dt>
+              <dd style="margin-left: 1.5em" id="section-4.2-2.2.1.2">
+                <p id="section-4.2-2.2.1.2.1">It acts as the centralized Policy Decision Point (PDP) <span>[<a href="#RFC3198" class="cite xref">RFC3198</a>]</span> that translates human
+operator intent or operational guidelines into agent behavioral boundaries, guardrails, or
+operational constraints. It  dynamically pushes a set of structured rules or policy
+constraints down to agent execution plane.<a href="#section-4.2-2.2.1.2.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+</dl>
+</li>
+          <li class="normal" id="section-4.2-2.3">
+            <span class="break"></span><dl class="dlParallel" id="section-4.2-2.3.1">
+              <dt id="section-4.2-2.3.1.1">Emergency Intervention:</dt>
+              <dd style="margin-left: 1.5em" id="section-4.2-2.3.1.2">
+                <p id="section-4.2-2.3.1.2.1">It hosts the emergency orchestration logic required to reactively instruct agents in
+response to boundary violations, anomalies, failures, or operational risks. Upon
+detecting critical policy violations or receiving manual override commands from human
+oversight, it generates specific instructions (such as pause or terminate) and pushes
+them down to the enforcement component. In addition, it also receives upstream messages
+initiated by agents, such as escalation requests that proactively require human
+intervention.<a href="#section-4.2-2.3.1.2.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+</dl>
+</li>
+        </ul>
+<p id="section-4.2-3">In practical deployments, the agent management plane may be embedded within network management
+systems/OSS, an external Agent supervision or management platform, or even an upper-layer
+supervisor Agent.<a href="#section-4.2-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="agent-execution-plane">
+<section id="section-4.3">
+        <h3 id="name-agent-execution-plane">
+<a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-agent-execution-plane" class="section-name selfRef">Agent Execution Plane</a>
+        </h3>
+<p id="section-4.3-1">The Agent Execution Plane is the runtime environment in which AI agents operate, perform
+reasoning and planning, collaborate with other agents, and invoke capabilities exposed through
+the Function Modules &amp; Tools layer described in <a href="#functions" class="auto internal xref">Section 4.3.1</a>. Through that layer, agents
+obtain network information and translate their reasoning outcomes into operations on the
+network infrastructure.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
+<p id="section-4.3-2">The Agent Execution Plane receives high-level intents originating from network operators or
+upstream agents and executes the corresponding tasks step by step. An agent may delegate
+parts of a task to other agents. Each execution step may involve invoking tools, function
+calls, APIs, knowledge retrieval interfaces, or reusable agent skills exposed through the
+Function Modules &amp; Tools layer.<a href="#section-4.3-2" class="pilcrow">¶</a></p>
+<p id="section-4.3-3">During and after task execution, the Agent Execution Plane collects execution status,
+operational logs, tool invocation records, and resulting network observations. It provides
+the corresponding agent observability data to the Agent Management Plane for supervision.<a href="#section-4.3-3" class="pilcrow">¶</a></p>
+<p id="section-4.3-4">The Agent Execution Plane supports policy enforcement at critical points throughout task
+execution, including before task processing, before tool invocation or network actions,
+and before delivering a final response. It also accepts and applies Agent Control and
+Intervention Signals received from the Agent Management Plane.<a href="#section-4.3-4" class="pilcrow">¶</a></p>
+<div id="functions">
+<section id="section-4.3.1">
+          <h4 id="name-function-modules-tools">
+<a href="#section-4.3.1" class="section-number selfRef">4.3.1. </a><a href="#name-function-modules-tools" class="section-name selfRef">Function Modules &amp; Tools</a>
+          </h4>
+<p id="section-4.3.1-1">As depicted in <a href="#arch" class="auto internal xref">Figure 1</a>, agents in the Agent Execution Plane act on the network
+infrastructure via the Function Modules &amp; Tools layer rather than interacting with
+network devices directly. Agents invoke this layer to translate their reasoning
+decisions into concrete operational actions on the underlying network.<a href="#section-4.3.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.3.1-2">Although represented as a single functional block in <a href="#arch" class="auto internal xref">Figure 1</a>, this layer could
+abstract a richer and heterogeneous set of functions and tools. It may encompass,
+for example, the tool and function-calling interfaces exposed to agents, network
+management protocol adapters and clients (e.g., NETCONF <span>[<a href="#RFC6241" class="cite xref">RFC6241</a>]</span>, RESTCONF
+<span>[<a href="#RFC8040" class="cite xref">RFC8040</a>]</span>), API gateways, retrieval and knowledge access components (e.g.,
+RAG or vector-database lookups), reusable agent skills, and automation scripts.<a href="#section-4.3.1-2" class="pilcrow">¶</a></p>
+<p id="section-4.3.1-3">The internal composition, interfaces, and orchestration are implementation specific.
+A detailed decomposition of this layer is outside the scope of this document, which
+focuses on the requirements of observability, control, and intervention interactions
+between the Agent Management Plane and the Agent Execution Plane. Consequently, this
+layer is intentionally treated as an abstract entity in this framework.<a href="#section-4.3.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="requirements">
+<section id="section-5">
+      <h2 id="name-requirements">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-requirements" class="section-name selfRef">Requirements</a>
+      </h2>
+<div id="observability-requirements">
+<section id="section-5.1">
+        <h3 id="name-observability-requirements">
+<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-observability-requirements" class="section-name selfRef">Observability Requirements</a>
+        </h3>
+<p id="section-5.1-1">The observability requirements are organized into the following categories:<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.1-2.1">
+            <p id="section-5.1-2.1.1">Agent Execution Trajectory and Decision Logic (<a href="#obs-trace" class="auto internal xref">Section 5.1.1</a>)<a href="#section-5.1-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.1-2.2">
+            <p id="section-5.1-2.2.1">Data Governance, Accountability (<a href="#obs-governance" class="auto internal xref">Section 5.1.2</a>)<a href="#section-5.1-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.1-2.3">
+            <p id="section-5.1-2.3.1">Observability Infrastructure Requirements (<a href="#obs-infrastructure" class="auto internal xref">Section 5.1.3</a>)<a href="#section-5.1-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.1-2.4">
+            <p id="section-5.1-2.4.1">Agent Metrics Collection (<a href="#obs-metrics" class="auto internal xref">Section 5.1.4</a>)<a href="#section-5.1-2.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<div id="obs-trace">
+<section id="section-5.1.1">
+          <h4 id="name-agent-execution-trajectory-">
+<a href="#section-5.1.1" class="section-number selfRef">5.1.1. </a><a href="#name-agent-execution-trajectory-" class="section-name selfRef">Agent Execution Trajectory and Decision Logic</a>
+          </h4>
+<span class="break"></span><dl class="dlParallel" id="section-5.1.1-1">
+            <dt id="section-5.1.1-1.1">OBS-1: Step-by-Step CoT and Execution Trajectory Capture</dt>
+            <dd style="margin-left: 1.5em" id="section-5.1.1-1.2">
+              <p id="section-5.1.1-1.2.1">The framework must support visibility into complete agent
+execution trajectories, including reasoning CoT, actions planning,
+executed steps, and network observations.  In a network change
+scenario, e.g., it must include capturing the specific mapping
+from the agents' reasoning chain and action planning to the
+generated network configuration diffs (e.g., CLI changes, Yang patches)
+and the subsequent network state observations, enabling end-to-end
+traceability from thinking to network effect.<a href="#section-5.1.1-1.2.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-5.1.1-1.3">OBS-2: Reasoning and Knowledge Provenance</dt>
+            <dd style="margin-left: 1.5em" id="section-5.1.1-1.4">
+              <p id="section-5.1.1-1.4.1">The framework must support visibility into reasoning provenance,
+including intent understanding, inference, confidence scores, and
+evidence chains justifying why a specific network operation
+decision was made. It must also track external knowledge sources,
+version numbers, and matching weights retrieved and referenced by
+the agent during decision-making and enable traceability of how
+external information influenced the agent's reasoning steps.<a href="#section-5.1.1-1.4.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-5.1.1-1.5">OBS-3: Tool Invocation Capture</dt>
+            <dd style="margin-left: 1.5em" id="section-5.1.1-1.6">
+              <p id="section-5.1.1-1.6.1">The framework must capture the complete input/output of
+all tools (Skills, APIs, CLIs, scripts) invoked by the agent, including
+tool selection logic and parameter bindings, and execution results.<a href="#section-5.1.1-1.6.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-5.1.1-1.7">OBS-4: Human-on-the-Loop and Multi-Agent Delegation</dt>
+            <dd style="margin-left: 1.5em" id="section-5.1.1-1.8">
+              <p id="section-5.1.1-1.8.1">It must capture human expert interventions (e.g., kill switch, pause, rollback),
+escalation handling, and feedback signals on agent actions in the workflows.
+In case of multi-agent collaboration, the framework must track inter-agent
+communication messages, task delegation paths, anddynamic collaboration.<a href="#section-5.1.1-1.8.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="obs-governance">
+<section id="section-5.1.2">
+          <h4 id="name-data-governance-and-account">
+<a href="#section-5.1.2" class="section-number selfRef">5.1.2. </a><a href="#name-data-governance-and-account" class="section-name selfRef">Data Governance and Accountability</a>
+          </h4>
+<span class="break"></span><dl class="dlParallel" id="section-5.1.2-1">
+            <dt id="section-5.1.2-1.1">OBS-5: Telemetry Integrity and Completeness Protection</dt>
+            <dd style="margin-left: 1.5em" id="section-5.1.2-1.2">
+              <p id="section-5.1.2-1.2.1">The framework must support tamper-evident mechanisms (e.g.,
+cryptographic hashing) to prevent unauthorized alteration or omission
+of execution trajectories.
+This ensures the integrity and completeness of observability data.<a href="#section-5.1.2-1.2.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-5.1.2-1.3">OBS-6: Privacy Protection</dt>
+            <dd style="margin-left: 1.5em" id="section-5.1.2-1.4">
+              <p id="section-5.1.2-1.4.1">The framework must apply dynamic redaction to sensitive data,
+including prompt text, network topology information, Personally
+Identifiable Information (PII), and credentials before telemetry
+data is persisted or exported. The redaction process must be
+context-aware and must not impede the diagnostic value of the
+telemetry for authorized operators.<a href="#section-5.1.2-1.4.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-5.1.2-1.5">OBS-7: Accountability</dt>
+            <dd style="margin-left: 1.5em" id="section-5.1.2-1.6">
+              <p id="section-5.1.2-1.6.1">The framework must support immutable audit logging of agent
+execution, enabling attribution of network outcomes (e.g., service
+degradation, configuration drift, new alarms) to specific intent
+interpretations, LLM inferences, tool/skill invocations, and
+actions for post-incident audit and compliance review. The
+framework must support reverse tracing from network operational
+state or newly raised alarms to the specific historical reasoning
+or tool/API invocation action that triggered it.<a href="#section-5.1.2-1.6.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="obs-infrastructure">
+<section id="section-5.1.3">
+          <h4 id="name-observability-infrastructur">
+<a href="#section-5.1.3" class="section-number selfRef">5.1.3. </a><a href="#name-observability-infrastructur" class="section-name selfRef">Observability Infrastructure Requirements</a>
+          </h4>
+<span class="break"></span><dl class="dlParallel" id="section-5.1.3-1">
+            <dt id="section-5.1.3-1.1">OBS-8: Authoritative Clock Synchronization &amp; Event Ordering</dt>
+            <dd style="margin-left: 1.5em" id="section-5.1.3-1.2">
+              <p id="section-5.1.3-1.2.1">The framework must provide an authoritative clock source and a
+causal event-ordering model (Event-Ordering Model) across all
+distributed components. This ensures that agent reasoning steps,
+tool invocations, and network state changes are associated
+with a globally consistent timestamp baseline across distributed
+environments.<a href="#section-5.1.3-1.2.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-5.1.3-1.3">OBS-9: Telemetry Pipeline Resilience</dt>
+            <dd style="margin-left: 1.5em" id="section-5.1.3-1.4">
+              <p id="section-5.1.3-1.4.1">The observability pipeline must support adaptive backpressure,
+dynamic sampling, and retention policies to prevent
+telemetry storms from overwhelming collectors caused by, e.g.,
+intensive agent Chain-of-Thought (CoT) reasoning logs or
+high-frequency tool invocation traces. The pipeline should
+additionally support self-health monitoring capabilities to
+detect data loss, transmission latency, or connectivity
+disruptions at telemetry collectors in real time.<a href="#section-5.1.3-1.4.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="obs-metrics">
+<section id="section-5.1.4">
+          <h4 id="name-agent-metrics-collection">
+<a href="#section-5.1.4" class="section-number selfRef">5.1.4. </a><a href="#name-agent-metrics-collection" class="section-name selfRef">Agent Metrics Collection</a>
+          </h4>
+<span class="break"></span><dl class="dlParallel" id="section-5.1.4-1">
+            <dt id="section-5.1.4-1.1">OBS-10: Operational Health, Resource, and Efficiency Metrics</dt>
+            <dd style="margin-left: 1.5em" id="section-5.1.4-1.2">
+              <p id="section-5.1.4-1.2.1">The framework must support the collection of metrics characterizing
+agent operational health, cost, and efficiency. This includes, but is
+not limited to failed tool/API invocation rates, action execution
+latency, configuration rollback rates, token consumption, reasoning
+latency including Time to First Token (TTFT) and Time Per Output
+Token (TPOT), task completion rates and Mean Time To Repair (MTTR).<a href="#section-5.1.4-1.2.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+</dl>
+</section>
+</div>
+</section>
+</div>
+<div id="control-requirements">
+<section id="section-5.2">
+        <h3 id="name-control-requirements">
+<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-control-requirements" class="section-name selfRef">Control Requirements</a>
+        </h3>
+<p id="section-5.2-1">The control requirements are organized into the following categories:<a href="#section-5.2-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.2-2.1">
+            <p id="section-5.2-2.1.1">Agent Execution Guardrails and Risk Control (<a href="#ctl-execution" class="auto internal xref">Section 5.2.1</a>)<a href="#section-5.2-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.2-2.2">
+            <p id="section-5.2-2.2.1">Authorization and Access Control (<a href="#ctl-acl" class="auto internal xref">Section 5.2.2</a>)<a href="#section-5.2-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.2-2.3">
+            <p id="section-5.2-2.3.1">Policy Precedence and Concurrency Control (<a href="#ctl-concurrency" class="auto internal xref">Section 5.2.3</a>)<a href="#section-5.2-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.2-2.4">
+            <p id="section-5.2-2.4.1">Agent Control Resilience (<a href="#ctl-resilience" class="auto internal xref">Section 5.2.4</a>)<a href="#section-5.2-2.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<div id="ctl-execution">
+<section id="section-5.2.1">
+          <h4 id="name-agent-execution-guardrails-">
+<a href="#section-5.2.1" class="section-number selfRef">5.2.1. </a><a href="#name-agent-execution-guardrails-" class="section-name selfRef">Agent Execution Guardrails and Risk Control</a>
+          </h4>
+<p id="section-5.2.1-1">CTL-1: Action Risk Classification
+    : The framework must require an agent to classify the risk level of any
+      action (e.g., Low, Medium, High, Critical) prior to execution. The
+      classification must consider the operation type, target device roles,
+      and potential impact on network stability. Downstream policy engines
+      must consume this risk level to enforce differentiated approval
+      workflows and constraints.<a href="#section-5.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.2.1-2">CTL-2: Maximum Blast Radius Limits
+      : The framework must enforce a configurable maximum blast radius for
+      each agent action, restricting potential impact across device counts,
+      link counts, service impact, customer scope, and traffic volume. The
+      agent must evaluate the blast radius before execution and abort any
+      action exceeding configured thresholds unless explicitly overridden by
+      a human operator.<a href="#section-5.2.1-2" class="pilcrow">¶</a></p>
+<p id="section-5.2.1-3">CTL-3: Rate Limiting and Concurrency Control
+      : The framework must enforce rate limits and concurrency controls on
+      agent actions to prevent automation storms from overwhelming network
+      devices or the management plane. Agents must comply with per-device,
+      per-operator, and global rate limits, as well as maximum concurrent
+      task thresholds. Exceeded actions must be queued or rejected with
+      explicit feedback.<a href="#section-5.2.1-3" class="pilcrow">¶</a></p>
+<p id="section-5.2.1-4">CTL-4: Action Cancellation Semantics
+    : The framework must define and support explicit cancellation semantics
+      across three action states: Queued (remove without side effects),
+      Executing (gracefully terminate and rollback where feasible), and
+      Completed (interpret as a rollback request invoking inverse workflows).
+      All cancellation results must be logged for accountability.<a href="#section-5.2.1-4" class="pilcrow">¶</a></p>
+<p id="section-5.2.1-5">CTL-5: Temporal and Contextual Validity
+    : The framework must ensure that agents operate strictly within
+      authorized network maintenance time windows. Additionally, agents
+      must validate the freshness, integrity, and temporal validity of
+      context, network state, and configuration data before acting upon it.<a href="#section-5.2.1-5" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="ctl-acl">
+<section id="section-5.2.2">
+          <h4 id="name-authorization-and-access-co">
+<a href="#section-5.2.2" class="section-number selfRef">5.2.2. </a><a href="#name-authorization-and-access-co" class="section-name selfRef">Authorization and Access Control</a>
+          </h4>
+<p id="section-5.2.2-1">CTL-6: Separation of Duties
+    : The framework must enforce strict separation among five operational
+      roles: Read-Only, Propose, Validate, Approve, and Execute. Each role
+      <span class="bcp14">MUST</span> be tied to distinct credentials and permissions. A single agent or
+      operator must not possess end-to-end capabilities across all roles
+      without explicit supervisory authorization. This separation must be
+      enforceable at both agent and orchestrator levels.<a href="#section-5.2.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.2.2-2">CTL-7: Fine-Grained Access and Permissions
+     : The framework must provide mechanisms to define and enforce
+       fine-grained operational boundaries. This <span class="bcp14">MUST</span> include restricting
+       an agent's scope to specific network domains, device sets, protocols,
+       and tools, as well as YANG node-level access control specifying permitted
+      datastores, YANG data nodes, and RPCs for read or modification.<a href="#section-5.2.2-2" class="pilcrow">¶</a></p>
+<p id="section-5.2.2-3">CTL-8: Authorization and Approval Escalation
+    : The framework must support designating specific high-risk network
+      operations as requiring explicit human approval before execution. It
+      <span class="bcp14">SHOULD</span> support configurable escalation chains and communication channels
+      to route approval requests sequentially to designated personnel.<a href="#section-5.2.2-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="ctl-concurrency">
+<section id="section-5.2.3">
+          <h4 id="name-policy-precedence-and-concu">
+<a href="#section-5.2.3" class="section-number selfRef">5.2.3. </a><a href="#name-policy-precedence-and-concu" class="section-name selfRef">Policy Precedence and Concurrency Control</a>
+          </h4>
+<p id="section-5.2.3-1">CTL-9: Change Attribution and Distributed Locking
+    : The framework must support change attribution tracking and distributed
+      locking mechanisms for concurrent multi-agent or human-agent operations.
+      An agent <span class="bcp14">MUST</span> acquire a lock (containing owner identity, target scope,
+      and expiration time) on target resources prior to initiating changes.
+      Conflicting requests <span class="bcp14">MUST</span> be queued or rejected with clear conflict
+      notifications.<a href="#section-5.2.3-1" class="pilcrow">¶</a></p>
+<p id="section-5.2.3-2">CTL-10: Cross-Domain Policy Conflict Resolution
+      : The framework must implement deterministic cross-domain policy conflict
+      resolution. When an action spans multiple policy domains (e.g., routing,
+      security, QoS, multi-vendor domains) and generates conflicts, the
+      framework <span class="bcp14">MUST</span> resolve them using configurable priority models (e.g.,
+      security policies take precedence over routing policies). Actions <span class="bcp14">MUST</span>
+      be halted until conflicts are resolved or overridden by a human supervisor.<a href="#section-5.2.3-2" class="pilcrow">¶</a></p>
+<p id="section-5.2.3-3">CTL-11: Deterministic Authority Precedence
+      : The framework must enforce a deterministic hierarchy across four control
+      sources: Human Operators (highest precedence), Supervisor Agents,
+      Orchestrators, and Autonomous Agents. When conflicting instructions are
+      received, higher-precedence sources <span class="bcp14">MUST</span> preempt lower-precedence ones,
+      and lower-precedence sources <span class="bcp14">MUST</span> receive preemption notifications.<a href="#section-5.2.3-3" class="pilcrow">¶</a></p>
+<p id="section-5.2.3-4">CTL-12: Intent Validation and Alignment
+      : The framework must ensure agents validate high-level network intents
+      received from operators or upstream agents before execution. Agents <span class="bcp14">MUST</span>
+      verify that generated configuration syntax and semantics strictly align
+      with network intents and operational constraints.<a href="#section-5.2.3-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="ctl-resilience">
+<section id="section-5.2.4">
+          <h4 id="name-agent-control-resilience">
+<a href="#section-5.2.4" class="section-number selfRef">5.2.4. </a><a href="#name-agent-control-resilience" class="section-name selfRef">Agent Control Resilience</a>
+          </h4>
+<p id="section-5.2.4-1">CTL-13: Degraded Behavior on Control Plane Unreachability
+    : The framework must define deterministic degradation behaviors when an
+      agent loses connectivity with the ICON control/management plane. Agents
+      <span class="bcp14">MUST</span> support at least one configurable fallback mode: (a) Fail-Safe
+      (abort active/pending actions and enter read-only state), (b) Fail-Hold
+      (complete current action but reject new requests), or (c) Fail-Local
+      (continue execution using local cached authorizations).<a href="#section-5.2.4-1" class="pilcrow">¶</a></p>
+<p id="section-5.2.4-2">CTL-14: Management Plane High Availability and Geographic Isolation
+      : The framework must support high availability and geographically isolated
+      deployments for ICON management plane components across multiple availability
+      zones with automated failover. Active operations <span class="bcp14">MUST</span> be safely recovered
+      or re-evaluated by the backup primary control plane without duplicate
+      executions or data loss.<a href="#section-5.2.4-2" class="pilcrow">¶</a></p>
+<p id="section-5.2.4-3">CTL-15: Intended vs. Actual State Reconciliation
+      : The framework must support continuous reconciliation between intended
+      network state and actual state derived from telemetry. When state drift
+      is detected, agents <span class="bcp14">MUST</span> trigger idempotent automated remediation
+      workflows unless explicitly disabled by operators.<a href="#section-5.2.4-3" class="pilcrow">¶</a></p>
+<p id="section-5.2.4-4">CTL-16: Dynamic Boundary Adaptation
+      : The framework must support the injection of global coordination policies
+      across multi-agent environments and enable dynamic adjustment of
+      operational boundaries (e.g., tightening permissions from read-write to
+      read-only) based on real-time network operational health and threat levels.<a href="#section-5.2.4-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="intervention-requirements">
+<section id="section-5.3">
+        <h3 id="name-intervention-requirements">
+<a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-intervention-requirements" class="section-name selfRef">Intervention Requirements</a>
+        </h3>
+<p id="section-5.3-1">The intervention requirements are organized into the following categories:<a href="#section-5.3-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.3-2.1">
+            <p id="section-5.3-2.1.1">Runtime Execution Intervention (<a href="#int-execution" class="auto internal xref">Section 5.3.1</a>)<a href="#section-5.3-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.3-2.2">
+            <p id="section-5.3-2.2.1">Post-execution Rollback (<a href="#int-rollback" class="auto internal xref">Section 5.3.2</a>)<a href="#section-5.3-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.3-2.3">
+            <p id="section-5.3-2.3.1">Escalation (<a href="#int-escalation" class="auto internal xref">Section 5.3.3</a>)<a href="#section-5.3-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.3-2.4">
+            <p id="section-5.3-2.4.1">Correction (<a href="#int-correction" class="auto internal xref">Section 5.3.4</a>)<a href="#section-5.3-2.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<div id="int-execution">
+<section id="section-5.3.1">
+          <h4 id="name-runtime-execution-intervent">
+<a href="#section-5.3.1" class="section-number selfRef">5.3.1. </a><a href="#name-runtime-execution-intervent" class="section-name selfRef">Runtime Execution Intervention</a>
+          </h4>
+<span class="break"></span><dl class="dlParallel" id="section-5.3.1-1">
+            <dt id="section-5.3.1-1.1">INT-1: Execution Interruption</dt>
+            <dd style="margin-left: 1.5em" id="section-5.3.1-1.2">
+              <p id="section-5.3.1-1.2.1">The supervisor must be able to immediately stop or redirect a running
+ agent's runtime execution. The framework must support a temporary
+ operational pause that preserves the execution state (e.g., giving
+ human operators time to analyze before deciding on further action),
+ as well as a hard stop that terminates execution with or without
+ instant configuration rollback when an agent is actively causing
+ network instability. Emergency intervention operations (e.g.,
+ pausing, terminating) must be executed independently of the agent's
+ internal LLM reasoning state or responsiveness. I.e., the framework
+ <span class="bcp14">MUST</span> support out-of-band emergency pause or kill-switch signals in
+ cases where an agent encounters a major failure (e.g., infinite
+ reasoning loops, deadlocks) or becomes totally unresponsive.<a href="#section-5.3.1-1.2.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="int-rollback">
+<section id="section-5.3.2">
+          <h4 id="name-post-execution-rollback">
+<a href="#section-5.3.2" class="section-number selfRef">5.3.2. </a><a href="#name-post-execution-rollback" class="section-name selfRef">Post-execution Rollback</a>
+          </h4>
+<span class="break"></span><dl class="dlParallel" id="section-5.3.2-1">
+            <dt id="section-5.3.2-1.1">INT-2: Rollback and Recovery</dt>
+            <dd style="margin-left: 1.5em" id="section-5.3.2-1.2">
+              <p id="section-5.3.2-1.2.1">The supervisor must be able to reverse actions already taken by an
+agent. The framework <span class="bcp14">MUST</span> support multiple granularities of action rollback.
+Based on the severity and impact of the failure, the rollback granularities
+<span class="bcp14">SHOULD</span> include:<a href="#section-5.3.2-1.2.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+</dl>
+<ul class="normal">
+<li class="normal" id="section-5.3.2-2.1">
+              <span class="break"></span><dl class="dlParallel" id="section-5.3.2-2.1.1">
+                <dt id="section-5.3.2-2.1.1.1">Agent workflow level</dt>
+                <dd style="margin-left: 1.5em" id="section-5.3.2-2.1.1.2">
+                  <p id="section-5.3.2-2.1.1.2.1">Reverts a specific step or a subset of execution steps within the agent's
+ execution chain, without canceling the overall task. This is applicable
+ for localized errors. For example, When an agent is onboarding a network
+ device, the supervisor rolls back only a failed post-configuration script
+ execution step while keeping the successfully downloaded boot image.<a href="#section-5.3.2-2.1.1.2.1" class="pilcrow">¶</a></p>
+</dd>
+              <dd class="break"></dd>
+</dl>
+</li>
+            <li class="normal" id="section-5.3.2-2.2">
+              <span class="break"></span><dl class="dlParallel" id="section-5.3.2-2.2.1">
+                <dt id="section-5.3.2-2.2.1.1">Agent task level</dt>
+                <dd style="margin-left: 1.5em" id="section-5.3.2-2.2.1.2">
+                  <p id="section-5.3.2-2.2.1.2.1">Reverts an entire task execution, performing a comprehensive rollback of all
+ network operations introduced since the initiation of the task. This is used as
+ an emergency mechanism for severe failures where the agent's entire execution is
+ failed. For example, when an agent fails to provision a network service, the
+ supervisor triggers a full task rollback to wipe out the entire provisioning
+ attempts across all affected nodes.<a href="#section-5.3.2-2.2.1.2.1" class="pilcrow">¶</a></p>
+</dd>
+              <dd class="break"></dd>
+</dl>
+</li>
+            <li class="normal" id="section-5.3.2-2.3">
+              <span class="break"></span><dl class="dlParallel" id="section-5.3.2-2.3.1">
+                <dt id="section-5.3.2-2.3.1.1">Agent context level</dt>
+                <dd style="margin-left: 1.5em" id="section-5.3.2-2.3.1.2">
+                  <p id="section-5.3.2-2.3.1.2.1">Reverts all network operations across multiple related tasks bound by the
+ same context. This acts as an ultimate rollback mechanism to reset the entire
+ multi-turn interaction or back to its original historical baseline. For example,
+ during a multi-turn network troubleshooting conversation, an agent executes three
+ tasks under the same context to mitigate an anomaly. If supervisor realizes the
+ entire investigation pathway was flawed, they may select context level rollback
+ to comprehensively wipe out all configuration changes made across all three tasks
+ in this specific context.<a href="#section-5.3.2-2.3.1.2.1" class="pilcrow">¶</a></p>
+</dd>
+              <dd class="break"></dd>
+</dl>
+</li>
+          </ul>
+</section>
+</div>
+<div id="int-escalation">
+<section id="section-5.3.3">
+          <h4 id="name-escalation">
+<a href="#section-5.3.3" class="section-number selfRef">5.3.3. </a><a href="#name-escalation" class="section-name selfRef">Escalation</a>
+          </h4>
+<span class="break"></span><dl class="dlParallel" id="section-5.3.3-1">
+            <dt id="section-5.3.3-1.1">INT-3: Escalation</dt>
+            <dd style="margin-left: 1.5em" id="section-5.3.3-1.2">
+              <p id="section-5.3.3-1.2.1">The framework must support the mechanism to allow the agent to route operational
+decisions, anomalies, and conflicts to a higher authority. An escalation is used
+when the current level (operator or agent) cannot or should not resolve the
+situation without supervision. During an escalation event, the framework must
+preserve the agent's runtime context and its full reasoning provenance trail
+to enable a seamless handover.<a href="#section-5.3.3-1.2.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="int-correction">
+<section id="section-5.3.4">
+          <h4 id="name-correction">
+<a href="#section-5.3.4" class="section-number selfRef">5.3.4. </a><a href="#name-correction" class="section-name selfRef">Correction</a>
+          </h4>
+<span class="break"></span><dl class="dlParallel" id="section-5.3.4-1">
+            <dt id="section-5.3.4-1.1">INT-4: Correction</dt>
+            <dd style="margin-left: 1.5em" id="section-5.3.4-1.2">
+              <p id="section-5.3.4-1.2.1">The supervisor <span class="bcp14">MUST</span> be able to correct an autonomous agent failure through
+any of the following mechanisms:<a href="#section-5.3.4-1.2.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+</dl>
+<ul class="normal">
+<li class="normal" id="section-5.3.4-2.1">
+              <span class="break"></span><dl class="dlParallel" id="section-5.3.4-2.1.1">
+                <dt id="section-5.3.4-2.1.1.1">Providing clearer intent</dt>
+                <dd style="margin-left: 1.5em" id="section-5.3.4-2.1.1.2">
+                  <p id="section-5.3.4-2.1.1.2.1">Clarifying or refining the high-level intent when the agent misinterprets
+ the operational goal.<a href="#section-5.3.4-2.1.1.2.1" class="pilcrow">¶</a></p>
+</dd>
+              <dd class="break"></dd>
+</dl>
+</li>
+            <li class="normal" id="section-5.3.4-2.2">
+              <span class="break"></span><dl class="dlParallel" id="section-5.3.4-2.2.1">
+                <dt id="section-5.3.4-2.2.1.1">Injecting additional operational constraints</dt>
+                <dd style="margin-left: 1.5em" id="section-5.3.4-2.2.1.2">
+                  <p id="section-5.3.4-2.2.1.2.1">Appending runtime network constraints or specific limits.<a href="#section-5.3.4-2.2.1.2.1" class="pilcrow">¶</a></p>
+</dd>
+              <dd class="break"></dd>
+</dl>
+</li>
+            <li class="normal" id="section-5.3.4-2.3">
+              <span class="break"></span><dl class="dlParallel" id="section-5.3.4-2.3.1">
+                <dt id="section-5.3.4-2.3.1.1">Providing missing or correcting network context</dt>
+                <dd style="margin-left: 1.5em" id="section-5.3.4-2.3.1.2">
+                  <p id="section-5.3.4-2.3.1.2.1">supplying missing, updated or corrected network knowledge, telemetry data,
+ or topological information that the agent relied on during its reasoning loop.<a href="#section-5.3.4-2.3.1.2.1" class="pilcrow">¶</a></p>
+</dd>
+              <dd class="break"></dd>
+</dl>
+</li>
+            <li class="normal" id="section-5.3.4-2.4">
+              <span class="break"></span><dl class="dlParallel" id="section-5.3.4-2.4.1">
+                <dt id="section-5.3.4-2.4.1.1">Modifying pending actions or planned configuration changes</dt>
+                <dd style="margin-left: 1.5em" id="section-5.3.4-2.4.1.2">
+                  <p id="section-5.3.4-2.4.1.2.1">Adjusting the agent's generating configuration, tool selections, parameters,
+ or execution order before they are applied to the network.<a href="#section-5.3.4-2.4.1.2.1" class="pilcrow">¶</a></p>
+</dd>
+              <dd class="break"></dd>
+</dl>
+</li>
+          </ul>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="security-considerations">
+<section id="section-6">
+      <h2 id="name-security-considerations">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<p id="section-6-1">This document defines a set of functional requirements for observability, control,
+and intervention of AI agents in the context of network management.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-2">The requirements themselves do not introduce additional security vulnerabilities.
+Rather, this document requirements some security safeguards such as access control,
+identity authentication, and integrity guarantees that should be enforced by the
+implementation and deployed systems.<a href="#section-6-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="iana-considerations">
+<section id="section-7">
+      <h2 id="name-iana-considerations">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      </h2>
+<p id="section-7-1">This document has no IANA actions.<a href="#section-7-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sec-combined-references">
+<section id="section-8">
+      <h2 id="name-references">
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-references" class="section-name selfRef">References</a>
+      </h2>
+<div id="sec-normative-references">
+<section id="section-8.1">
+        <h3 id="name-normative-references">
+<a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+        </h3>
+<dl class="references">
+<dt id="I-D.wnd-opsawg-icon-ps">[I-D.wnd-opsawg-icon-ps]</dt>
+        <dd>
+<span class="refAuthor">Wu, Q.</span>, <span class="refAuthor">Ceccarelli, D.</span>, <span class="refAuthor">Li, Z.</span>, <span class="refAuthor">Contreras, L. M.</span>, and <span class="refAuthor">Q. Ma</span>, <span class="refTitle">"Problem Statement for Observability, Intervention and Control (I&amp;C) in Multi-Agent Autonomous Networks"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-wnd-opsawg-icon-ps-00</span>, <time datetime="2026-07-05" class="refDate">5 July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-wnd-opsawg-icon-ps-00">https://datatracker.ietf.org/doc/html/draft-wnd-opsawg-icon-ps-00</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC2119">[RFC2119]</dt>
+        <dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8174">[RFC8174]</dt>
+      <dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="sec-informative-references">
+<section id="section-8.2">
+        <h3 id="name-informative-references">
+<a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+        </h3>
+<dl class="references">
+<dt id="I-D.wmz-nmrg-agent-ndt-arch">[I-D.wmz-nmrg-agent-ndt-arch]</dt>
+        <dd>
+<span class="refAuthor">Wu, Q.</span>, <span class="refAuthor">Zhou, C.</span>, <span class="refAuthor">Contreras, L. M.</span>, <span class="refAuthor">Han, S.</span>, and <span class="refAuthor">Y. Hong</span>, <span class="refTitle">"Network Digital Twin and Agentic AI based Architecture for AI-driven Network Operations"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-wmz-nmrg-agent-ndt-arch-06</span>, <time datetime="2026-08-28" class="refDate">28 August 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-wmz-nmrg-agent-ndt-arch-06">https://datatracker.ietf.org/doc/html/draft-wmz-nmrg-agent-ndt-arch-06</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC3198">[RFC3198]</dt>
+        <dd>
+<span class="refAuthor">Westerinen, A.</span>, <span class="refAuthor">Schnizlein, J.</span>, <span class="refAuthor">Strassner, J.</span>, <span class="refAuthor">Scherling, M.</span>, <span class="refAuthor">Quinn, B.</span>, <span class="refAuthor">Herzog, S.</span>, <span class="refAuthor">Huynh, A.</span>, <span class="refAuthor">Carlson, M.</span>, <span class="refAuthor">Perry, J.</span>, and <span class="refAuthor">S. Waldbusser</span>, <span class="refTitle">"Terminology for Policy-Based Management"</span>, <span class="seriesInfo">RFC 3198</span>, <span class="seriesInfo">DOI 10.17487/RFC3198</span>, <time datetime="2001-11" class="refDate">November 2001</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3198">https://www.rfc-editor.org/rfc/rfc3198</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6241">[RFC6241]</dt>
+        <dd>
+<span class="refAuthor">Enns, R., Ed.</span>, <span class="refAuthor">Bjorklund, M., Ed.</span>, <span class="refAuthor">Schoenwaelder, J., Ed.</span>, and <span class="refAuthor">A. Bierman, Ed.</span>, <span class="refTitle">"Network Configuration Protocol (NETCONF)"</span>, <span class="seriesInfo">RFC 6241</span>, <span class="seriesInfo">DOI 10.17487/RFC6241</span>, <time datetime="2011-06" class="refDate">June 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6241">https://www.rfc-editor.org/rfc/rfc6241</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8040">[RFC8040]</dt>
+      <dd>
+<span class="refAuthor">Bierman, A.</span>, <span class="refAuthor">Bjorklund, M.</span>, and <span class="refAuthor">K. Watsen</span>, <span class="refTitle">"RESTCONF Protocol"</span>, <span class="seriesInfo">RFC 8040</span>, <span class="seriesInfo">DOI 10.17487/RFC8040</span>, <time datetime="2017-01" class="refDate">January 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8040">https://www.rfc-editor.org/rfc/rfc8040</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+</section>
+</div>
+<div id="acknowledgments">
+<section id="appendix-A">
+      <h2 id="name-acknowledgments">
+<a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
+      </h2>
+<p id="appendix-A-1">The authors of this document would also like to thank Benoit Claise, Swamynathan B, Laurent Ciavaglia,
+Parisa Foroughi, Reza Rokui, Luis M. Contreras, Oscar Gonzalez de Dios, ZhenQiang Li, Cheng Zhou,
+Daniele Ceccarelli, Dan Voyer, Thomas Graf, Alex Huang Feng for review and comments.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="contributors">
+<section id="appendix-B">
+      <h2 id="name-contributors">
+<a href="#name-contributors" class="section-name selfRef">Contributors</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Daniel Voyer</span></div>
+<div dir="auto" class="left"><span class="org">Cisco</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:davoyer@cisco.com" class="email">davoyer@cisco.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Qiufang Ma</span></div>
+<div dir="auto" class="left"><span class="org">Huawei</span></div>
+<div dir="auto" class="left"><span class="street-address">101 Software Avenue, Yuhua District</span></div>
+<div dir="auto" class="left"><span class="locality">Nanjing, Jiangsu</span></div>
+<div dir="auto" class="left"><span class="postal-code">210012</span></div>
+<div dir="auto" class="left"><span class="country-name">China</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:maqiufang1@huawei.com" class="email">maqiufang1@huawei.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Yuanyuan Yang</span></div>
+<div dir="auto" class="left"><span class="org">Huawei</span></div>
+<div dir="auto" class="left"><span class="street-address">101 Software Avenue, Yuhua District</span></div>
+<div dir="auto" class="left"><span class="locality">Jiangsu</span></div>
+<div dir="auto" class="left"><span class="postal-code">210012</span></div>
+<div dir="auto" class="left"><span class="country-name">China</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:yangyuanyuan55@huawei.com" class="email">yangyuanyuan55@huawei.com</a>
+</div>
+</address>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="appendix-C">
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Qin Wu</span></div>
+<div dir="auto" class="left"><span class="org">Huawei</span></div>
+<div dir="auto" class="left"><span class="street-address">101 Software Avenue, Yuhua District</span></div>
+<div dir="auto" class="left"><span class="locality">Nanjing, Jiangsu</span></div>
+<div dir="auto" class="left"><span class="postal-code">210012</span></div>
+<div dir="auto" class="left"><span class="country-name">China</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:bill.wu@huawei.com" class="email">bill.wu@huawei.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Daniele Ceccarelli</span></div>
+<div dir="auto" class="left"><span class="org">Cisco</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:dceccare@cisco.com" class="email">dceccare@cisco.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Luis. M. Contreras</span></div>
+<div dir="auto" class="left"><span class="org">Telefonica</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:luismiguel.contrerasmurillo@telefonica.com" class="email">luismiguel.contrerasmurillo@telefonica.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Daniel King</span></div>
+<div dir="auto" class="left"><span class="org">Lancaster University</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:d.king@lancaster.ac.uk" class="email">d.king@lancaster.ac.uk</a>
+</div>
+</address>
+</section>
+</div>
+<script>const toc = document.getElementById("toc");
+toc.querySelector("h2").addEventListener("click", e => {
+  toc.classList.toggle("active");
+});
+toc.querySelector("nav").addEventListener("click", e => {
+  toc.classList.remove("active");
+});
+</script>
+</body>
+</html>
