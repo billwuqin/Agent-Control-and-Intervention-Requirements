@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-10-06T05:04:03.420403+00:00",
+  "timestamp": "2026-10-11T04:13:43.789888+00:00",
   "repo": "billwuqin/Agent-Control-and-Intervention-Requirements",
   "labels": [
     {
@@ -839,6 +839,53 @@
       },
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 28,
+      "id": "PR_kwDOScGbnM8AAAABHVckuA",
+      "title": "Update draft-mcw-opsawg-icon-requirements.md",
+      "url": "https://github.com/billwuqin/Agent-Control-and-Intervention-Requirements/pull/28",
+      "state": "OPEN",
+      "author": "giuseppefioccola",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-10-08T13:03:50Z",
+      "updatedAt": "2026-10-08T13:06:59Z",
+      "baseRepository": "billwuqin/Agent-Control-and-Intervention-Requirements",
+      "baseRefName": "main",
+      "baseRefOid": "a04ace3d4f45054b124cfed7296e60a5c5bc5089",
+      "headRepository": "billwuqin/Agent-Control-and-Intervention-Requirements",
+      "headRefName": "giuseppefioccola-patch-1",
+      "headRefOid": "83f3900b05d38687934c352154a656c67c79bcda",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOScGbnM8AAAABRUNB-A",
+          "commit": {
+            "abbreviatedOid": "e198c7c"
+          },
+          "author": "github-actions",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-10-08T13:04:22Z",
+          "updatedAt": "2026-10-08T13:04:22Z",
+          "comments": [
+            {
+              "originalPosition": 13,
+              "body": "````suggestion\n\n````",
+              "createdAt": "2026-10-08T13:04:22Z",
+              "updatedAt": "2026-10-08T13:04:22Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
