@@ -2,17 +2,15 @@
 
 
 
-Network Working Group                                         Q. Ma, Ed.
+Network Working Group                                              Q. Wu
 Internet-Draft                                                    Huawei
 Intended status: Informational                             D. Ceccarelli
-Expires: 13 March 2027                                             Cisco
-                                                                   Q. Wu
-                                                                  Huawei
+Expires: 19 April 2027                                             Cisco
                                                          L. M. Contreras
                                                               Telefonica
-                                                                D. Voyer
-                                                                   Cisco
-                                                        9 September 2026
+                                                                 D. King
+                                                    Lancaster University
+                                                         16 October 2026
 
 
       Architecture and Requirements for Observability, Control and
@@ -56,7 +54,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 March 2027.
+   This Internet-Draft will expire on 19 April 2027.
 
 Copyright Notice
 
@@ -85,12 +83,20 @@ Table of Contents
        4.3.1.  Function Modules & Tools
    5.  Requirements
      5.1.  Observability Requirements
-       5.1.1.  Observability Infrastructure Requirements
-       5.1.2.  Data Governance, Auditability, and Accountability
-       5.1.3.  Agent Execution Trajectory and Decision Logic
+       5.1.1.  Agent Execution Trajectory and Decision Logic
+       5.1.2.  Data Governance and Accountability
+       5.1.3.  Observability Infrastructure Requirements
        5.1.4.  Agent Metrics Collection
      5.2.  Control Requirements
+       5.2.1.  Agent Execution Guardrails and Risk Control
+       5.2.2.  Authorization and Access Control
+       5.2.3.  Policy Precedence and Concurrency Control
+       5.2.4.  Agent Control Resilience
      5.3.  Intervention Requirements
+       5.3.1.  Runtime Execution Intervention
+       5.3.2.  Post-execution Rollback
+       5.3.3.  Escalation
+       5.3.4.  Correction
    6.  Security Considerations
    7.  IANA Considerations
    8.  References
@@ -124,12 +130,13 @@ Table of Contents
    The operational problems, architectural challenges, and technical
    gaps regarding the observability, control, and intervention of
    autonomous network management agents are thoroughly detailed in
-   [I-D.wnd-opsawg-icon-ps].  This document builds upon those identified
-   gaps to specify a set of essential requirements that supervisors need
-   when deploying agents in real networks for agent observability,
-   control, and intervention.  Furthermore, it also defines an
-   architecure for ICON — Intervention, Control, and Observability for
-   Network Management Agents.
+   [I-D.wnd-opsawg-icon-ps].
+
+   This document builds upon those identified gaps to specify a set of
+   essential requirements that supervisors need when deploying agents in
+   real networks for agent observability, control, and intervention.
+   Furthermore, it also defines an architecure for ICON — Intervention,
+   Control, and Observability for Network Management Agents.
 
    This document specifies the architecture and communication
    requirements between the agent and the supervision system.  It does
@@ -154,11 +161,11 @@ Table of Contents
 
    *  Agent Observability
 
+   *  Human Oversight
+
    *  Intervention
 
    *  Control
-
-   *  Human Oversight
 
    This document defines the following terms:
 
@@ -208,41 +215,48 @@ Table of Contents
    architecture defined in Figure 1 serves as the structural foundation
    to derive the requirements specified in Section 5.
 
-     +-----------------------------------------------------+
-     |                    Human Oversight                  |
-     +--------------------------^--------------------------+
-                                |
-                                |
-     +--------------------------v--------------------------+
-     |   Agent Management Plane                            |
-     |                                                     |
-     |   +-------------+    +-------+    +------------+    |
-     |   |Observability|    |Control|    |Intervention|    |
-     |   +-------------+    +-------+    +------------+    |
-     +-----------------------^--+--------------------------+
-                             |  |
-     Agent Observability Data|  |Agent Control & Intervention Signals
-                             |  |
-     +-----------------------+--v--------------------------+
-     |  Agent Execution Plane                              |
-     |  +-----------+    +-----------+       +-----------+ |
-     |  |           |    |           |       |           | |
-     |  |  Agent 1  <---->  Agent 2  <--...-->  Agent n  | |
-     |  |           |    |           |       |           | |
-     |  +-----^-----+    +-----^-----+       +-----^-----+ |
-     |        |                |                   |       |
-     |  +-----v----------------v-------------------v-----+ |
-     |  |              Function Modules & Tools          | |
-     |  +------------------------------------------------+ |
-     +--------------------------^--------------------------+
-                                |
-                                | Interaction
-                                |
-     +--------------------------v--------------------------+
-     |              Network Infrastructure                 |
-     +-----------------------------------------------------+
+            Please view in a fixed-width font such as Courier.
 
-                        Figure 1: ICON Architecture
+   +----------------------------------+    +---------------+
+   | OSS/Orchestrator Layer           |    |               |
+   |+-------------------------------+ |    |Agent Management
+   ||  Agent Execution Plane (Agent | | (a)|    Plane      |
+   ||  +-------+  +-------+ Gateway)| <---->               |
+   ||  |       |  |       |         | |    |               |
+   ||  |Agent 1|  |Agent 2| ...     | |    |+-------------+|
+   ||  |       |  |       |         | |    ||Observability||
+   ||  +---^---+  +---^---+         | |    |+-------------+|
+   ||      |          |             | |    |               | +---------+
+   ||  +---v- --------------------+ | | (b)|               | |         |
+   ||  |Function Modules & Tools  | | <---->               | | human   |
+   ||  +--------------------------+ | |    |               <->         |
+   |+-------------------------------+ |    |+-------------+| |         |
+   |                                  |    ||   Control   || |Oversight|
+   +----------------------------------+    |+-------------+| |         |
+                                           |               | +---------+
+   +----------------------------------+    |               |
+   | Network Controller Layer         |    |               |
+   |+-------------------------------+ |    |               |
+   ||  Agent Execution Plane (Agent | |    |+-------------+|
+   ||  +-------+  +-------+ Gateway)| |    || Intervention||
+   ||  |       |  |       |         | | (a)|+-------------+|
+   ||  |Agent 1|  |Agent 2|...      | <---->               |
+   ||  |       |  |       |         | |    |               |
+   ||  +---^---+  +---^---+         | |    |               |
+   ||      |          |             | |    |               |
+   ||  +---v- -------------------+  | |    |               |
+   ||  |Function Modules & Tools |  | | (b)|               |
+   ||  +-------------------------+  | <---->               |
+   |+----------------------------- -+ |    |               |
+   |                                  |    |               |
+   +--------------+-------------------+    |---------------+
+                  |
+                  |                   Legend:
+   +--------------V------------------+(a)Observability Interface
+   |      Network Infrastructure     |(b)Intervention and Control
+   +---------------------------------+   Interface
+
+                       Figure 1: ICON Architecture
 
 4.1.  Human Oversight
 
@@ -263,18 +277,18 @@ Table of Contents
          operators.  A human operator could either approve, reject, or
          modify the agent's pending action sequence.
 
-   *  Emergency Intervention Trigger:  In the scenario of an unforeseen
-         and deviated agent behavior (e.g., an agent entering an
-         infinite inference loop or executing based on outdated data or
-         incorrect assumption), human oversight allows immediate, manual
-         injection of high-priority override instructions (e.g., global
-         kill switches or behavior corrections).
+   *  Emergency Intervention Trigger:  In case of an unforeseen and
+         deviated agent behavior (e.g., an agent entering an infinite
+         inference loop or executing based on outdated data or incorrect
+         assumption), human oversight allows immediate, manual injection
+         of high-priority override instructions (e.g., global kill
+         switches or behavior corrections).
 
    *  Post-Execution Feedback:  Beyond runtime intervention, operators
          could also provide a critical retrospective evaluation
          feedback.  Following an incident, anomaly, or successful
          resolution, human operators may inject multi-dimensional
-         feedback (e.g., critiquing the agent’s reasoning paths,
+         feedback (e.g., assessing the agent’s reasoning paths,
          correcting intermediate planning errors, or evaluating the
          quality of tool selection).  This retrospective feedback could
          be used to update the prompt templates or refine downstream
@@ -303,10 +317,11 @@ Table of Contents
          to identify operational anomalies or performance drifts.
 
    *  Policy Control:  It acts as the centralized Policy Decision Point
-         (PDP) [RFC3198] that translates human operational guidelines
-         into agent behavioral boundaries, guardrails, or operational
-         constraints.  It dynamically pushes a set of structured rules
-         or policy constraints down to agent execution plane.
+         (PDP) [RFC3198] that translates human operator intent or
+         operational guidelines into agent behavioral boundaries,
+         guardrails, or operational constraints.  It dynamically pushes
+         a set of structured rules or policy constraints down to agent
+         execution plane.
 
    *  Emergency Intervention:  It hosts the emergency orchestration
          logic required to reactively instruct agents in response to
@@ -318,7 +333,7 @@ Table of Contents
          upstream messages initiated by agents, such as escalation
          requests that proactively require human intervention.
 
-   In practical deployments, agent management plane could be embedded
+   In practical deployments, the agent management plane may be embedded
    within network management systems/OSS, an external Agent supervision
    or management platform, or even an upper-layer supervisor Agent.
 
@@ -382,60 +397,17 @@ Table of Contents
    The observability requirements are organized into the following
    categories:
 
-   *  Observability Infrastructure Requirements (Section 5.1.1)
+   *  Agent Execution Trajectory and Decision Logic (Section 5.1.1)
 
-   *  Data Governance, Auditability, and Accountability (Section 5.1.2)
+   *  Data Governance, Accountability (Section 5.1.2)
 
-   *  Agent Execution Trajectory and Decision Logic (Section 5.1.3)
+   *  Observability Infrastructure Requirements (Section 5.1.3)
 
    *  Agent Metrics Collection (Section 5.1.4)
 
-5.1.1.  Observability Infrastructure Requirements
+5.1.1.  Agent Execution Trajectory and Decision Logic
 
-   OBS-1: Authoritative Clock & Event Ordering  The framework must
-      provide an authoritative clock source and a causal event-ordering
-      model (Event-Ordering Model) across all distributed components.
-      This ensures that agent reasoning steps, tool invocations, and
-      network state changes are associated with a globally consistent
-      timestamp baseline across distributed environments.
-
-   OBS-2: Telemetry Pipeline Resilience  The observability pipeline must
-      support adaptive backpressure, dynamic sampling, and retention
-      policies to prevent telemetry storms from overwhelming collectors
-      caused by, e.g., intensive agent Chain-of-Thought (CoT) reasoning
-      logs or high-frequency tool invocation traces.  The pipeline
-      should additionally support self-health monitoring capabilities to
-      detect data loss, transmission latency, or connectivity
-      disruptions at telemetry collectors in real time.
-
-5.1.2.  Data Governance, Auditability, and Accountability
-
-   OBS-3: Telemetry Integrity and Completeness Protection  The framework
-      must support tamper-evident mechanisms (e.g., cryptographic
-      hashing) to prevent unauthorized alteration or omission of
-      execution trajectories.  This ensures the integrity and
-      completeness of observability data.
-
-   OBS-4: Privacy Protection  The framework must apply dynamic redaction
-      to sensitive data, including prompt text, network topology
-      information, Personally Identifiable Information (PII), and
-      credentials before telemetry data is persisted or exported.  The
-      redaction process must be context-aware and must not impede the
-      diagnostic value of the telemetry for authorized operators.
-
-   OBS-5: Auditability and Accountability  The framework must support
-      immutable audit logging of agent execution, enabling attribution
-      of network outcomes (e.g., service degradation, configuration
-      drift, new alarms) to specific intent interpretations, LLM
-      inferences, tool/skill invocations, and actions for post-incident
-      audit and compliance review.  The framework must support reverse
-      tracing from network operational state or newly raised alarms to
-      the specific historical reasoning or tool/API invocation action
-      that triggered it.
-
-5.1.3.  Agent Execution Trajectory and Decision Logic
-
-   OBS-6: Step-by-Step CoT and Execution Trajectory Capture  The
+   OBS-1: Step-by-Step CoT and Execution Trajectory Capture  The
       framework must support visibility into complete agent execution
       trajectories, including reasoning CoT, actions planning, executed
       steps, and network observations.  In a network change scenario,
@@ -445,7 +417,7 @@ Table of Contents
       the subsequent network state observations, enabling end-to-end
       traceability from thinking to network effect.
 
-   OBS-7: Reasoning and Knowledge Provenance  The framework must support
+   OBS-2: Reasoning and Knowledge Provenance  The framework must support
       visibility into reasoning provenance, including intent
       understanding, inference, confidence scores, and evidence chains
       justifying why a specific network operation decision was made.  It
@@ -454,17 +426,61 @@ Table of Contents
       decision-making and enable traceability of how external
       information influenced the agent's reasoning steps.
 
-   OBS-8: Tool Invocation Capture  The framework must capture the
+   OBS-3: Tool Invocation Capture  The framework must capture the
       complete input/output of all tools (Skills, APIs, CLIs, scripts)
       invoked by the agent, including tool selection logic and parameter
       bindings, and execution results.
 
-   OBS-9: Multi-Agent Delegation and Human-in-the-Loop Tracing  In
-      multi-agent collaborative scenarios, the framework must track
-      inter-agent communication messages, task delegation paths, and
-      dynamic collaboration.  It must also capture human expert
-      interventions (e.g., kill switch, pause, rollback), escalation
-      handling, and feedback signals on agent actions in the workflows.
+   OBS-4: Human-on-the-Loop and Multi-Agent Delegation  It must capture
+      human expert interventions (e.g., kill switch, pause, rollback),
+      escalation handling, and feedback signals on agent actions in the
+      workflows.  In case of multi-agent collaboration, the framework
+      must track inter-agent communication messages, task delegation
+      paths, anddynamic collaboration.
+
+5.1.2.  Data Governance and Accountability
+
+   OBS-5: Telemetry Integrity and Completeness Protection  The framework
+      must support tamper-evident mechanisms (e.g., cryptographic
+      hashing) to prevent unauthorized alteration or omission of
+      execution trajectories.  This ensures the integrity and
+      completeness of observability data.
+
+   OBS-6: Privacy Protection  The framework must apply dynamic redaction
+      to sensitive data, including prompt text, network topology
+      information, Personally Identifiable Information (PII), and
+      credentials before telemetry data is persisted or exported.  The
+      redaction process must be context-aware and must not impede the
+      diagnostic value of the telemetry for authorized operators.
+
+   OBS-7: Accountability  The framework must support immutable audit
+      logging of agent execution, enabling attribution of network
+      outcomes (e.g., service degradation, configuration drift, new
+      alarms) to specific intent interpretations, LLM inferences, tool/
+      skill invocations, and actions for post-incident audit and
+      compliance review.  The framework must support reverse tracing
+      from network operational state or newly raised alarms to the
+      specific historical reasoning or tool/API invocation action that
+      triggered it.
+
+5.1.3.  Observability Infrastructure Requirements
+
+   OBS-8: Authoritative Clock Synchronization & Event Ordering  The
+      framework must provide an authoritative clock source and a causal
+      event-ordering model (Event-Ordering Model) across all distributed
+      components.  This ensures that agent reasoning steps, tool
+      invocations, and network state changes are associated with a
+      globally consistent timestamp baseline across distributed
+      environments.
+
+   OBS-9: Telemetry Pipeline Resilience  The observability pipeline must
+      support adaptive backpressure, dynamic sampling, and retention
+      policies to prevent telemetry storms from overwhelming collectors
+      caused by, e.g., intensive agent Chain-of-Thought (CoT) reasoning
+      logs or high-frequency tool invocation traces.  The pipeline
+      should additionally support self-health monitoring capabilities to
+      detect data loss, transmission latency, or connectivity
+      disruptions at telemetry collectors in real time.
 
 5.1.4.  Agent Metrics Collection
 
@@ -479,63 +495,178 @@ Table of Contents
 
 5.2.  Control Requirements
 
-   CTL-1: Intent Validation and Alignment  The framework MUST ensure the
-      agent validates high-level network intents received from network
-      operators or upstream agents before execution.  The agent MUST
-      verify that the generated network configuration syntax and
-      semantic align with the network intents and constraints.
+   The control requirements are organized into the following categories:
 
-   CTL-2: Temporal and Data/Context Validity  The framework MUST ensure
-      the agent operates within authorized network maintenance time
-      windows.  Additionally, the agent MUST validate the freshness and
-      integrity of the context and network state and configuration data.
+   *  Agent Execution Guardrails and Risk Control (Section 5.2.1)
 
-   CTL-3: Access and Permission  The framework MUST provide mechanisms
-      to define and enforce fine-grained operational boundaries for
-      agents.  This MUST include restricting the agent's operational
-      scope to specific network domains/areas, set of devices, protocols
-      and tools.  Furthermore, it MUST support YANG node-level access
-      control, defining which configuration datastores, YANG data nodes,
-      and RPCs an agent is permitted to read or modify.
+   *  Authorization and Access Control (Section 5.2.2)
 
-   CTL-4: Authorization and Approval  The framework MUST support the
-      designation of certain network operations as requiring explicit
-      human approval/confirmation before execution.  It SHOULD also
-      support configurable escalation chain and communication methods/
-      channels to route escalation requests sequentially to designated
-      personnel.
+   *  Policy Precedence and Concurrency Control (Section 5.2.3)
 
-   CTL-5: Dynamic Boundary Adaptation  The framework MUST support the
-      injection of global coordination control policies across multi-
-      agent environments, and enable dynamic adjustment (e.g., tighten
-      the agent's permissible access from read-write to read-only) of
-      operational bounds based on the network's current operational
-      state.
+   *  Agent Control Resilience (Section 5.2.4)
+
+5.2.1.  Agent Execution Guardrails and Risk Control
+
+   CTL-1: Action Risk Classification : The framework must require an
+   agent to classify the risk level of any action (e.g., Low, Medium,
+   High, Critical) prior to execution.  The classification must consider
+   the operation type, target device roles, and potential impact on
+   network stability.  Downstream policy engines must consume this risk
+   level to enforce differentiated approval workflows and constraints.
+
+   CTL-2: Maximum Blast Radius Limits : The framework must enforce a
+   configurable maximum blast radius for each agent action, restricting
+   potential impact across device counts, link counts, service impact,
+   customer scope, and traffic volume.  The agent must evaluate the
+   blast radius before execution and abort any action exceeding
+   configured thresholds unless explicitly overridden by a human
+   operator.
+
+   CTL-3: Rate Limiting and Concurrency Control : The framework must
+   enforce rate limits and concurrency controls on agent actions to
+   prevent automation storms from overwhelming network devices or the
+   management plane.  Agents must comply with per-device, per-operator,
+   and global rate limits, as well as maximum concurrent task
+   thresholds.  Exceeded actions must be queued or rejected with
+   explicit feedback.
+
+   CTL-4: Action Cancellation Semantics : The framework must define and
+   support explicit cancellation semantics across three action states:
+   Queued (remove without side effects), Executing (gracefully terminate
+   and rollback where feasible), and Completed (interpret as a rollback
+   request invoking inverse workflows).  All cancellation results must
+   be logged for accountability.
+
+   CTL-5: Temporal and Contextual Validity : The framework must ensure
+   that agents operate strictly within authorized network maintenance
+   time windows.  Additionally, agents must validate the freshness,
+   integrity, and temporal validity of context, network state, and
+   configuration data before acting upon it.
+
+5.2.2.  Authorization and Access Control
+
+   CTL-6: Separation of Duties : The framework must enforce strict
+   separation among five operational roles: Read-Only, Propose,
+   Validate, Approve, and Execute.  Each role MUST be tied to distinct
+   credentials and permissions.  A single agent or operator must not
+   possess end-to-end capabilities across all roles without explicit
+   supervisory authorization.  This separation must be enforceable at
+   both agent and orchestrator levels.
+
+   CTL-7: Fine-Grained Access and Permissions : The framework must
+   provide mechanisms to define and enforce fine-grained operational
+   boundaries.  This MUST include restricting an agent's scope to
+   specific network domains, device sets, protocols, and tools, as well
+   as YANG node-level access control specifying permitted datastores,
+   YANG data nodes, and RPCs for read or modification.
+
+   CTL-8: Authorization and Approval Escalation : The framework must
+   support designating specific high-risk network operations as
+   requiring explicit human approval before execution.  It SHOULD
+   support configurable escalation chains and communication channels to
+   route approval requests sequentially to designated personnel.
+
+5.2.3.  Policy Precedence and Concurrency Control
+
+   CTL-9: Change Attribution and Distributed Locking : The framework
+   must support change attribution tracking and distributed locking
+   mechanisms for concurrent multi-agent or human-agent operations.  An
+   agent MUST acquire a lock (containing owner identity, target scope,
+   and expiration time) on target resources prior to initiating changes.
+   Conflicting requests MUST be queued or rejected with clear conflict
+   notifications.
+
+   CTL-10: Cross-Domain Policy Conflict Resolution : The framework must
+   implement deterministic cross-domain policy conflict resolution.
+   When an action spans multiple policy domains (e.g., routing,
+   security, QoS, multi-vendor domains) and generates conflicts, the
+   framework MUST resolve them using configurable priority models (e.g.,
+   security policies take precedence over routing policies).  Actions
+   MUST be halted until conflicts are resolved or overridden by a human
+   supervisor.
+
+   CTL-11: Deterministic Authority Precedence : The framework must
+   enforce a deterministic hierarchy across four control sources: Human
+   Operators (highest precedence), Supervisor Agents, Orchestrators, and
+   Autonomous Agents.  When conflicting instructions are received,
+   higher-precedence sources MUST preempt lower-precedence ones, and
+   lower-precedence sources MUST receive preemption notifications.
+
+   CTL-12: Intent Validation and Alignment : The framework must ensure
+   agents validate high-level network intents received from operators or
+   upstream agents before execution.  Agents MUST verify that generated
+   configuration syntax and semantics strictly align with network
+   intents and operational constraints.
+
+5.2.4.  Agent Control Resilience
+
+   CTL-13: Degraded Behavior on Control Plane Unreachability : The
+   framework must define deterministic degradation behaviors when an
+   agent loses connectivity with the ICON control/management plane.
+   Agents MUST support at least one configurable fallback mode: (a)
+   Fail-Safe (abort active/pending actions and enter read-only state),
+   (b) Fail-Hold (complete current action but reject new requests), or
+   (c) Fail-Local (continue execution using local cached
+   authorizations).
+
+   CTL-14: Management Plane High Availability and Geographic Isolation :
+   The framework must support high availability and geographically
+   isolated deployments for ICON management plane components across
+   multiple availability zones with automated failover.  Active
+   operations MUST be safely recovered or re-evaluated by the backup
+   primary control plane without duplicate executions or data loss.
+
+   CTL-15: Intended vs. Actual State Reconciliation : The framework must
+   support continuous reconciliation between intended network state and
+   actual state derived from telemetry.  When state drift is detected,
+   agents MUST trigger idempotent automated remediation workflows unless
+   explicitly disabled by operators.
+
+   CTL-16: Dynamic Boundary Adaptation : The framework must support the
+   injection of global coordination policies across multi-agent
+   environments and enable dynamic adjustment of operational boundaries
+   (e.g., tightening permissions from read-write to read-only) based on
+   real-time network operational health and threat levels.
 
 5.3.  Intervention Requirements
 
-   INT-1: Execution Interruption  The supervisor MUST be able to
+   The intervention requirements are organized into the following
+   categories:
+
+   *  Runtime Execution Intervention (Section 5.3.1)
+
+   *  Post-execution Rollback (Section 5.3.2)
+
+   *  Escalation (Section 5.3.3)
+
+   *  Correction (Section 5.3.4)
+
+5.3.1.  Runtime Execution Intervention
+
+   INT-1: Execution Interruption  The supervisor must be able to
       immediately stop or redirect a running agent's runtime execution.
-      The framework MUST support a temporary operational pause that
+      The framework must support a temporary operational pause that
       preserves the execution state (e.g., giving human operators time
       to analyze before deciding on further action), as well as a hard
       stop that terminates execution with or without instant
       configuration rollback when an agent is actively causing network
       instability.  Emergency intervention operations (e.g., pausing,
-      terminating) MUST be executed independently of the agent's
+      terminating) must be executed independently of the agent's
       internal LLM reasoning state or responsiveness.  I.e., the
       framework MUST support out-of-band emergency pause or kill-switch
       signals in cases where an agent encounters a major failure (e.g.,
       infinite reasoning loops, deadlocks) or becomes totally
       unresponsive.
 
-   INT-2: Rollback and Recovery  The supervisor MUST be able to reverse
+5.3.2.  Post-execution Rollback
+
+   INT-2: Rollback and Recovery  The supervisor must be able to reverse
       actions already taken by an agent.  The framework MUST support
       multiple granularities of action rollback.  Based on the severity
       and impact of the failure, the rollback granularities SHOULD
       include:
 
-   *  Agent workflow level:  Reverts a specific step or a subset of
+   *  Agent workflow level  Reverts a specific step or a subset of
          execution steps within the agent's execution chain, without
          canceling the overall task.  This is applicable for localized
          errors.  For example, When an agent is onboarding a network
@@ -564,29 +695,33 @@ Table of Contents
          configuration changes made across all three tasks in this
          specific context.
 
-   INT-3: Escalation  The framwork MUST support the mechanism to allow
+5.3.3.  Escalation
+
+   INT-3: Escalation  The framework must support the mechanism to allow
       the agent to route operational decisions, anomalies, and conflicts
       to a higher authority.  An escalation is used when the current
       level (operator or agent) cannot or should not resolve the
       situation without supervision.  During an escalation event, the
-      framework MUST preserve the agent's runtime context and its full
+      framework must preserve the agent's runtime context and its full
       reasoning provenance trail to enable a seamless handover.
+
+5.3.4.  Correction
 
    INT-4: Correction  The supervisor MUST be able to correct an
       autonomous agent failure through any of the following mechanisms:
 
-   *  providing clearer intent  Clarifying or refining the high-level
+   *  Providing clearer intent  Clarifying or refining the high-level
          intent when the agent misinterprets the operational goal.
 
-   *  injecting additional operational constraints  Appending runtime
+   *  Injecting additional operational constraints  Appending runtime
          network constraints or specific limits.
 
-   *  providing missing or correcting network context  supplying
+   *  Providing missing or correcting network context  supplying
          missing, updated or corrected network knowledge, telemetry
          data, or topological information that the agent relied on
          during its reasoning loop.
 
-   *  modifying pending actions or planned configuration changes  Adjusting
+   *  Modifying pending actions or planned configuration changes  Adjusting
          the agent's generating configuration, tool selections,
          parameters, or execution order before they are applied to the
          network.
@@ -656,9 +791,26 @@ Table of Contents
 Acknowledgments
 
    The authors of this document would also like to thank Benoit Claise,
-   Daniele Ceccarelli for review and comments.
+   Swamynathan B, Laurent Ciavaglia, Parisa Foroughi, Reza Rokui, Luis
+   M.  Contreras, Oscar Gonzalez de Dios, ZhenQiang Li, Cheng Zhou,
+   Daniele Ceccarelli, Dan Voyer, Thomas Graf, Alex Huang Feng for
+   review and comments.
 
 Contributors
+
+   Daniel Voyer
+   Cisco
+   Email: davoyer@cisco.com
+
+
+   Qiufang Ma
+   Huawei
+   101 Software Avenue, Yuhua District
+   Nanjing, Jiangsu
+   210012
+   China
+   Email: maqiufang1@huawei.com
+
 
    Yuanyuan Yang
    Huawei
@@ -671,20 +823,6 @@ Contributors
 
 Authors' Addresses
 
-   Qiufang Ma (editor)
-   Huawei
-   101 Software Avenue, Yuhua District
-   Nanjing, Jiangsu
-   210012
-   China
-   Email: maqiufang1@huawei.com
-
-
-   Daniele Ceccarelli
-   Cisco
-   Email: dceccare@cisco.com
-
-
    Qin Wu
    Huawei
    101 Software Avenue, Yuhua District
@@ -694,11 +832,16 @@ Authors' Addresses
    Email: bill.wu@huawei.com
 
 
+   Daniele Ceccarelli
+   Cisco
+   Email: dceccare@cisco.com
+
+
    Luis. M. Contreras
    Telefonica
    Email: luismiguel.contrerasmurillo@telefonica.com
 
 
-   Daniel Voyer
-   Cisco
-   Email: davoyer@cisco.com
+   Daniel King
+   Lancaster University
+   Email: d.king@lancaster.ac.uk
