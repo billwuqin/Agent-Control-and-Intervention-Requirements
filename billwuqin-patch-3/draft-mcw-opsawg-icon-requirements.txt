@@ -215,8 +215,6 @@ Table of Contents
    architecture defined in Figure 1 serves as the structural foundation
    to derive the requirements specified in Section 5.
 
-            Please view in a fixed-width font such as Courier.
-
    +----------------------------------+    +---------------+
    | OSS/Orchestrator Layer           |    |               |
    |+-------------------------------+ |    |Agent Management
