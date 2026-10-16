@@ -169,8 +169,6 @@ This section describes the reference architecture for ICON. The architecture def
 serves as the structural foundation to derive the requirements specified in {{requirements}}.
 
 ~~~~
-          Please view in a fixed-width font such as Courier.
-
  +----------------------------------+    +---------------+
  | OSS/Orchestrator Layer           |    |               |
  |+-------------------------------+ |    |Agent Management
@@ -209,7 +207,6 @@ serves as the structural foundation to derive the requirements specified in {{re
  +--------------V------------------+(a)Observability Interface
  |      Network Infrastructure     |(b)Intervention and Control
  +---------------------------------+   Interface
-
 ~~~~
 {: #arch title="ICON Architecture" artwork-align="center"}
 
