@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-10-15T03:22:29.143430+00:00",
+  "timestamp": "2026-10-18T03:11:57.761812+00:00",
   "repo": "billwuqin/Agent-Control-and-Intervention-Requirements",
   "labels": [
     {
@@ -902,6 +902,32 @@
           ]
         }
       ]
+    },
+    {
+      "number": 30,
+      "id": "PR_kwDOScGbnM8AAAABIzFlLA",
+      "title": "ICON Architecture Update",
+      "url": "https://github.com/billwuqin/Agent-Control-and-Intervention-Requirements/pull/30",
+      "state": "OPEN",
+      "author": "billwuqin",
+      "authorAssociation": "OWNER",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-10-16T08:08:13Z",
+      "updatedAt": "2026-10-16T08:21:28Z",
+      "baseRepository": "billwuqin/Agent-Control-and-Intervention-Requirements",
+      "baseRefName": "main",
+      "baseRefOid": "a04ace3d4f45054b124cfed7296e60a5c5bc5089",
+      "headRepository": "billwuqin/Agent-Control-and-Intervention-Requirements",
+      "headRefName": "billwuqin-patch-3",
+      "headRefOid": "648d00d14b75d5c7d157bb17c99c49b211ccefa8",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
