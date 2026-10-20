@@ -113,6 +113,43 @@ This document does not specify a particular protocol, data model, or implementat
 Those topics are orthogonal to the operational requirements defined here, which are
 intended to be solution-neutral.
 
+## Observability, Control and Intervention Workflow of Network Management Agents
+
+When AIOPS Assistant exchanges the user intent with an untrusted Network Management Agent
+or a network management agent with lowest trust score, the Agent Observability process and
+Evaluation process will be intitialized to collect and evaluate Agent behavior information.
+In case of high risk operation or agent deviating from what Agents are expected to do, the
+decision will be escalated to the human. Human operation will use Intervention signal or
+control signal to provide guardrail protection for Agent behavior.
+
+~~~~
+                           +---------------+
+  +------------------+     | Human Operator|
+  |                  |     |               |
+  |  AIOPS Asssitant |     +----+----+-----+
+  |                  |          |    |
+  +--------^---------+      +---V----V-----+
+           |    +-----------|              |
+           |    |  |--------| AI Guardrail |
+           |Control|        +-----^--------+
+           |Signal |              |Report
+   Intent  |    |  |        +--------------+
+  Request  |    | Intervene |   Agent      |
+ /Response |    |  |Signal  | Evaluation   |
+           |    |  |        |   Process    |
+           |    |  |        +-----^--------+
+           |    |  |              |Report
+  +--------V----V--V-+      +-----|-------+
+  |Network Management|      |    Agent    |
+  |     Agent        +------>Observability|
+  +------------------+      |   Process   |
+                            +-------------+
+                   Observability
+                 Signal interface
+
+~~~~
+{: #flow title="Sample Workflow" artwork-align="center"}
+
 # Conventions and Definitions
 
 {::boilerplate bcp14-tagged}
