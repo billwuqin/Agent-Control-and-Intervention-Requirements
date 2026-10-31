@@ -542,7 +542,7 @@ The control requirements are organized into the following categories:
       to restricted write, to autonomous execution), and the ability to
       downgrade authorization levels during operation based on assessment
       results.
- 
+
 ### Policy Precedence and Concurrency Control {#ctl-concurrency}
 
    CTL-10: Change Attribution and Distributed Locking
@@ -620,7 +620,7 @@ The intervention requirements are organized into the following categories:
 INT-1: Execution Interruption
 : The supervisor must be able to immediately stop or redirect or isolate or report a running
    agent's runtime execution.
-  
+
 * Pause and Stop
 : The framework must support a temporary operational pause that preserves the execution
   state (e.g., giving human operators time to analyze before  deciding on further action),
