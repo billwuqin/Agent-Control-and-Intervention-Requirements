@@ -613,7 +613,7 @@ The intervention requirements are organized into the following categories:
 INT-1: Execution Interruption
 : The supervisor must be able to immediately stop or redirect or isolate or report a running
    agent's runtime execution.
-   
+  
 * Pause and Stop
 : The framework must support a temporary operational pause that preserves the execution
   state (e.g., giving human operators time to analyze before  deciding on further action),
