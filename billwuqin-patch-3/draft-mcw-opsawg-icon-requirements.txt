@@ -10,6 +10,8 @@ Expires: 4 May 2027                                                Cisco
                                                               Telefonica
                                                                  D. King
                                                     Lancaster University
+                                                             G. Fioccola
+                                                                  Huawei
                                                          31 October 2026
 
 
@@ -159,13 +161,13 @@ Table of Contents
    This document uses the following terms defined in
    [I-D.wnd-opsawg-icon-ps]:
 
-   *  Agent Observability
-
-   *  Human Oversight
+   *  Observability
 
    *  Intervention
 
    *  Control
+
+   *  Human Oversight
 
    This document defines the following terms:
 
@@ -282,16 +284,16 @@ Table of Contents
          of high-priority override instructions (e.g., global kill
          switches or behavior corrections).
 
-   *  Post-Execution Feedback:  Beyond runtime intervention, operators
-         could also provide a critical retrospective evaluation
-         feedback.  Following an incident, anomaly, or successful
-         resolution, human operators may inject multi-dimensional
-         feedback (e.g., assessing the agent’s reasoning paths,
-         correcting intermediate planning errors, or evaluating the
-         quality of tool selection).  This retrospective feedback could
-         be used to update the prompt templates or refine downstream
-         guardrail policies, preventing the recurrence of similar
-         behavioral drifts.
+   *  Post-Execution Feedback:  Beyond runtime intervention, human
+         operators could also provide a critical retrospective
+         evaluation feedback.  Following an incident, anomaly, or
+         successful resolution, human operators may inject multi-
+         dimensional feedback (e.g., assessing the agent’s reasoning
+         paths, correcting intermediate planning errors, or evaluating
+         the quality of tool selection).  This retrospective feedback
+         could be used to update the prompt templates or refine
+         downstream guardrail policies, preventing the recurrence of
+         similar behavioral drifts.
 
    It is worth mentioning that human operators rarely send raw agent
    control or intervention protocol payloads directly.  They could use
@@ -805,10 +807,6 @@ Contributors
 
    Qiufang Ma
    Huawei
-   101 Software Avenue, Yuhua District
-   Nanjing, Jiangsu
-   210012
-   China
    Email: maqiufang1@huawei.com
 
 
@@ -825,10 +823,6 @@ Authors' Addresses
 
    Qin Wu
    Huawei
-   101 Software Avenue, Yuhua District
-   Nanjing, Jiangsu
-   210012
-   China
    Email: bill.wu@huawei.com
 
 
@@ -845,3 +839,8 @@ Authors' Addresses
    Daniel King
    Lancaster University
    Email: d.king@lancaster.ac.uk
+
+
+   Giuseppe Fioccola
+   Huawei
+   Email: giuseppe.fioccola@huawei.com
