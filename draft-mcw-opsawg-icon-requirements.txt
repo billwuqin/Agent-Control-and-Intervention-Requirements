@@ -75,6 +75,8 @@ Copyright Notice
 Table of Contents
 
    1.  Introduction
+     1.1.  Observability, Control and Intervention Workflow of Network
+           Management Agents
    2.  Conventions and Definitions
    3.  Existing Mechanisms for Agent Observability, Control, and
            Intervention
@@ -150,6 +152,44 @@ Table of Contents
    implementation API.  Those topics are orthogonal to the operational
    requirements defined here, which are intended to be solution-neutral.
 
+1.1.  Observability, Control and Intervention Workflow of Network
+      Management Agents
+
+   When AIOPS Assistant exchanges the user intent with an untrusted
+   Network Management Agent or a network management agent with lowest
+   trust score, the Agent Observability process and Evaluation process
+   will be intitialized to collect and evaluate Agent behavior
+   information.  In case of high risk operation or agent deviating from
+   what Agents are expected to do, the decision will be escalated to the
+   human.  Human operation will use Intervention signal or control
+   signal to provide guardrail protection for Agent behavior.
+
+                                          +---------------+
+                 +------------------+     | Human Operator|
+                 |                  |     |               |
+                 |  AIOPS Asssitant |     +----+----+-----+
+                 |                  |          |    |
+                 +--------^---------+      +---V----V-----+
+                          |    +-----------|              |
+                          |    |  |--------| AI Guardrail |
+                          |Control|        +-----^--------+
+                          |Signal |              |Report
+                  Intent  |    |  |        +--------------+
+                 Request  |    | Intervene |   Agent      |
+                /Response |    |  |Signal  | Evaluation   |
+                          |    |  |        |   Process    |
+                          |    |  |        +-----^--------+
+                          |    |  |              |Report
+                 +--------V----V--V-+      +-----|-------+
+                 |Network Management|      |    Agent    |
+                 |     Agent        +------>Observability|
+                 +------------------+      |   Process   |
+                                           +-------------+
+                                  Observability
+                                Signal interface
+
+                         Figure 1: Sample Workflow
+
 2.  Conventions and Definitions
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -214,7 +254,7 @@ Table of Contents
 4.  Architectural Framework for ICON
 
    This section describes the reference architecture for ICON.  The
-   architecture defined in Figure 1 serves as the structural foundation
+   architecture defined in Figure 2 serves as the structural foundation
    to derive the requirements specified in Section 5.
 
    +----------------------------------+    +---------------+
@@ -256,7 +296,7 @@ Table of Contents
    |      Network Infrastructure     |(b)Intervention and Control
    +---------------------------------+   Interface
 
-                       Figure 1: ICON Architecture
+                       Figure 2: ICON Architecture
 
 4.1.  Human Oversight
 
@@ -368,13 +408,13 @@ Table of Contents
 
 4.3.1.  Function Modules & Tools
 
-   As depicted in Figure 1, agents in the Agent Enforcement Plane act on
+   As depicted in Figure 2, agents in the Agent Enforcement Plane act on
    the network infrastructure via the Function Modules & Tools layer
    rather than interacting with network devices directly.  Agents invoke
    this layer to translate their reasoning decisions into concrete
    operational actions on the underlying network.
 
-   Although represented as a single functional block in Figure 1, this
+   Although represented as a single functional block in Figure 2, this
    layer could abstract a richer and heterogeneous set of functions and
    tools.  It may encompass, for example, the tool and function-calling
    interfaces exposed to agents, network management protocol adapters

@@ -1173,12 +1173,17 @@ resilience and continuity.<a href="#section-abstract-2" class="pilcrow">¶</a></
 <nav class="toc"><ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
             <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1">
+                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-observability-control-and-i" class="internal xref">Observability, Control and Intervention Workflow of Network Management Agents</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
             <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-conventions-and-definitions" class="internal xref">Conventions and Definitions</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
-            <p id="section-toc.1-1.3.1" class="keepWithNext"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-existing-mechanisms-for-age" class="internal xref">Existing Mechanisms for Agent Observability, Control, and Intervention</a></p>
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-existing-mechanisms-for-age" class="internal xref">Existing Mechanisms for Agent Observability, Control, and Intervention</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
             <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-architectural-framework-for" class="internal xref">Architectural Framework for ICON</a></p>
@@ -1315,6 +1320,53 @@ algorithms, or training methodologies of the network management agents themselve
 <p id="section-1-6">This document does not specify a particular protocol, data model, or implementation API.
 Those topics are orthogonal to the operational requirements defined here, which are
 intended to be solution-neutral.<a href="#section-1-6" class="pilcrow">¶</a></p>
+<div id="observability-control-and-intervention-workflow-of-network-management-agents">
+<section id="section-1.1">
+        <h3 id="name-observability-control-and-i">
+<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-observability-control-and-i" class="section-name selfRef">Observability, Control and Intervention Workflow of Network Management Agents</a>
+        </h3>
+<p id="section-1.1-1">When AIOPS Assistant exchanges the user intent with an untrusted Network Management Agent
+or a network management agent with lowest trust score, the Agent Observability process and
+Evaluation process will be intitialized to collect and evaluate Agent behavior information.
+In case of high risk operation or agent deviating from what Agents are expected to do, the
+decision will be escalated to the human. Human operation will use Intervention signal or
+control signal to provide guardrail protection for Agent behavior.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
+<span id="name-sample-workflow"></span><div id="flow">
+<figure id="figure-1">
+          <div class="alignCenter art-text artwork" id="section-1.1-2.1">
+<pre>
+                           +---------------+
+  +------------------+     | Human Operator|
+  |                  |     |               |
+  |  AIOPS Asssitant |     +----+----+-----+
+  |                  |          |    |
+  +--------^---------+      +---V----V-----+
+           |    +-----------|              |
+           |    |  |--------| AI Guardrail |
+           |Control|        +-----^--------+
+           |Signal |              |Report
+   Intent  |    |  |        +--------------+
+  Request  |    | Intervene |   Agent      |
+ /Response |    |  |Signal  | Evaluation   |
+           |    |  |        |   Process    |
+           |    |  |        +-----^--------+
+           |    |  |              |Report
+  +--------V----V--V-+      +-----|-------+
+  |Network Management|      |    Agent    |
+  |     Agent        +------&gt;Observability|
+  +------------------+      |   Process   |
+                            +-------------+
+                   Observability
+                 Signal interface
+
+</pre>
+</div>
+<figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
+<a href="#name-sample-workflow" class="selfRef">Sample Workflow</a>
+          </figcaption></figure>
+</div>
+</section>
+</div>
 </section>
 </div>
 <div id="conventions-and-definitions">
@@ -1385,10 +1437,10 @@ and intervention defined in <a href="#architecture" class="auto internal xref">S
       <h2 id="name-architectural-framework-for">
 <a href="#section-4" class="section-number selfRef">4. </a><a href="#name-architectural-framework-for" class="section-name selfRef">Architectural Framework for ICON</a>
       </h2>
-<p id="section-4-1">This section describes the reference architecture for ICON. The architecture defined in <a href="#arch" class="auto internal xref">Figure 1</a>
+<p id="section-4-1">This section describes the reference architecture for ICON. The architecture defined in <a href="#arch" class="auto internal xref">Figure 2</a>
 serves as the structural foundation to derive the requirements specified in <a href="#requirements" class="auto internal xref">Section 5</a>.<a href="#section-4-1" class="pilcrow">¶</a></p>
 <span id="name-icon-architecture"></span><div id="arch">
-<figure id="figure-1">
+<figure id="figure-2">
         <div class="alignCenter art-text artwork" id="section-4-2.1">
 <pre>
  +----------------------------------+    +---------------+
@@ -1431,7 +1483,7 @@ serves as the structural foundation to derive the requirements specified in <a h
  +---------------------------------+   Interface
 </pre>
 </div>
-<figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
+<figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
 <a href="#name-icon-architecture" class="selfRef">ICON Architecture</a>
         </figcaption></figure>
 </div>
@@ -1581,11 +1633,11 @@ Intervention Signals received from the Agent Management Plane.<a href="#section-
           <h4 id="name-function-modules-tools">
 <a href="#section-4.3.1" class="section-number selfRef">4.3.1. </a><a href="#name-function-modules-tools" class="section-name selfRef">Function Modules &amp; Tools</a>
           </h4>
-<p id="section-4.3.1-1">As depicted in <a href="#arch" class="auto internal xref">Figure 1</a>, agents in the Agent Enforcement Plane act on the network
+<p id="section-4.3.1-1">As depicted in <a href="#arch" class="auto internal xref">Figure 2</a>, agents in the Agent Enforcement Plane act on the network
 infrastructure via the Function Modules &amp; Tools layer rather than interacting with
 network devices directly. Agents invoke this layer to translate their reasoning
 decisions into concrete operational actions on the underlying network.<a href="#section-4.3.1-1" class="pilcrow">¶</a></p>
-<p id="section-4.3.1-2">Although represented as a single functional block in <a href="#arch" class="auto internal xref">Figure 1</a>, this layer could
+<p id="section-4.3.1-2">Although represented as a single functional block in <a href="#arch" class="auto internal xref">Figure 2</a>, this layer could
 abstract a richer and heterogeneous set of functions and tools. It may encompass,
 for example, the tool and function-calling interfaces exposed to agents, network
 management protocol adapters and clients (e.g., NETCONF <span>[<a href="#RFC6241" class="cite xref">RFC6241</a>]</span>, RESTCONF
