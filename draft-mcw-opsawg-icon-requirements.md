@@ -611,18 +611,30 @@ The intervention requirements are organized into the following categories:
 ### Runtime Execution Intervention {#int-execution}
 
 INT-1: Execution Interruption
-: The supervisor must be able to immediately stop or redirect a running
-   agent's runtime execution. The framework must support a temporary
-   operational pause that preserves the execution state (e.g., giving
-   human operators time to analyze before deciding on further action),
-   as well as a hard stop that terminates execution with or without
-   instant configuration rollback when an agent is actively causing
-   network instability. Emergency intervention operations (e.g.,
-   pausing, terminating) must be executed independently of the agent's
-   internal LLM reasoning state or responsiveness, i.e., the framework
-   MUST support out-of-band emergency pause or kill-switch signals in
-   cases where an agent encounters a major failure (e.g., infinite
-   reasoning loops, deadlocks) or becomes totally unresponsive.
+: The supervisor must be able to immediately stop or redirect or isolate or report a running
+   agent's runtime execution.
+   
+* Pause and Stop
+: The framework must support a temporary operational pause that preserves the execution
+  state (e.g., giving human operators time to analyze before  deciding on further action),
+  as well as a hard stop that terminates execution with or without instant configuration
+  rollback when an agent is actively causing network instability.
+
+* Emergency Intervention
+: Emergency intervention operations (e.g., pausing, terminating) must be executed
+  independently of the agent's internal LLM reasoning state or responsiveness or
+  other agent's runtime execution, i.e., the framework MUST support out-of-band
+  emergency pause or kill-switch signals in cases where an agent encounters a major
+  failure (e.g., infinite reasoning loops, deadlocks) or becomes totally unresponsive
+  without affecting the other agent's runtime execution.
+
+* Verification and reporting
+：The framework must support explicit acknowledgement and effect reporting for
+  intervention commands (e.g., termination, pause, stop), distinguishing between
+  "command accepted" and "command applied". The execution plane must return
+  the state of the intervention target before and after the command, the intervention
+  result (completed, partially completed, failed, unknown), and the failure reason,
+  and should support timeout reporting and retry semantics.
 
 ### Post-execution Rollback {#int-rollback}
 
