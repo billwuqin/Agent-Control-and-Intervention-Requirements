@@ -172,8 +172,8 @@ serves as the structural foundation to derive the requirements specified in {{re
  +----------------------------------+    +---------------+
  | OSS/Orchestrator Layer           |    |               |
  |+-------------------------------+ |    |Agent Management
- ||  Agent Execution Plane (Agent | | (a)|    Plane      |
- ||  +-------+  +-------+ Gateway)| <---->               |
+ || Agent Enforcement Plane(Agent | | (a)|    Plane      |
+ ||  +-------+  +-------+ Fabric) | <---->               |
  ||  |       |  |       |         | |    |               |
  ||  |Agent 1|  |Agent 2| ...     | |    |+-------------+|
  ||  |       |  |       |         | |    ||Observability||
@@ -189,8 +189,8 @@ serves as the structural foundation to derive the requirements specified in {{re
  +----------------------------------+    |               |
  | Network Controller Layer         |    |               |
  |+-------------------------------+ |    |               |
- ||  Agent Execution Plane (Agent | |    |+-------------+|
- ||  +-------+  +-------+ Gateway)| |    || Intervention||
+ || Agent Enforcement Plane(Agent | |    |+-------------+|
+ ||  +-------+  +-------+ Fabric) | |    || Intervention||
  ||  |       |  |       |         | | (a)|+-------------+|
  ||  |Agent 1|  |Agent 2|...      | <---->               |
  ||  |       |  |       |         | |    |               |
@@ -223,7 +223,7 @@ high-level intervention commands during crises or anomalies.
 
  * Escalation Handling:
  : When an active agent encounters an ambiguous scenario, a conflict between different policies,
- or a decision whose confidence score falls below a predefined threshold, the execution plane
+ or a decision whose confidence score falls below a predefined threshold, the enforcement plane
  suspends the task and escalates it to operators. A human operator could either approve, reject,
  or modify the agent's pending action sequence.
 
@@ -251,12 +251,12 @@ intervention signals for normalization and distribution.
 
 Agent management plane is the Agent assurance capabilities which are used to manage, monitor, and
 regulate autonomous AI agents on behalf of human operators. It is logically decoupled from the
-agent execution plane. Note that agent management plane might include other technical and
+agent enforcement plane. Note that agent management plane might include other technical and
 operational pillars such as agent lifecycle management, which are out of the scope of this draft.
 
 
  * Observability:
- : It receives observation streams transmitted from downstream agent execution plane. It provides
+ : It receives observation streams transmitted from downstream agent enforcement plane. It provides
    human operators with comprehensive agent behavioral visibility and the ability to identify
    operational anomalies or performance drifts.
 
@@ -264,7 +264,7 @@ operational pillars such as agent lifecycle management, which are out of the sco
  : It acts as the centralized Policy Decision Point (PDP) {{?RFC3198}} that translates human
    operator intent or operational guidelines into agent behavioral boundaries, guardrails, or
    operational constraints. It  dynamically pushes a set of structured rules or policy
-   constraints down to agent execution plane.
+   constraints down to agent enforcement plane.
 
  * Emergency Intervention:
  : It hosts the emergency orchestration logic required to reactively instruct agents in
@@ -279,25 +279,25 @@ In practical deployments, the agent management plane may be embedded within netw
 systems/OSS, an external Agent supervision or management platform, or even an upper-layer
 supervisor Agent.
 
-## Agent Execution Plane
+## Agent Enforcement Plane
 
-The Agent Execution Plane is the runtime environment in which AI agents operate, perform
+The Agent Enfocement Plane is the runtime environment in which AI agents operate, perform
 reasoning and planning, collaborate with other agents, and invoke capabilities exposed through
 the Function Modules & Tools layer described in {{functions}}. Through that layer, agents
 obtain network information and translate their reasoning outcomes into operations on the
 network infrastructure.
 
-The Agent Execution Plane receives high-level intents originating from network operators or
+The Agent Enforcement Plane receives high-level intents originating from network operators or
 upstream agents and executes the corresponding tasks step by step. An agent may delegate
 parts of a task to other agents. Each execution step may involve invoking tools, function
 calls, APIs, knowledge retrieval interfaces, or reusable agent skills exposed through the
 Function Modules & Tools layer.
 
-During and after task execution, the Agent Execution Plane collects execution status,
+During and after task execution, the Agent Enforcement Plane collects execution status,
 operational logs, tool invocation records, and resulting network observations. It provides
 the corresponding agent observability data to the Agent Management Plane for supervision.
 
-The Agent Execution Plane supports policy enforcement at critical points throughout task
+The Agent Enfocement Plane supports policy enforcement at critical points throughout task
 execution, including before task processing, before tool invocation or network actions,
 and before delivering a final response. It also accepts and applies Agent Control and
 Intervention Signals received from the Agent Management Plane.
@@ -305,7 +305,7 @@ Intervention Signals received from the Agent Management Plane.
 
 ### Function Modules & Tools {#functions}
 
-As depicted in {{arch}}, agents in the Agent Execution Plane act on the network
+As depicted in {{arch}}, agents in the Agent Enforcement Plane act on the network
 infrastructure via the Function Modules & Tools layer rather than interacting with
 network devices directly. Agents invoke this layer to translate their reasoning
 decisions into concrete operational actions on the underlying network.
@@ -320,7 +320,7 @@ RAG or vector-database lookups), reusable agent skills, and automation scripts.
 The internal composition, interfaces, and orchestration are implementation specific.
 A detailed decomposition of this layer is outside the scope of this document, which
 focuses on the requirements of observability, control, and intervention interactions
-between the Agent Management Plane and the Agent Execution Plane. Consequently, this
+between the Agent Management Plane and the Agent Enforcement Plane. Consequently, this
 layer is intentionally treated as an abstract entity in this framework.
 
 # Requirements {#requirements}
