@@ -34,11 +34,11 @@ resilience and continuity.
     Jinja2 3.1.6
     lxml 6.1.1
     natsort 8.4.0
-    platformdirs 4.12.2
+    platformdirs 4.13.4
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.33.1
-    wcwidth 0.9.1
+    wcwidth 0.9.2
 -->
 <link href="draft-mcw-opsawg-icon-requirements.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1058,7 +1058,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Wu, et al.</td>
-<td class="center">Expires 19 April 2027</td>
+<td class="center">Expires 4 May 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1071,12 +1071,12 @@ svg {
 <dd class="internet-draft">draft-mcw-opsawg-icon-requirements-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-10-16" class="published">16 October 2026</time>
+<time datetime="2026-10-31" class="published">31 October 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-04-19">19 April 2027</time></dd>
+<dd class="expires"><time datetime="2027-05-04">4 May 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1137,7 +1137,7 @@ resilience and continuity.<a href="#section-abstract-2" class="pilcrow">¶</a></
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 19 April 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 4 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1185,7 +1185,7 @@ resilience and continuity.<a href="#section-abstract-2" class="pilcrow">¶</a></
                 <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-agent-management-plane" class="internal xref">Agent Management Plane</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3">
-                <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="auto internal xref">4.3</a>.  <a href="#name-agent-execution-plane" class="internal xref">Agent Execution Plane</a></p>
+                <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="auto internal xref">4.3</a>.  <a href="#name-agent-enforcement-plane" class="internal xref">Agent Enforcement Plane</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3.2.1">
                     <p id="section-toc.1-1.4.2.3.2.1.1"><a href="#section-4.3.1" class="auto internal xref">4.3.1</a>.  <a href="#name-function-modules-tools" class="internal xref">Function Modules &amp; Tools</a></p>
@@ -1389,8 +1389,8 @@ serves as the structural foundation to derive the requirements specified in <a h
  +----------------------------------+    +---------------+
  | OSS/Orchestrator Layer           |    |               |
  |+-------------------------------+ |    |Agent Management
- ||  Agent Execution Plane (Agent | | (a)|    Plane      |
- ||  +-------+  +-------+ Gateway)| &lt;----&gt;               |
+ || Agent Enforcement Plane(Agent | | (a)|    Plane      |
+ ||  +-------+  +-------+ Fabric) | &lt;----&gt;               |
  ||  |       |  |       |         | |    |               |
  ||  |Agent 1|  |Agent 2| ...     | |    |+-------------+|
  ||  |       |  |       |         | |    ||Observability||
@@ -1406,8 +1406,8 @@ serves as the structural foundation to derive the requirements specified in <a h
  +----------------------------------+    |               |
  | Network Controller Layer         |    |               |
  |+-------------------------------+ |    |               |
- ||  Agent Execution Plane (Agent | |    |+-------------+|
- ||  +-------+  +-------+ Gateway)| |    || Intervention||
+ || Agent Enforcement Plane(Agent | |    |+-------------+|
+ ||  +-------+  +-------+ Fabric) | |    || Intervention||
  ||  |       |  |       |         | | (a)|+-------------+|
  ||  |Agent 1|  |Agent 2|...      | &lt;----&gt;               |
  ||  |       |  |       |         | |    |               |
@@ -1455,7 +1455,7 @@ high-level intervention commands during crises or anomalies.<a href="#section-4.
               <dt id="section-4.1-2.2.1.1">Escalation Handling:</dt>
               <dd style="margin-left: 1.5em" id="section-4.1-2.2.1.2">
                 <p id="section-4.1-2.2.1.2.1">When an active agent encounters an ambiguous scenario, a conflict between different policies,
- or a decision whose confidence score falls below a predefined threshold, the execution plane
+ or a decision whose confidence score falls below a predefined threshold, the enforcement plane
  suspends the task and escalates it to operators. A human operator could either approve, reject,
  or modify the agent's pending action sequence.<a href="#section-4.1-2.2.1.2.1" class="pilcrow">¶</a></p>
 </dd>
@@ -1502,14 +1502,14 @@ intervention signals for normalization and distribution.<a href="#section-4.1-3"
         </h3>
 <p id="section-4.2-1">Agent management plane is the Agent assurance capabilities which are used to manage, monitor, and
 regulate autonomous AI agents on behalf of human operators. It is logically decoupled from the
-agent execution plane. Note that agent management plane might include other technical and
+agent enforcement plane. Note that agent management plane might include other technical and
 operational pillars such as agent lifecycle management, which are out of the scope of this draft.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.2-2.1">
             <span class="break"></span><dl class="dlParallel" id="section-4.2-2.1.1">
               <dt id="section-4.2-2.1.1.1">Observability:</dt>
               <dd style="margin-left: 1.5em" id="section-4.2-2.1.1.2">
-                <p id="section-4.2-2.1.1.2.1">It receives observation streams transmitted from downstream agent execution plane. It provides
+                <p id="section-4.2-2.1.1.2.1">It receives observation streams transmitted from downstream agent enforcement plane. It provides
 human operators with comprehensive agent behavioral visibility and the ability to identify
 operational anomalies or performance drifts.<a href="#section-4.2-2.1.1.2.1" class="pilcrow">¶</a></p>
 </dd>
@@ -1523,7 +1523,7 @@ operational anomalies or performance drifts.<a href="#section-4.2-2.1.1.2.1" cla
                 <p id="section-4.2-2.2.1.2.1">It acts as the centralized Policy Decision Point (PDP) <span>[<a href="#RFC3198" class="cite xref">RFC3198</a>]</span> that translates human
 operator intent or operational guidelines into agent behavioral boundaries, guardrails, or
 operational constraints. It  dynamically pushes a set of structured rules or policy
-constraints down to agent execution plane.<a href="#section-4.2-2.2.1.2.1" class="pilcrow">¶</a></p>
+constraints down to agent enforcement plane.<a href="#section-4.2-2.2.1.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
 </dl>
@@ -1549,25 +1549,25 @@ systems/OSS, an external Agent supervision or management platform, or even an up
 supervisor Agent.<a href="#section-4.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="agent-execution-plane">
+<div id="agent-enforcement-plane">
 <section id="section-4.3">
-        <h3 id="name-agent-execution-plane">
-<a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-agent-execution-plane" class="section-name selfRef">Agent Execution Plane</a>
+        <h3 id="name-agent-enforcement-plane">
+<a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-agent-enforcement-plane" class="section-name selfRef">Agent Enforcement Plane</a>
         </h3>
-<p id="section-4.3-1">The Agent Execution Plane is the runtime environment in which AI agents operate, perform
+<p id="section-4.3-1">The Agent Enfocement Plane is the runtime environment in which AI agents operate, perform
 reasoning and planning, collaborate with other agents, and invoke capabilities exposed through
 the Function Modules &amp; Tools layer described in <a href="#functions" class="auto internal xref">Section 4.3.1</a>. Through that layer, agents
 obtain network information and translate their reasoning outcomes into operations on the
 network infrastructure.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
-<p id="section-4.3-2">The Agent Execution Plane receives high-level intents originating from network operators or
+<p id="section-4.3-2">The Agent Enforcement Plane receives high-level intents originating from network operators or
 upstream agents and executes the corresponding tasks step by step. An agent may delegate
 parts of a task to other agents. Each execution step may involve invoking tools, function
 calls, APIs, knowledge retrieval interfaces, or reusable agent skills exposed through the
 Function Modules &amp; Tools layer.<a href="#section-4.3-2" class="pilcrow">¶</a></p>
-<p id="section-4.3-3">During and after task execution, the Agent Execution Plane collects execution status,
+<p id="section-4.3-3">During and after task execution, the Agent Enforcement Plane collects execution status,
 operational logs, tool invocation records, and resulting network observations. It provides
 the corresponding agent observability data to the Agent Management Plane for supervision.<a href="#section-4.3-3" class="pilcrow">¶</a></p>
-<p id="section-4.3-4">The Agent Execution Plane supports policy enforcement at critical points throughout task
+<p id="section-4.3-4">The Agent Enfocement Plane supports policy enforcement at critical points throughout task
 execution, including before task processing, before tool invocation or network actions,
 and before delivering a final response. It also accepts and applies Agent Control and
 Intervention Signals received from the Agent Management Plane.<a href="#section-4.3-4" class="pilcrow">¶</a></p>
@@ -1576,7 +1576,7 @@ Intervention Signals received from the Agent Management Plane.<a href="#section-
           <h4 id="name-function-modules-tools">
 <a href="#section-4.3.1" class="section-number selfRef">4.3.1. </a><a href="#name-function-modules-tools" class="section-name selfRef">Function Modules &amp; Tools</a>
           </h4>
-<p id="section-4.3.1-1">As depicted in <a href="#arch" class="auto internal xref">Figure 1</a>, agents in the Agent Execution Plane act on the network
+<p id="section-4.3.1-1">As depicted in <a href="#arch" class="auto internal xref">Figure 1</a>, agents in the Agent Enforcement Plane act on the network
 infrastructure via the Function Modules &amp; Tools layer rather than interacting with
 network devices directly. Agents invoke this layer to translate their reasoning
 decisions into concrete operational actions on the underlying network.<a href="#section-4.3.1-1" class="pilcrow">¶</a></p>
@@ -1589,7 +1589,7 @@ RAG or vector-database lookups), reusable agent skills, and automation scripts.<
 <p id="section-4.3.1-3">The internal composition, interfaces, and orchestration are implementation specific.
 A detailed decomposition of this layer is outside the scope of this document, which
 focuses on the requirements of observability, control, and intervention interactions
-between the Agent Management Plane and the Agent Execution Plane. Consequently, this
+between the Agent Management Plane and the Agent Enforcement Plane. Consequently, this
 layer is intentionally treated as an abstract entity in this framework.<a href="#section-4.3.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -2128,7 +2128,7 @@ implementation and deployed systems.<a href="#section-6-2" class="pilcrow">¶</a
 <dl class="references">
 <dt id="I-D.wnd-opsawg-icon-ps">[I-D.wnd-opsawg-icon-ps]</dt>
         <dd>
-<span class="refAuthor">Wu, Q.</span>, <span class="refAuthor">Ceccarelli, D.</span>, <span class="refAuthor">Li, Z.</span>, <span class="refAuthor">Contreras, L. M.</span>, and <span class="refAuthor">Q. Ma</span>, <span class="refTitle">"Problem Statement for Observability, Intervention and Control (I&amp;C) in Multi-Agent Autonomous Networks"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-wnd-opsawg-icon-ps-00</span>, <time datetime="2026-07-05" class="refDate">5 July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-wnd-opsawg-icon-ps-00">https://datatracker.ietf.org/doc/html/draft-wnd-opsawg-icon-ps-00</a>&gt;</span>. </dd>
+<span class="refAuthor">Wu, Q.</span>, <span class="refAuthor">Ceccarelli, D.</span>, <span class="refAuthor">Li, Z.</span>, <span class="refAuthor">Contreras, L. M.</span>, and <span class="refAuthor">D. King</span>, <span class="refTitle">"Problem Statement for Observability, Intervention and Control (I&amp;C) in Multi-Agent Autonomous Networks"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-wnd-opsawg-icon-ps-01</span>, <time datetime="2026-10-30" class="refDate">30 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-wnd-opsawg-icon-ps-01">https://datatracker.ietf.org/doc/html/draft-wnd-opsawg-icon-ps-01</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
