@@ -21,10 +21,6 @@ author:
 -
    fullname: Qin Wu
    organization: Huawei
-   street: 101 Software Avenue, Yuhua District
-   city: Nanjing, Jiangsu
-   code: 210012
-   country: China
    email: bill.wu@huawei.com
 -
    fullname: Daniele Ceccarelli
@@ -38,6 +34,10 @@ author:
   fullname: Daniel King
   organization: Lancaster University
   email: d.king@lancaster.ac.uk
+-
+  fullname: Giuseppe Fioccola
+  organization: Huawei
+  email: giuseppe.fioccola@huawei.com
 
 contributor:
 -
@@ -47,10 +47,6 @@ contributor:
 -
    fullname: Qiufang Ma
    organization: Huawei
-   street: 101 Software Avenue, Yuhua District
-   city: Nanjing, Jiangsu
-   code: 210012
-   country: China
    email: maqiufang1@huawei.com
 -
   fullname: Yuanyuan Yang
