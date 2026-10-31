@@ -631,14 +631,14 @@ INT-2: Rollback and Recovery
   Based on the severity and impact of the failure, the rollback granularities
   SHOULD include:
 
- * Agent workflow level
+ * Agent Workflow Level
  : Reverts a specific step or a subset of execution steps within the agent's
     execution chain, without canceling the overall task. This is applicable
     for localized errors. For example, When an agent is onboarding a network
     device, the supervisor rolls back only a failed post-configuration script
     execution step while keeping the successfully downloaded boot image.
 
- * Agent task level
+ * Agent Task Level
  : Reverts an entire task execution, performing a comprehensive rollback of all
  network operations introduced since the initiation of the task. This is used as
  an emergency mechanism for severe failures where the agent's entire execution is
@@ -646,7 +646,7 @@ INT-2: Rollback and Recovery
  supervisor triggers a full task rollback to wipe out the entire provisioning
  attempts across all affected nodes.
 
- * Agent context level
+ * Agent Context Level
  : Reverts all network operations across multiple related tasks bound by the
  same context. This acts as an ultimate rollback mechanism to reset the entire
  multi-turn interaction or back to its original historical baseline. For example,
@@ -672,21 +672,20 @@ INT-4: Correction
 : The supervisor MUST be able to correct an autonomous agent failure through
 any of the following mechanisms:
 
- * Providing clearer intent
+ * Providing Refined Intent
  : Clarifying or refining the high-level intent when the agent misinterprets
  the operational goal.
 
- * Injecting additional operational constraints
+ * Injecting Additional Operational Constraints
  : Appending runtime network constraints or specific limits.
 
- * Providing missing or correcting network context
+ * Providing Missing or Correcting network context
  : supplying missing, updated or corrected network knowledge, telemetry data,
  or topological information that the agent relied on during its reasoning loop.
 
- * Modifying pending actions or planned configuration changes
+ * Modifying Pending Actions or Planned Configuration Changes
  : Adjusting the agent's generating configuration, tool selections, parameters,
  or execution order before they are applied to the network.
-
 
 
 # Security Considerations
