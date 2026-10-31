@@ -243,6 +243,7 @@ serves as the structural foundation to derive the requirements specified in {{re
  +--------------V------------------+(a)Observability Interface
  |      Network Infrastructure     |(b)Intervention and Control
  +---------------------------------+   Interface
+
 ~~~~
 {: #arch title="ICON Architecture" artwork-align="center"}
 
@@ -618,7 +619,7 @@ INT-1: Execution Interruption
    instant configuration rollback when an agent is actively causing
    network instability. Emergency intervention operations (e.g.,
    pausing, terminating) must be executed independently of the agent's
-   internal LLM reasoning state or responsiveness. I.e., the framework
+   internal LLM reasoning state or responsiveness, i.e., the framework
    MUST support out-of-band emergency pause or kill-switch signals in
    cases where an agent encounters a major failure (e.g., infinite
    reasoning loops, deadlocks) or becomes totally unresponsive.
