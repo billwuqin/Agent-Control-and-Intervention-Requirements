@@ -536,9 +536,16 @@ The control requirements are organized into the following categories:
       SHOULD support configurable escalation chains and communication channels
       to route approval requests sequentially to designated personnel.
 
+   CTL-9: Progressive Authorization Upgrade and Downgrade
+    : The framework must support a progressive authorization mechanism for
+      network management agents during the deployment (e.g., from read-only,
+      to restricted write, to autonomous execution), and the ability to
+      downgrade authorization levels during operation based on assessment
+      results.
+ 
 ### Policy Precedence and Concurrency Control {#ctl-concurrency}
 
-   CTL-9: Change Attribution and Distributed Locking
+   CTL-10: Change Attribution and Distributed Locking
     : The framework must support change attribution tracking and distributed
       locking mechanisms for concurrent multi-agent or human-agent operations.
       An agent MUST acquire a lock (containing owner identity, target scope,
@@ -546,7 +553,7 @@ The control requirements are organized into the following categories:
       Conflicting requests MUST be queued or rejected with clear conflict
       notifications.
 
-   CTL-10: Cross-Domain Policy Conflict Resolution
+   CTL-11: Cross-Domain Policy Conflict Resolution
       : The framework must implement deterministic cross-domain policy conflict
       resolution. When an action spans multiple policy domains (e.g., routing,
       security, QoS, multi-vendor domains) and generates conflicts, the
@@ -554,14 +561,14 @@ The control requirements are organized into the following categories:
       security policies take precedence over routing policies). Actions MUST
       be halted until conflicts are resolved or overridden by a human supervisor.
 
-   CTL-11: Deterministic Authority Precedence
+   CTL-12: Deterministic Authority Precedence
       : The framework must enforce a deterministic hierarchy across four control
       sources: Human Operators (highest precedence), Supervisor Agents,
       Orchestrators, and Autonomous Agents. When conflicting instructions are
       received, higher-precedence sources MUST preempt lower-precedence ones,
       and lower-precedence sources MUST receive preemption notifications.
 
-   CTL-12: Intent Validation and Alignment
+   CTL-13: Intent Validation and Alignment
       : The framework must ensure agents validate high-level network intents
       received from operators or upstream agents before execution. Agents MUST
       verify that generated configuration syntax and semantics strictly align
@@ -569,7 +576,7 @@ The control requirements are organized into the following categories:
 
 ### Agent Control Resilience {#ctl-resilience}
 
- CTL-13: Degraded Behavior on Control Plane Unreachability
+ CTL-14: Degraded Behavior on Control Plane Unreachability
     : The framework must define deterministic degradation behaviors when an
       agent loses connectivity with the ICON control/management plane. Agents
       MUST support at least one configurable fallback mode: (a) Fail-Safe
@@ -577,20 +584,20 @@ The control requirements are organized into the following categories:
       (complete current action but reject new requests), or (c) Fail-Local
       (continue execution using local cached authorizations).
 
-   CTL-14: Management Plane High Availability and Geographic Isolation
+   CTL-15: Management Plane High Availability and Geographic Isolation
       : The framework must support high availability and geographically isolated
       deployments for ICON management plane components across multiple availability
       zones with automated failover. Active operations MUST be safely recovered
       or re-evaluated by the backup primary control plane without duplicate
       executions or data loss.
 
-   CTL-15: Intended vs. Actual State Reconciliation
+   CTL-16: Intended vs. Actual State Reconciliation
       : The framework must support continuous reconciliation between intended
       network state and actual state derived from telemetry. When state drift
       is detected, agents MUST trigger idempotent automated remediation
       workflows unless explicitly disabled by operators.
 
-   CTL-16: Dynamic Boundary Adaptation
+   CTL-17: Dynamic Boundary Adaptation
       : The framework must support the injection of global coordination policies
       across multi-agent environments and enable dynamic adjustment of
       operational boundaries (e.g., tightening permissions from read-write to
