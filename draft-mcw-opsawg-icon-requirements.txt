@@ -709,7 +709,7 @@ Table of Contents
       and impact of the failure, the rollback granularities SHOULD
       include:
 
-   *  Agent workflow level  Reverts a specific step or a subset of
+   *  Agent Workflow Level  Reverts a specific step or a subset of
          execution steps within the agent's execution chain, without
          canceling the overall task.  This is applicable for localized
          errors.  For example, When an agent is onboarding a network
@@ -717,7 +717,7 @@ Table of Contents
          configuration script execution step while keeping the
          successfully downloaded boot image.
 
-   *  Agent task level  Reverts an entire task execution, performing a
+   *  Agent Task Level  Reverts an entire task execution, performing a
          comprehensive rollback of all network operations introduced
          since the initiation of the task.  This is used as an emergency
          mechanism for severe failures where the agent's entire
@@ -726,7 +726,7 @@ Table of Contents
          task rollback to wipe out the entire provisioning attempts
          across all affected nodes.
 
-   *  Agent context level  Reverts all network operations across
+   *  Agent Context Level  Reverts all network operations across
          multiple related tasks bound by the same context.  This acts as
          an ultimate rollback mechanism to reset the entire multi-turn
          interaction or back to its original historical baseline.  For
@@ -753,18 +753,18 @@ Table of Contents
    INT-4: Correction  The supervisor MUST be able to correct an
       autonomous agent failure through any of the following mechanisms:
 
-   *  Providing clearer intent  Clarifying or refining the high-level
+   *  Providing Refined Intent  Clarifying or refining the high-level
          intent when the agent misinterprets the operational goal.
 
-   *  Injecting additional operational constraints  Appending runtime
+   *  Injecting Additional Operational Constraints  Appending runtime
          network constraints or specific limits.
 
-   *  Providing missing or correcting network context  supplying
+   *  Providing Missing or Correcting network context  supplying
          missing, updated or corrected network knowledge, telemetry
          data, or topological information that the agent relied on
          during its reasoning loop.
 
-   *  Modifying pending actions or planned configuration changes  Adjusting
+   *  Modifying Pending Actions or Planned Configuration Changes  Adjusting
          the agent's generating configuration, tool selections,
          parameters, or execution order before they are applied to the
          network.
