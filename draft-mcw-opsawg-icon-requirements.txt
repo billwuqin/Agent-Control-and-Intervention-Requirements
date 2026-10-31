@@ -161,13 +161,13 @@ Table of Contents
    This document uses the following terms defined in
    [I-D.wnd-opsawg-icon-ps]:
 
-   *  Agent Observability
-
-   *  Human Oversight
+   *  Observability
 
    *  Intervention
 
    *  Control
+
+   *  Human Oversight
 
    This document defines the following terms:
 
@@ -279,16 +279,16 @@ Table of Contents
          of high-priority override instructions (e.g., global kill
          switches or behavior corrections).
 
-   *  Post-Execution Feedback:  Beyond runtime intervention, operators
-         could also provide a critical retrospective evaluation
-         feedback.  Following an incident, anomaly, or successful
-         resolution, human operators may inject multi-dimensional
-         feedback (e.g., assessing the agent’s reasoning paths,
-         correcting intermediate planning errors, or evaluating the
-         quality of tool selection).  This retrospective feedback could
-         be used to update the prompt templates or refine downstream
-         guardrail policies, preventing the recurrence of similar
-         behavioral drifts.
+   *  Post-Execution Feedback:  Beyond runtime intervention, human
+         operators could also provide a critical retrospective
+         evaluation feedback.  Following an incident, anomaly, or
+         successful resolution, human operators may inject multi-
+         dimensional feedback (e.g., assessing the agent’s reasoning
+         paths, correcting intermediate planning errors, or evaluating
+         the quality of tool selection).  This retrospective feedback
+         could be used to update the prompt templates or refine
+         downstream guardrail policies, preventing the recurrence of
+         similar behavioral drifts.
 
    It is worth mentioning that human operators rarely send raw agent
    control or intervention protocol payloads directly.  They could use
@@ -306,10 +306,11 @@ Table of Contents
    other technical and operational pillars such as agent lifecycle
    management, which are out of the scope of this draft.
 
-   *  Observability:  It receives observation streams transmitted from
-         downstream agent execution plane.  It provides human operators
-         with comprehensive agent behavioral visibility and the ability
-         to identify operational anomalies or performance drifts.
+   *  Agent Observability:  It receives observation streams transmitted
+         from downstream agent execution plane.  It provides human
+         operators with comprehensive agent behavioral visibility and
+         the ability to identify operational anomalies or performance
+         drifts.
 
    *  Policy Control:  It acts as the centralized Policy Decision Point
          (PDP) [RFC3198] that translates human operator intent or
