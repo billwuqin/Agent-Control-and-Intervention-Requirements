@@ -21,10 +21,6 @@ author:
 -
    fullname: Qin Wu
    organization: Huawei
-   street: 101 Software Avenue, Yuhua District
-   city: Nanjing, Jiangsu
-   code: 210012
-   country: China
    email: bill.wu@huawei.com
 -
    fullname: Daniele Ceccarelli
@@ -38,6 +34,10 @@ author:
   fullname: Daniel King
   organization: Lancaster University
   email: d.king@lancaster.ac.uk
+-
+  fullname: Giuseppe Fioccola
+  organization: Huawei
+  email: giuseppe.fioccola@huawei.com
 
 contributor:
 -
@@ -47,10 +47,6 @@ contributor:
 -
    fullname: Qiufang Ma
    organization: Huawei
-   street: 101 Software Avenue, Yuhua District
-   city: Nanjing, Jiangsu
-   code: 210012
-   country: China
    email: maqiufang1@huawei.com
 -
   fullname: Yuanyuan Yang
@@ -119,14 +115,13 @@ intended to be solution-neutral.
 
  This document uses the following terms defined in {{!I-D.wnd-opsawg-icon-ps}}:
 
- * Agent Observability
-
- * Human Oversight
+ * Observability
 
  * Intervention
 
  * Control
 
+ * Human Oversight
 
  This document defines the following terms:
 
@@ -234,13 +229,12 @@ high-level intervention commands during crises or anomalies.
  global kill switches or behavior corrections).
 
  * Post-Execution Feedback:
- : Beyond runtime intervention, operators could also provide a critical retrospective evaluation
+ : Beyond runtime intervention, human operators could also provide a critical retrospective evaluation
  feedback. Following an incident, anomaly, or successful resolution, human operators may inject
  multi-dimensional feedback (e.g., assessing the agent’s reasoning paths, correcting intermediate
  planning errors, or evaluating the quality of tool selection). This retrospective feedback could
  be used to update the prompt templates or refine downstream guardrail policies, preventing the
  recurrence of similar behavioral drifts.
-
 
 It is worth mentioning that human operators rarely send raw agent control or intervention protocol
 payloads directly. They could use more flexible and human-friendly formatting such as natural
@@ -322,6 +316,7 @@ A detailed decomposition of this layer is outside the scope of this document, wh
 focuses on the requirements of observability, control, and intervention interactions
 between the Agent Management Plane and the Agent Enforcement Plane. Consequently, this
 layer is intentionally treated as an abstract entity in this framework.
+
 
 # Requirements {#requirements}
 
@@ -419,7 +414,7 @@ The observability requirements are organized into the following categories:
 
   OBS-10: Operational Health, Resource, and Efficiency Metrics
   :  The framework must support the collection of metrics characterizing
-      agent operational health, cost, and efficiency. This includes, but is
+     agent operational health, cost, and efficiency. This includes, but is
      not limited to failed tool/API invocation rates, action execution
      latency, configuration rollback rates, token consumption, reasoning
      latency including Time to First Token (TTFT) and Time Per Output
