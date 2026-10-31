@@ -5,12 +5,14 @@
 Network Working Group                                              Q. Wu
 Internet-Draft                                                    Huawei
 Intended status: Informational                             D. Ceccarelli
-Expires: 7 April 2027                                              Cisco
+Expires: 4 May 2027                                                Cisco
                                                          L. M. Contreras
                                                               Telefonica
                                                                  D. King
                                                     Lancaster University
-                                                          4 October 2026
+                                                             G. Fioccola
+                                                                  Huawei
+                                                         31 October 2026
 
 
       Architecture and Requirements for Observability, Control and
@@ -54,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 April 2027.
+   This Internet-Draft will expire on 4 May 2027.
 
 Copyright Notice
 
@@ -740,12 +742,13 @@ Table of Contents
 8.1.  Normative References
 
    [I-D.wnd-opsawg-icon-ps]
-              Wu, Q., Ceccarelli, D., Li, Z., Contreras, L. M., and Q.
-              Ma, "Problem Statement for Observability, Intervention and
-              Control (I&C) in Multi-Agent Autonomous Networks", Work in
-              Progress, Internet-Draft, draft-wnd-opsawg-icon-ps-00, 5
-              July 2026, <https://datatracker.ietf.org/doc/html/draft-
-              wnd-opsawg-icon-ps-00>.
+              Wu, Q., Ceccarelli, D., Li, Z., Contreras, L. M., and D.
+              King, "Problem Statement for Observability, Intervention
+              and Control (I&C) in Multi-Agent Autonomous Networks",
+              Work in Progress, Internet-Draft, draft-wnd-opsawg-icon-
+              ps-01, 30 October 2026,
+              <https://datatracker.ietf.org/doc/html/draft-wnd-opsawg-
+              icon-ps-01>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -798,10 +801,6 @@ Contributors
 
    Qiufang Ma
    Huawei
-   101 Software Avenue, Yuhua District
-   Nanjing, Jiangsu
-   210012
-   China
    Email: maqiufang1@huawei.com
 
 
@@ -818,10 +817,6 @@ Authors' Addresses
 
    Qin Wu
    Huawei
-   101 Software Avenue, Yuhua District
-   Nanjing, Jiangsu
-   210012
-   China
    Email: bill.wu@huawei.com
 
 
@@ -838,3 +833,8 @@ Authors' Addresses
    Daniel King
    Lancaster University
    Email: d.king@lancaster.ac.uk
+
+
+   Giuseppe Fioccola
+   Huawei
+   Email: giuseppe.fioccola@huawei.com
