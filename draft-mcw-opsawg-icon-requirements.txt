@@ -609,9 +609,16 @@ Table of Contents
    support configurable escalation chains and communication channels to
    route approval requests sequentially to designated personnel.
 
+   CTL-9: Progressive Authorization Upgrade and Downgrade : The
+   framework must support a progressive authorization mechanism for
+   network management agents during the deployment (e.g., from read-
+   only, to restricted write, to autonomous execution), and the ability
+   to downgrade authorization levels during operation based on
+   assessment results.
+
 5.2.3.  Policy Precedence and Concurrency Control
 
-   CTL-9: Change Attribution and Distributed Locking : The framework
+   CTL-10: Change Attribution and Distributed Locking : The framework
    must support change attribution tracking and distributed locking
    mechanisms for concurrent multi-agent or human-agent operations.  An
    agent MUST acquire a lock (containing owner identity, target scope,
@@ -619,7 +626,7 @@ Table of Contents
    Conflicting requests MUST be queued or rejected with clear conflict
    notifications.
 
-   CTL-10: Cross-Domain Policy Conflict Resolution : The framework must
+   CTL-11: Cross-Domain Policy Conflict Resolution : The framework must
    implement deterministic cross-domain policy conflict resolution.
    When an action spans multiple policy domains (e.g., routing,
    security, QoS, multi-vendor domains) and generates conflicts, the
@@ -628,14 +635,14 @@ Table of Contents
    MUST be halted until conflicts are resolved or overridden by a human
    supervisor.
 
-   CTL-11: Deterministic Authority Precedence : The framework must
+   CTL-12: Deterministic Authority Precedence : The framework must
    enforce a deterministic hierarchy across four control sources: Human
    Operators (highest precedence), Supervisor Agents, Orchestrators, and
    Autonomous Agents.  When conflicting instructions are received,
    higher-precedence sources MUST preempt lower-precedence ones, and
    lower-precedence sources MUST receive preemption notifications.
 
-   CTL-12: Intent Validation and Alignment : The framework must ensure
+   CTL-13: Intent Validation and Alignment : The framework must ensure
    agents validate high-level network intents received from operators or
    upstream agents before execution.  Agents MUST verify that generated
    configuration syntax and semantics strictly align with network
@@ -643,7 +650,7 @@ Table of Contents
 
 5.2.4.  Agent Control Resilience
 
-   CTL-13: Degraded Behavior on Control Plane Unreachability : The
+   CTL-14: Degraded Behavior on Control Plane Unreachability : The
    framework must define deterministic degradation behaviors when an
    agent loses connectivity with the ICON control/management plane.
    Agents MUST support at least one configurable fallback mode: (a)
@@ -652,20 +659,20 @@ Table of Contents
    (c) Fail-Local (continue execution using local cached
    authorizations).
 
-   CTL-14: Management Plane High Availability and Geographic Isolation :
+   CTL-15: Management Plane High Availability and Geographic Isolation :
    The framework must support high availability and geographically
    isolated deployments for ICON management plane components across
    multiple availability zones with automated failover.  Active
    operations MUST be safely recovered or re-evaluated by the backup
    primary control plane without duplicate executions or data loss.
 
-   CTL-15: Intended vs. Actual State Reconciliation : The framework must
+   CTL-16: Intended vs. Actual State Reconciliation : The framework must
    support continuous reconciliation between intended network state and
    actual state derived from telemetry.  When state drift is detected,
    agents MUST trigger idempotent automated remediation workflows unless
    explicitly disabled by operators.
 
-   CTL-16: Dynamic Boundary Adaptation : The framework must support the
+   CTL-17: Dynamic Boundary Adaptation : The framework must support the
    injection of global coordination policies across multi-agent
    environments and enable dynamic adjustment of operational boundaries
    (e.g., tightening permissions from read-write to read-only) based on
@@ -687,19 +694,33 @@ Table of Contents
 5.3.1.  Runtime Execution Intervention
 
    INT-1: Execution Interruption  The supervisor must be able to
-      immediately stop or redirect a running agent's runtime execution.
-      The framework must support a temporary operational pause that
-      preserves the execution state (e.g., giving human operators time
-      to analyze before deciding on further action), as well as a hard
-      stop that terminates execution with or without instant
-      configuration rollback when an agent is actively causing network
-      instability.  Emergency intervention operations (e.g., pausing,
-      terminating) must be executed independently of the agent's
-      internal LLM reasoning state or responsiveness, i.e., the
-      framework MUST support out-of-band emergency pause or kill-switch
-      signals in cases where an agent encounters a major failure (e.g.,
-      infinite reasoning loops, deadlocks) or becomes totally
-      unresponsive.
+      immediately stop or redirect or isolate or report a running
+      agent's runtime execution.
+
+   *  Pause and Stop  The framework must support a temporary operational
+         pause that preserves the execution state (e.g., giving human
+         operators time to analyze before deciding on further action),
+         as well as a hard stop that terminates execution with or
+         without instant configuration rollback when an agent is
+         actively causing network instability.
+
+   *  Emergency Intervention  Emergency intervention operations (e.g.,
+         pausing, terminating) must be executed independently of the
+         agent's internal LLM reasoning state or responsiveness or other
+         agent's runtime execution, i.e., the framework MUST support
+         out-of-band emergency pause or kill-switch signals in cases
+         where an agent encounters a major failure (e.g., infinite
+         reasoning loops, deadlocks) or becomes totally unresponsive
+         without affecting the other agent's runtime execution.
+
+   *  Verification and reporting ：The framework must support explicit
+      acknowledgement and effect reporting for intervention commands
+      (e.g., termination, pause, stop), distinguishing between "command
+      accepted" and "command applied".  The execution plane must return
+      the state of the intervention target before and after the command,
+      the intervention result (completed, partially completed, failed,
+      unknown), and the failure reason, and should support timeout
+      reporting and retry semantics.
 
 5.3.2.  Post-execution Rollback
 
