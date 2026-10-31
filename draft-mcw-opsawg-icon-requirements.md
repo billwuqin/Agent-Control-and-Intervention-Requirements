@@ -366,7 +366,7 @@ layer is intentionally treated as an abstract entity in this framework.
 
 The observability requirements are organized into the following categories:
 
- * Agent Execution Trajectory and Decision Logic ({{obs-trace}})
+ * Execution Trajectory and Decision Logic ({{obs-trace}})
 
  * Data Governance, Accountability ({{obs-governance}})
 
@@ -374,7 +374,7 @@ The observability requirements are organized into the following categories:
 
  * Agent Metrics Collection ({{obs-metrics}})
 
-###  Agent Execution Trajectory and Decision Logic {#obs-trace}
+###  Execution Trajectory and Decision Logic {#obs-trace}
 
   OBS-1: Step-by-Step CoT and Execution Trajectory Capture
   :  The framework must support visibility into complete agent
