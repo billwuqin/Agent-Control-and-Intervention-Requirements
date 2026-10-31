@@ -216,7 +216,7 @@ serves as the structural foundation to derive the requirements specified in {{re
  ||  +---^---+  +---^---+         | |    |+-------------+|
  ||      |          |             | |    |               | +---------+
  ||  +---v- --------------------+ | | (b)|               | |         |
- ||  |Function Modules & Tools  | | <---->               (c) Human   |
+ ||  |Function Modules & Tools  | | <---->               (b) Human   |
  ||  +--------------------------+ | |    |               <->         |
  |+-------------------------------+ |    |+-------------+| |         |
  |                                  |    ||   Control   || |Oversight|
