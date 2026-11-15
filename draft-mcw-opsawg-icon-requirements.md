@@ -1,5 +1,5 @@
 ---
-title: "Architecture and Requirements for Observability, Control and Intervention of Network Management Agents"
+title: "Architecture and Requirements for AI Agent Observability, Control and Intervention"
 abbrev: "icon requirements"
 category: info
 
@@ -12,7 +12,8 @@ v: 3
 # area: AREA
 # workgroup: WG Working Group
 keyword:
- - Network Management Agents
+ - AI Agents
+ - Network Management Agent
  - Observability
  - Control
  - Intervention
@@ -68,10 +69,11 @@ informative:
 --- abstract
 
 This document defines architecture and a set of requirements for Observability, Control,
-and Intervention for Network Management Agents.
+and Intervention for AI Agents. The AI Agents can be any Agents such as Network management
+Agents or Security Agents.
 
 It identifies gaps in existing mechanisms and specifies required interaction capabilities
-between Agent supervision systems and network management agents across multi-vendor
+between Agent supervision systems and AI agents (such as Network Management Agents) across multi-vendor
 environments, specifically observability, control, and runtime intervention. The
 requirements aim to guarantee comprehensive, lifecycle control over AI agents and enable
 observation, constraint, intervention, and correction to ensure network operational
@@ -97,26 +99,26 @@ boundaries, it might lead to risks such as unintended configuration changes, pol
 or cascading failures in the network.
 
 The operational problems, architectural challenges, and technical gaps regarding the observability,
-control, and intervention of autonomous network management agents are thoroughly detailed in
+control, and intervention of autonomous AI agents are thoroughly detailed in
 {{?I-D.wnd-opsawg-icon-ps}}.
 
 This document builds upon those identified gaps to specify a set of essential requirements that
 supervisors need when deploying agents in real networks for agent observability, control, and
 intervention. Furthermore, it also defines an architecure for ICON — Intervention, Control, and
-Observability for Network Management Agents.
+Observability for AI Agents.
 
 This document specifies the architecture and communication requirements between the agent and
 the supervision system. It does not standardize the internal LLM architecture, planning
-algorithms, or training methodologies of the network management agents themselves.
+algorithms, or training methodologies of the AI agents themselves.
 
 This document does not specify a particular protocol, data model, or implementation API.
 Those topics are orthogonal to the operational requirements defined here, which are
 intended to be solution-neutral.
 
-## Observability, Control and Intervention Workflow of Network Management Agents
+## Observability, Control and Intervention Workflow of AI Agents
 
-When AIOPS Assistant exchanges the user intent with an untrusted Network Management Agent
-or a network management agent with lowest trust score, the Agent Observability process and
+When AIOPS Assistant exchanges the user intent with an untrusted AI Agent
+or a AI agent (e.g., Network management Agent) with lowest trust score, the Agent Observability process and
 Evaluation process will be intitialized to collect and evaluate Agent behavior information.
 In case of high risk operation or agent deviating from what Agents are expected to do, the
 decision will be escalated to the human. Human operation will use Intervention signal or
@@ -538,7 +540,7 @@ The control requirements are organized into the following categories:
 
    CTL-9: Progressive Authorization Upgrade and Downgrade
     : The framework must support a progressive authorization mechanism for
-      network management agents during the deployment (e.g., from read-only,
+      AI agents during the deployment (e.g., from read-only,
       to restricted write, to autonomous execution), and the ability to
       downgrade authorization levels during operation based on assessment
       results.
