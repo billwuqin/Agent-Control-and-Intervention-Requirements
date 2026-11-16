@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta content="Common,Latin" name="scripts">
 <meta content="initial-scale=1.0" name="viewport">
-<title>Architecture and Requirements for AI Agent Observability, Control and Intervention</title>
+<title>Architecture and Requirements for Autonomous Agent Observability, Control and Intervention</title>
 <meta content="Qin Wu" name="author">
 <meta content="Daniele Ceccarelli" name="author">
 <meta content="Luis. M. Contreras" name="author">
@@ -13,17 +13,17 @@
 <meta content="Cheng Zhou" name="author">
 <meta content="
        This document defines architecture and a set of requirements for Observability, Control,
-and Intervention for AI Agents. The AI Agents can be any Agents such as Network management
+and Intervention for Autonomous Agents. The Autonomous Agents can be any Agents such as Network management
 Agents or Security Agents. 
        It identifies gaps in existing mechanisms and specifies required interaction capabilities
-between Agent supervision systems and AI agents (such as Network Management Agents) across multi-vendor
+between Agent supervision systems and Autonomous Agents (such as Network Management Agents) across multi-vendor
 environments, specifically observability, control, and runtime intervention. The
-requirements aim to guarantee comprehensive, lifecycle control over AI agents and enable
+requirements aim to guarantee comprehensive, lifecycle control over Autonomous Agents and enable
 observation, constraint, intervention, and correction to ensure network operational
 resilience and continuity. 
     " name="description">
 <meta content="xml2rfc 3.35.0" name="generator">
-<meta content="AI Agents" name="keyword">
+<meta content="Autonomous Agents" name="keyword">
 <meta content="Network Management Agent" name="keyword">
 <meta content="Observability" name="keyword">
 <meta content="Control" name="keyword">
@@ -1062,7 +1062,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Wu, et al.</td>
-<td class="center">Expires 19 May 2027</td>
+<td class="center">Expires 20 May 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1075,12 +1075,12 @@ svg {
 <dd class="internet-draft">draft-mcw-opsawg-icon-requirements-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-11-15" class="published">15 November 2026</time>
+<time datetime="2026-11-16" class="published">16 November 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-05-19">19 May 2027</time></dd>
+<dd class="expires"><time datetime="2027-05-20">20 May 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1110,16 +1110,16 @@ svg {
 </dd>
 </dl>
 </div>
-<h1 id="title">Architecture and Requirements for AI Agent Observability, Control and Intervention</h1>
+<h1 id="title">Architecture and Requirements for Autonomous Agent Observability, Control and Intervention</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
 <p id="section-abstract-1">This document defines architecture and a set of requirements for Observability, Control,
-and Intervention for AI Agents. The AI Agents can be any Agents such as Network management
+and Intervention for Autonomous Agents. The Autonomous Agents can be any Agents such as Network management
 Agents or Security Agents.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 <p id="section-abstract-2">It identifies gaps in existing mechanisms and specifies required interaction capabilities
-between Agent supervision systems and AI agents (such as Network Management Agents) across multi-vendor
+between Agent supervision systems and Autonomous Agents (such as Network Management Agents) across multi-vendor
 environments, specifically observability, control, and runtime intervention. The
-requirements aim to guarantee comprehensive, lifecycle control over AI agents and enable
+requirements aim to guarantee comprehensive, lifecycle control over Autonomous Agents and enable
 observation, constraint, intervention, and correction to ensure network operational
 resilience and continuity.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
 </section>
@@ -1150,7 +1150,7 @@ resilience and continuity.<a href="#section-abstract-2" class="pilcrow">¶</a></
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 19 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 20 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1183,7 +1183,7 @@ resilience and continuity.<a href="#section-abstract-2" class="pilcrow">¶</a></
             <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1">
-                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-observability-control-and-i" class="internal xref">Observability, Control and Intervention Workflow of AI Agents</a></p>
+                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="auto internal xref">1.1</a>.  <a href="#name-observability-control-and-i" class="internal xref">Observability, Control and Intervention Workflow of Autonomous Agents</a></p>
 </li>
             </ul>
 </li>
@@ -1303,7 +1303,7 @@ resilience and continuity.<a href="#section-abstract-2" class="pilcrow">¶</a></
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">AI agents are increasingly deployed for network management tasks <span>[<a href="#I-D.wmz-nmrg-agent-ndt-arch" class="cite xref">I-D.wmz-nmrg-agent-ndt-arch</a>]</span>
+<p id="section-1-1">Autonomous Agents are increasingly deployed for network management tasks <span>[<a href="#I-D.wmz-nmrg-agent-ndt-arch" class="cite xref">I-D.wmz-nmrg-agent-ndt-arch</a>]</span>
 — including service provisioning and network configuration change, service assurance and automated
 incident diagnosis and resolution. While the introduction of agents significantly improves the
 efficiency for network management, it also inevitably brings challenges such as hallucination
@@ -1316,25 +1316,25 @@ agentic systems produce novel actions or reasoning paths that fall outside prede
 boundaries, it might lead to risks such as unintended configuration changes, policy violations,
 or cascading failures in the network.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <p id="section-1-3">The operational problems, architectural challenges, and technical gaps regarding the observability,
-control, and intervention of autonomous AI agents are thoroughly detailed in
+control, and intervention of autonomous agents are thoroughly detailed in
 <span>[<a href="#I-D.wnd-opsawg-icon-ps" class="cite xref">I-D.wnd-opsawg-icon-ps</a>]</span>.<a href="#section-1-3" class="pilcrow">¶</a></p>
 <p id="section-1-4">This document builds upon those identified gaps to specify a set of essential requirements that
 supervisors need when deploying agents in real networks for agent observability, control, and
 intervention. Furthermore, it also defines an architecure for ICON — Intervention, Control, and
-Observability for AI Agents.<a href="#section-1-4" class="pilcrow">¶</a></p>
+Observability for Autonomous Agents.<a href="#section-1-4" class="pilcrow">¶</a></p>
 <p id="section-1-5">This document specifies the architecture and communication requirements between the agent and
 the supervision system. It does not standardize the internal LLM architecture, planning
-algorithms, or training methodologies of the AI agents themselves.<a href="#section-1-5" class="pilcrow">¶</a></p>
+algorithms, or training methodologies of the Autonomous Agents themselves.<a href="#section-1-5" class="pilcrow">¶</a></p>
 <p id="section-1-6">This document does not specify a particular protocol, data model, or implementation API.
 Those topics are orthogonal to the operational requirements defined here, which are
 intended to be solution-neutral.<a href="#section-1-6" class="pilcrow">¶</a></p>
-<div id="observability-control-and-intervention-workflow-of-ai-agents">
+<div id="observability-control-and-intervention-workflow-of-autonomous-agents">
 <section id="section-1.1">
         <h3 id="name-observability-control-and-i">
-<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-observability-control-and-i" class="section-name selfRef">Observability, Control and Intervention Workflow of AI Agents</a>
+<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-observability-control-and-i" class="section-name selfRef">Observability, Control and Intervention Workflow of Autonomous Agents</a>
         </h3>
-<p id="section-1.1-1">When AIOPS Assistant exchanges the user intent with an untrusted AI Agent
-or a AI agent (e.g., Network management Agent) with lowest trust score, the Agent Observability process and
+<p id="section-1.1-1">When AIOPS Assistant exchanges the user intent with an untrusted Autonomous Agent
+or an Autonomous Agent (e.g., Network management Agent) with lowest trust score, the Agent Observability process and
 Evaluation process will be intitialized to collect and evaluate Agent behavior information.
 In case of high risk operation or agent deviating from what Agents are expected to do, the
 decision will be escalated to the human. Human operation will use Intervention signal or
@@ -1406,7 +1406,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
         <dt id="section-2-5.1">context:</dt>
         <dd style="margin-left: 1.5em" id="section-2-5.2">
           <p id="section-2-5.2.1">The network operational data, interaction history, and situational network parameters
-that allow AI agents to remember the history of a specific interaction over multiple
+that allow Autonomous Agents to remember the history of a specific interaction over multiple
 turns.<a href="#section-2-5.2.1" class="pilcrow">¶</a></p>
 </dd>
       <dd class="break"></dd>
@@ -1424,12 +1424,12 @@ decide to invoke multiple external tools, retrieve vector databases (RAG), or re
 information from the supervisor.<a href="#section-3-1" class="pilcrow">¶</a></p>
 <p id="section-3-2">Existing telemetry mechanisms are excellent for tracking traditional network infrastructure
 or software which are built for deterministic systems. However, as analyzed in <span>[<a href="#I-D.wnd-opsawg-icon-ps" class="cite xref">I-D.wnd-opsawg-icon-ps</a>]</span>,
-they are facing severe limitations when applied to AI agents. For example, existing logging practices
+they are facing severe limitations when applied to Autonomous Agents. For example, existing logging practices
 only record what action was taken, completely missing why it was taken, including the agent's internal
 reasoning provenance and confidence scores. Existing tracing mechanism designed for static and linear
-execution path also cannot capture the complex and dynamic execution trajectories of AI agents.<a href="#section-3-2" class="pilcrow">¶</a></p>
+execution path also cannot capture the complex and dynamic execution trajectories of Autonomous Agents.<a href="#section-3-2" class="pilcrow">¶</a></p>
 <p id="section-3-3">Existing AI guardrails primarily operate at static boundaries, such as input/output validation and
-pre-action checks. These mechanisms are designed to constrain AI agents within predefined operational
+pre-action checks. These mechanisms are designed to constrain Autonomous Agents within predefined operational
 and compliance boundaries, but they assume that all possible violations can be anticipated and encoded
 in static rules. As AI systems increasingly operate in non‑deterministic environments, these static
 measures are proving insufficient as they cannot detect, interrupt, and recover from unanticipated
@@ -1567,7 +1567,7 @@ intervention signals for normalization and distribution.<a href="#section-4.1-3"
 <a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-agent-management-plane" class="section-name selfRef">Agent Management Plane</a>
         </h3>
 <p id="section-4.2-1">Agent management plane is the Agent assurance capabilities which are used to manage, monitor, and
-regulate autonomous AI agents on behalf of human operators. It is logically decoupled from the
+regulate autonomous agents on behalf of human operators. It is logically decoupled from the
 agent enforcement plane. Note that agent management plane might include other technical and
 operational pillars such as agent lifecycle management, which are out of the scope of this draft.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
@@ -1620,7 +1620,7 @@ supervisor Agent.<a href="#section-4.2-3" class="pilcrow">¶</a></p>
         <h3 id="name-agent-enforcement-plane">
 <a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-agent-enforcement-plane" class="section-name selfRef">Agent Enforcement Plane</a>
         </h3>
-<p id="section-4.3-1">The Agent Enfocement Plane is the runtime environment in which AI agents operate, perform
+<p id="section-4.3-1">The Agent Enfocement Plane is the runtime environment in which Autonomous Agents operate, perform
 reasoning and planning, collaborate with other agents, and invoke capabilities exposed through
 the Function Modules &amp; Tools layer described in <a href="#functions" class="auto internal xref">Section 4.3.1</a>. Through that layer, agents
 obtain network information and translate their reasoning outcomes into operations on the
@@ -1910,7 +1910,7 @@ Token (TPOT), task completion rates and Mean Time To Repair (MTTR).<a href="#sec
       to route approval requests sequentially to designated personnel.<a href="#section-5.2.2-3" class="pilcrow">¶</a></p>
 <p id="section-5.2.2-4">CTL-9: Progressive Authorization Upgrade and Downgrade
     : The framework must support a progressive authorization mechanism for
-      AI agents during the deployment (e.g., from read-only,
+      Autonomous Agents during the deployment (e.g., from read-only,
       to restricted write, to autonomous execution), and the ability to
       downgrade authorization levels during operation based on assessment
       results.<a href="#section-5.2.2-4" class="pilcrow">¶</a></p>
@@ -2199,7 +2199,7 @@ any of the following mechanisms:<a href="#section-5.3.4-1.2.1" class="pilcrow">�
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
 <p id="section-6-1">This document defines a set of functional requirements for observability, control,
-and intervention of AI agents in the context of network management.<a href="#section-6-1" class="pilcrow">¶</a></p>
+and intervention of Autonomous Agents in the context of network management.<a href="#section-6-1" class="pilcrow">¶</a></p>
 <p id="section-6-2">The requirements themselves do not introduce additional security vulnerabilities.
 Rather, this document requirements some security safeguards such as access control,
 identity authentication, and integrity guarantees that should be enforced by the

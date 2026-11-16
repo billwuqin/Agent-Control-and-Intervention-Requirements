@@ -5,7 +5,7 @@
 Network Working Group                                              Q. Wu
 Internet-Draft                                                    Huawei
 Intended status: Informational                             D. Ceccarelli
-Expires: 19 May 2027                                               Cisco
+Expires: 20 May 2027                                               Cisco
                                                          L. M. Contreras
                                                               Telefonica
                                                                  D. King
@@ -14,28 +14,28 @@ Expires: 19 May 2027                                               Cisco
                                                                   Huawei
                                                                  C. Zhou
                                                                     CMCC
-                                                        15 November 2026
+                                                        16 November 2026
 
 
- Architecture and Requirements for AI Agent Observability, Control and
-                              Intervention
+   Architecture and Requirements for Autonomous Agent Observability,
+                        Control and Intervention
                draft-mcw-opsawg-icon-requirements-latest
 
 Abstract
 
    This document defines architecture and a set of requirements for
-   Observability, Control, and Intervention for AI Agents.  The AI
-   Agents can be any Agents such as Network management Agents or
-   Security Agents.
+   Observability, Control, and Intervention for Autonomous Agents.  The
+   Autonomous Agents can be any Agents such as Network management Agents
+   or Security Agents.
 
    It identifies gaps in existing mechanisms and specifies required
-   interaction capabilities between Agent supervision systems and AI
-   agents (such as Network Management Agents) across multi-vendor
-   environments, specifically observability, control, and runtime
+   interaction capabilities between Agent supervision systems and
+   Autonomous Agents (such as Network Management Agents) across multi-
+   vendor environments, specifically observability, control, and runtime
    intervention.  The requirements aim to guarantee comprehensive,
-   lifecycle control over AI agents and enable observation, constraint,
-   intervention, and correction to ensure network operational resilience
-   and continuity.
+   lifecycle control over Autonomous Agents and enable observation,
+   constraint, intervention, and correction to ensure network
+   operational resilience and continuity.
 
 Discussion Venues
 
@@ -60,7 +60,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 May 2027.
+   This Internet-Draft will expire on 20 May 2027.
 
 Copyright Notice
 
@@ -79,8 +79,8 @@ Copyright Notice
 Table of Contents
 
    1.  Introduction
-     1.1.  Observability, Control and Intervention Workflow of AI
-           Agents
+     1.1.  Observability, Control and Intervention Workflow of
+           Autonomous Agents
    2.  Conventions and Definitions
    3.  Existing Mechanisms for Agent Observability, Control, and
            Intervention
@@ -116,9 +116,9 @@ Table of Contents
 
 1.  Introduction
 
-   AI agents are increasingly deployed for network management tasks
-   [I-D.wmz-nmrg-agent-ndt-arch] — including service provisioning and
-   network configuration change, service assurance and automated
+   Autonomous Agents are increasingly deployed for network management
+   tasks [I-D.wmz-nmrg-agent-ndt-arch] — including service provisioning
+   and network configuration change, service assurance and automated
    incident diagnosis and resolution.  While the introduction of agents
    significantly improves the efficiency for network management, it also
    inevitably brings challenges such as hallucination and execution
@@ -137,34 +137,35 @@ Table of Contents
 
    The operational problems, architectural challenges, and technical
    gaps regarding the observability, control, and intervention of
-   autonomous AI agents are thoroughly detailed in
+   autonomous agents are thoroughly detailed in
    [I-D.wnd-opsawg-icon-ps].
 
    This document builds upon those identified gaps to specify a set of
    essential requirements that supervisors need when deploying agents in
    real networks for agent observability, control, and intervention.
    Furthermore, it also defines an architecure for ICON — Intervention,
-   Control, and Observability for AI Agents.
+   Control, and Observability for Autonomous Agents.
 
    This document specifies the architecture and communication
    requirements between the agent and the supervision system.  It does
    not standardize the internal LLM architecture, planning algorithms,
-   or training methodologies of the AI agents themselves.
+   or training methodologies of the Autonomous Agents themselves.
 
    This document does not specify a particular protocol, data model, or
    implementation API.  Those topics are orthogonal to the operational
    requirements defined here, which are intended to be solution-neutral.
 
-1.1.  Observability, Control and Intervention Workflow of AI Agents
+1.1.  Observability, Control and Intervention Workflow of Autonomous
+      Agents
 
-   When AIOPS Assistant exchanges the user intent with an untrusted AI
-   Agent or a AI agent (e.g., Network management Agent) with lowest
-   trust score, the Agent Observability process and Evaluation process
-   will be intitialized to collect and evaluate Agent behavior
-   information.  In case of high risk operation or agent deviating from
-   what Agents are expected to do, the decision will be escalated to the
-   human.  Human operation will use Intervention signal or control
-   signal to provide guardrail protection for Agent behavior.
+   When AIOPS Assistant exchanges the user intent with an untrusted
+   Autonomous Agent or an Autonomous Agent (e.g., Network management
+   Agent) with lowest trust score, the Agent Observability process and
+   Evaluation process will be intitialized to collect and evaluate Agent
+   behavior information.  In case of high risk operation or agent
+   deviating from what Agents are expected to do, the decision will be
+   escalated to the human.  Human operation will use Intervention signal
+   or control signal to provide guardrail protection for Agent behavior.
 
                                           +---------------+
                  +------------------+     | Human Operator|
@@ -214,8 +215,9 @@ Table of Contents
    This document defines the following terms:
 
    context:  The network operational data, interaction history, and
-      situational network parameters that allow AI agents to remember
-      the history of a specific interaction over multiple turns.
+      situational network parameters that allow Autonomous Agents to
+      remember the history of a specific interaction over multiple
+      turns.
 
 3.  Existing Mechanisms for Agent Observability, Control, and
     Intervention
@@ -229,21 +231,22 @@ Table of Contents
    Existing telemetry mechanisms are excellent for tracking traditional
    network infrastructure or software which are built for deterministic
    systems.  However, as analyzed in [I-D.wnd-opsawg-icon-ps], they are
-   facing severe limitations when applied to AI agents.  For example,
-   existing logging practices only record what action was taken,
-   completely missing why it was taken, including the agent's internal
-   reasoning provenance and confidence scores.  Existing tracing
-   mechanism designed for static and linear execution path also cannot
-   capture the complex and dynamic execution trajectories of AI agents.
+   facing severe limitations when applied to Autonomous Agents.  For
+   example, existing logging practices only record what action was
+   taken, completely missing why it was taken, including the agent's
+   internal reasoning provenance and confidence scores.  Existing
+   tracing mechanism designed for static and linear execution path also
+   cannot capture the complex and dynamic execution trajectories of
+   Autonomous Agents.
 
    Existing AI guardrails primarily operate at static boundaries, such
    as input/output validation and pre-action checks.  These mechanisms
-   are designed to constrain AI agents within predefined operational and
-   compliance boundaries, but they assume that all possible violations
-   can be anticipated and encoded in static rules.  As AI systems
-   increasingly operate in non-deterministic environments, these static
-   measures are proving insufficient as they cannot detect, interrupt,
-   and recover from unanticipated behaviors.
+   are designed to constrain Autonomous Agents within predefined
+   operational and compliance boundaries, but they assume that all
+   possible violations can be anticipated and encoded in static rules.
+   As AI systems increasingly operate in non-deterministic environments,
+   these static measures are proving insufficient as they cannot detect,
+   interrupt, and recover from unanticipated behaviors.
 
    Although there are some modern agent systems that provide interrupt
    or kill switch capabilities, they remain framework-specific,
@@ -347,8 +350,8 @@ Table of Contents
 4.2.  Agent Management Plane
 
    Agent management plane is the Agent assurance capabilities which are
-   used to manage, monitor, and regulate autonomous AI agents on behalf
-   of human operators.  It is logically decoupled from the agent
+   used to manage, monitor, and regulate autonomous agents on behalf of
+   human operators.  It is logically decoupled from the agent
    enforcement plane.  Note that agent management plane might include
    other technical and operational pillars such as agent lifecycle
    management, which are out of the scope of this draft.
@@ -382,12 +385,13 @@ Table of Contents
 
 4.3.  Agent Enforcement Plane
 
-   The Agent Enfocement Plane is the runtime environment in which AI
-   agents operate, perform reasoning and planning, collaborate with
-   other agents, and invoke capabilities exposed through the Function
-   Modules & Tools layer described in Section 4.3.1.  Through that
-   layer, agents obtain network information and translate their
-   reasoning outcomes into operations on the network infrastructure.
+   The Agent Enfocement Plane is the runtime environment in which
+   Autonomous Agents operate, perform reasoning and planning,
+   collaborate with other agents, and invoke capabilities exposed
+   through the Function Modules & Tools layer described in
+   Section 4.3.1.  Through that layer, agents obtain network information
+   and translate their reasoning outcomes into operations on the network
+   infrastructure.
 
    The Agent Enforcement Plane receives high-level intents originating
    from network operators or upstream agents and executes the
@@ -610,10 +614,11 @@ Table of Contents
    route approval requests sequentially to designated personnel.
 
    CTL-9: Progressive Authorization Upgrade and Downgrade : The
-   framework must support a progressive authorization mechanism for AI
-   agents during the deployment (e.g., from read-only, to restricted
-   write, to autonomous execution), and the ability to downgrade
-   authorization levels during operation based on assessment results.
+   framework must support a progressive authorization mechanism for
+   Autonomous Agents during the deployment (e.g., from read-only, to
+   restricted write, to autonomous execution), and the ability to
+   downgrade authorization levels during operation based on assessment
+   results.
 
 5.2.3.  Policy Precedence and Concurrency Control
 
@@ -792,8 +797,8 @@ Table of Contents
 6.  Security Considerations
 
    This document defines a set of functional requirements for
-   observability, control, and intervention of AI agents in the context
-   of network management.
+   observability, control, and intervention of Autonomous Agents in the
+   context of network management.
 
    The requirements themselves do not introduce additional security
    vulnerabilities.  Rather, this document requirements some security
