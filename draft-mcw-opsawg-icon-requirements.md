@@ -210,7 +210,7 @@ serves as the structural foundation to derive the requirements specified in {{re
                               |
                               |
    +--------------------------v--------------------------+
-   |   Agent Management Plane                            |
+   |   Agent Supervisory Plane                            |
    |                                                     |
    |   +-------------+    +-------+    +------------+    |
    |   |Observability|    |Control|    |Intervention|    |
@@ -220,7 +220,7 @@ serves as the structural foundation to derive the requirements specified in {{re
  Observability |           Signals           | Intervention
   Data Streaming              |              |    Signal
    +-----------|--------------v--------------V-----------+
-   |  Agent Execution Plane                              |
+   |  Agent Enforcement Plane                            |
    |  +-----------+    +-----------+       +-----------+ |
    |  |           |    |           |       |           | |
    |  |  Agent 1  <---->  Agent 2  <--...-->  Agent n  | |
@@ -267,14 +267,14 @@ high-level intervention commands during crises or anomalies.
 
 It is worth mentioning that human operators rarely send raw agent control or intervention protocol
 payloads directly. They could use more flexible and human-friendly formatting such as natural
-language which is relayed to the agent management plane to translate into structured control or
+language which is relayed to the agent supervisory plane to translate into structured control or
 intervention signals for normalization and distribution.
 
-## Agent Management Plane
+## Agent Supervisory Plane
 
-Agent management plane is the Agent assurance capabilities which are used to manage, monitor, and
+Agent supervisory plane is the Agent assurance capabilities which are used to manage, monitor, and
 regulate autonomous agents on behalf of human operators. It is logically decoupled from the
-agent enforcement plane. Note that agent management plane might include other technical and
+agent enforcement plane. Note that agent supervisory plane might include other technical and
 operational pillars such as agent lifecycle management, which are out of the scope of this draft.
 
 
@@ -298,7 +298,7 @@ operational pillars such as agent lifecycle management, which are out of the sco
    initiated by agents, such as escalation requests that proactively require human
    intervention.
 
-In practical deployments, the agent management plane may be embedded within network management
+In practical deployments, the agent supervisory plane may be embedded within network management
 systems/OSS, an external Agent supervision or management platform, or even an upper-layer
 supervisor Agent.
 
@@ -318,12 +318,12 @@ Function Modules & Tools layer.
 
 During and after task execution, the Agent Enforcement Plane collects execution status,
 operational logs, tool invocation records, and resulting network observations. It provides
-the corresponding agent observability data to the Agent Management Plane for supervision.
+the corresponding agent observability data to the Agent supervisory Plane for supervision.
 
 The Agent Enfocement Plane supports policy enforcement at critical points throughout task
 execution, including before task processing, before tool invocation or network actions,
 and before delivering a final response. It also accepts and applies Agent Control and
-Intervention Signals received from the Agent Management Plane.
+Intervention Signals received from the Agent supervisory Plane.
 
 
 ### Function Modules & Tools {#functions}
@@ -343,7 +343,7 @@ RAG or vector-database lookups), reusable agent skills, and automation scripts.
 The internal composition, interfaces, and orchestration are implementation specific.
 A detailed decomposition of this layer is outside the scope of this document, which
 focuses on the requirements of observability, control, and intervention interactions
-between the Agent Management Plane and the Agent Enforcement Plane. Consequently, this
+between the Agent supervisory Plane and the Agent Enforcement Plane. Consequently, this
 layer is intentionally treated as an abstract entity in this framework.
 
 
@@ -625,7 +625,7 @@ INT-1: Execution Interruption
 * Verification and reporting
 ：The framework must support explicit acknowledgement and effect reporting for
   intervention commands (e.g., termination, pause, stop), distinguishing between
-  "command accepted" and "command applied". The execution plane must return
+  "command accepted" and "command applied". The agent enforcement plane must return
   the state of the intervention target before and after the command, the intervention
   result (completed, partially completed, failed, unknown), and the failure reason,
   and should support timeout reporting and retry semantics.
