@@ -57,14 +57,6 @@ contributor:
    fullname: Qiufang Ma
    organization: Huawei
    email: maqiufang1@huawei.com
--
-  fullname: Yuanyuan Yang
-  organization: Huawei
-  street: 101 Software Avenue, Yuhua District
-  city: Jiangsu
-  code: 210012
-  country: China
-  email: yangyuanyuan55@huawei.com
 
 normative:
 
@@ -735,4 +727,4 @@ This document has no IANA actions.
 
 The authors of this document would also like to thank Benoit Claise, Swamynathan B, Laurent Ciavaglia,
 Parisa Foroughi, Reza Rokui, Luis M. Contreras, Oscar Gonzalez de Dios, ZhenQiang Li, Cheng Zhou,
-Daniele Ceccarelli, Dan Voyer, Thomas Graf, Alex Huang Feng for review and comments.
+Daniele Ceccarelli, Dan Voyer, Thomas Graf, Alex Huang Feng, Yuanyuan Yang for review and comments.
