@@ -862,8 +862,8 @@ Acknowledgments
    The authors of this document would also like to thank Benoit Claise,
    Swamynathan B, Laurent Ciavaglia, Parisa Foroughi, Reza Rokui, Luis
    M.  Contreras, Oscar Gonzalez de Dios, ZhenQiang Li, Cheng Zhou,
-   Daniele Ceccarelli, Dan Voyer, Thomas Graf, Alex Huang Feng for
-   review and comments.
+   Daniele Ceccarelli, Dan Voyer, Thomas Graf, Alex Huang Feng, Yuanyuan
+   Yang for review and comments.
 
 Contributors
 
@@ -880,15 +880,6 @@ Contributors
    Qiufang Ma
    Huawei
    Email: maqiufang1@huawei.com
-
-
-   Yuanyuan Yang
-   Huawei
-   101 Software Avenue, Yuhua District
-   Jiangsu
-   210012
-   China
-   Email: yangyuanyuan55@huawei.com
 
 
 Authors' Addresses
