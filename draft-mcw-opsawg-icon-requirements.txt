@@ -262,46 +262,35 @@ Table of Contents
    architecture defined in Figure 2 serves as the structural foundation
    to derive the requirements specified in Section 5.
 
-   +----------------------------------+    +---------------+
-   | OSS/Orchestrator Layer           |    |               |
-   |+-------------------------------+ |    |Agent Management
-   || Agent Enforcement Plane(Agent | | (a)|    Plane      |
-   ||  +-------+  +-------+ Fabric) | <---->               |
-   ||  |       |  |       |         | |    |               |
-   ||  |Agent 1|  |Agent 2| ...     | |    |+-------------+|
-   ||  |       |  |       |         | |    ||Observability||
-   ||  +---^---+  +---^---+         | |    |+-------------+|
-   ||      |          |             | |    |               | +---------+
-   ||  +---v- --------------------+ | | (b)|               | |         |
-   ||  |Function Modules & Tools  | | <---->               (b) Human   |
-   ||  +--------------------------+ | |    |               <->         |
-   |+-------------------------------+ |    |+-------------+| |         |
-   |                                  |    ||   Control   || |Oversight|
-   +----------------------------------+    |+-------------+| |         |
-                                           |               | +---------+
-   +----------------------------------+    |               |
-   | Network Controller Layer         |    |               |
-   |+-------------------------------+ |    |               |
-   || Agent Enforcement Plane(Agent | |    |+-------------+|
-   ||  +-------+  +-------+ Fabric) | |    || Intervention||
-   ||  |       |  |       |         | | (a)|+-------------+|
-   ||  |Agent 1|  |Agent 2|...      | <---->               |
-   ||  |       |  |       |         | |    |               |
-   ||  +---^---+  +---^---+         | |    |               |
-   ||      |          |             | |    |               |
-   ||  +---v- -------------------+  | |    |               |
-   ||  |Function Modules & Tools |  | | (b)|               |
-   ||  +-------------------------+  | <---->               |
-   |+----------------------------- -+ |    |               |
-   |                                  |    |               |
-   +--------------+-------------------+    |---------------+
-                  |
-                  |                   Legend:
-   +--------------V------------------+(a)Observability Interface
-   |      Network Infrastructure     |(b)Intervention and Control
-   +---------------------------------+   Interface
+           +-----------------------------------------------------+
+           |                    Human Oversight                  |
+           +--------------------------^--------------------------+
+                                      |
+                                      |
+           +--------------------------v--------------------------+
+           |   Agent Management Plane                            |
+           |                                                     |
+           |   +-------------+    +-------+    +------------+    |
+           |   |Observability|    |Control|    |Intervention|    |
+           |   +-------^-----+    +---|---+    +-----^------+    |
+           +-----------|--------------|--------------|-----------+
+              Agent    |         Agent Control       | Agent
+         Observability |           Signals           | Intervention
+          Data Streaming              |              |    Signal
+           +-----------|--------------v--------------V-----------+
+           |  Agent Execution Plane                              |
+           |  +-----------+    +-----------+       +-----------+ |
+           |  |           |    |           |       |           | |
+           |  |  Agent 1  <---->  Agent 2  <--...-->  Agent n  | |
+           |  |           |    |           |       |           | |
+           |  +-----^-----+    +-----^-----+       +-----^-----+ |
+           |        |                |                   |       |
+           |  +-----v----------------v-------------------v-----+ |
+           |  |              Function Modules & Tools          | |
+           |  +------------------------------------------------+ |
+           +--------------------------^--------------------------+
 
-                       Figure 2: ICON Architecture
+                        Figure 2: ICON Architecture
 
 4.1.  Human Oversight
 
@@ -816,12 +805,12 @@ Table of Contents
 
    [I-D.wnd-opsawg-icon-ps]
               Wu, Q., Ceccarelli, D., Li, Z., Contreras, L. M., and D.
-              King, "Problem Statement for Observability, Intervention
-              and Control (I&C) in Multi-Agent Autonomous Networks",
-              Work in Progress, Internet-Draft, draft-wnd-opsawg-icon-
-              ps-01, 30 October 2026,
+              King, "Problem Statement for Autonomous Agent
+              Observability, Intervention and Control (I&C) in Multi-
+              Agent Autonomous Networks", Work in Progress, Internet-
+              Draft, draft-wnd-opsawg-icon-ps-02, 16 November 2026,
               <https://datatracker.ietf.org/doc/html/draft-wnd-opsawg-
-              icon-ps-01>.
+              icon-ps-02>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,

@@ -1451,45 +1451,33 @@ serves as the structural foundation to derive the requirements specified in <a h
 <figure id="figure-2">
         <div class="alignCenter art-text artwork" id="section-4-2.1">
 <pre>
- +----------------------------------+    +---------------+
- | OSS/Orchestrator Layer           |    |               |
- |+-------------------------------+ |    |Agent Management
- || Agent Enforcement Plane(Agent | | (a)|    Plane      |
- ||  +-------+  +-------+ Fabric) | &lt;----&gt;               |
- ||  |       |  |       |         | |    |               |
- ||  |Agent 1|  |Agent 2| ...     | |    |+-------------+|
- ||  |       |  |       |         | |    ||Observability||
- ||  +---^---+  +---^---+         | |    |+-------------+|
- ||      |          |             | |    |               | +---------+
- ||  +---v- --------------------+ | | (b)|               | |         |
- ||  |Function Modules &amp; Tools  | | &lt;----&gt;               (b) Human   |
- ||  +--------------------------+ | |    |               &lt;-&gt;         |
- |+-------------------------------+ |    |+-------------+| |         |
- |                                  |    ||   Control   || |Oversight|
- +----------------------------------+    |+-------------+| |         |
-                                         |               | +---------+
- +----------------------------------+    |               |
- | Network Controller Layer         |    |               |
- |+-------------------------------+ |    |               |
- || Agent Enforcement Plane(Agent | |    |+-------------+|
- ||  +-------+  +-------+ Fabric) | |    || Intervention||
- ||  |       |  |       |         | | (a)|+-------------+|
- ||  |Agent 1|  |Agent 2|...      | &lt;----&gt;               |
- ||  |       |  |       |         | |    |               |
- ||  +---^---+  +---^---+         | |    |               |
- ||      |          |             | |    |               |
- ||  +---v- -------------------+  | |    |               |
- ||  |Function Modules &amp; Tools |  | | (b)|               |
- ||  +-------------------------+  | &lt;----&gt;               |
- |+----------------------------- -+ |    |               |
- |                                  |    |               |
- +--------------+-------------------+    |---------------+
-                |
-                |                   Legend:
- +--------------V------------------+(a)Observability Interface
- |      Network Infrastructure     |(b)Intervention and Control
- +---------------------------------+   Interface
-
+   +-----------------------------------------------------+
+   |                    Human Oversight                  |
+   +--------------------------^--------------------------+
+                              |
+                              |
+   +--------------------------v--------------------------+
+   |   Agent Management Plane                            |
+   |                                                     |
+   |   +-------------+    +-------+    +------------+    |
+   |   |Observability|    |Control|    |Intervention|    |
+   |   +-------^-----+    +---|---+    +-----^------+    |
+   +-----------|--------------|--------------|-----------+
+      Agent    |         Agent Control       | Agent
+ Observability |           Signals           | Intervention
+  Data Streaming              |              |    Signal
+   +-----------|--------------v--------------V-----------+
+   |  Agent Execution Plane                              |
+   |  +-----------+    +-----------+       +-----------+ |
+   |  |           |    |           |       |           | |
+   |  |  Agent 1  &lt;----&gt;  Agent 2  &lt;--...--&gt;  Agent n  | |
+   |  |           |    |           |       |           | |
+   |  +-----^-----+    +-----^-----+       +-----^-----+ |
+   |        |                |                   |       |
+   |  +-----v----------------v-------------------v-----+ |
+   |  |              Function Modules &amp; Tools          | |
+   |  +------------------------------------------------+ |
+   +--------------------------^--------------------------+
 </pre>
 </div>
 <figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
@@ -2227,7 +2215,7 @@ implementation and deployed systems.<a href="#section-6-2" class="pilcrow">¶</a
 <dl class="references">
 <dt id="I-D.wnd-opsawg-icon-ps">[I-D.wnd-opsawg-icon-ps]</dt>
         <dd>
-<span class="refAuthor">Wu, Q.</span>, <span class="refAuthor">Ceccarelli, D.</span>, <span class="refAuthor">Li, Z.</span>, <span class="refAuthor">Contreras, L. M.</span>, and <span class="refAuthor">D. King</span>, <span class="refTitle">"Problem Statement for Observability, Intervention and Control (I&amp;C) in Multi-Agent Autonomous Networks"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-wnd-opsawg-icon-ps-01</span>, <time datetime="2026-10-30" class="refDate">30 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-wnd-opsawg-icon-ps-01">https://datatracker.ietf.org/doc/html/draft-wnd-opsawg-icon-ps-01</a>&gt;</span>. </dd>
+<span class="refAuthor">Wu, Q.</span>, <span class="refAuthor">Ceccarelli, D.</span>, <span class="refAuthor">Li, Z.</span>, <span class="refAuthor">Contreras, L. M.</span>, and <span class="refAuthor">D. King</span>, <span class="refTitle">"Problem Statement for Autonomous Agent Observability, Intervention and Control (I&amp;C) in Multi-Agent Autonomous Networks"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-wnd-opsawg-icon-ps-02</span>, <time datetime="2026-11-16" class="refDate">16 November 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-wnd-opsawg-icon-ps-02">https://datatracker.ietf.org/doc/html/draft-wnd-opsawg-icon-ps-02</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
